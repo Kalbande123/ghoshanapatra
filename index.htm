@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sevaspot Center - लॉगिन</title>
+    
+    <!-- सुंदर मराठी टायपोग्राफीसाठी गुगल फॉन्ट -->
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- आयकॉन्स (WhatsApp लोगो) साठी FontAwesome लिंक -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* संपूर्ण पेजची डिझाईन */
+        body {
+            font-family: 'Mukta', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* लॉगिन बॉक्सची डिझाईन */
+        .login-card {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* लोगोची स्टाईल */
+        .login-card img {
+            max-width: 120px;
+            margin-bottom: 15px;
+        }
+
+        /* मुख्य हेडिंग */
+        .login-card h1 {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* सब-हेडिंग */
+        .login-card p {
+            color: #64748b;
+            margin-top: 5px;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* इनपुट बॉक्सचा ग्रुप */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* इनपुट बॉक्सच्या वरची नावे */
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #334155;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        /* युजरनेम आणि पासवर्ड टाकण्याची जागा */
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Mukta', sans-serif;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        /* टाईप करताना बॉक्सचा रंग बदलणे */
+        .input-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        /* लॉगिन बटन */
+        .login-btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Mukta', sans-serif;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* संपर्क (Contact) विभागाची डिझाईन */
+        .contact-info {
+            margin-top: 25px;
+            font-size: 15px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        .contact-info a {
+            color: #25D366; /* व्हॉट्सॲपचा अधिकृत हिरवा रंग */
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <!-- तुमचा लोगो इथे दिसेल -->
+        <img src="logo.png" alt="Sevaspot Logo">
+        
+        <!-- मुख्य नाव -->
+        <h1>Sevaspot Center</h1>
+        <p>प्रणालीमध्ये प्रवेश करण्यासाठी लॉगिन करा</p>
+        
+        <!-- लॉगिन फॉर्म -->
+        <form action="home.html" method="GET">
+            <div class="input-group">
+                <label for="userid">युजर आयडी किंवा मोबाईल नंबर</label>
+                <input type="text" id="userid" name="userid" placeholder="तुमचा आयडी टाका" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">पासवर्ड</label>
+                <input type="password" id="password" name="password" placeholder="तुमचा पासवर्ड टाका" required>
+            </div>
+            
+            <button type="submit" class="login-btn">लॉगिन करा</button>
+        </form>
+
+        <!-- मदतीसाठी संपर्क (नवीन जोडलेला भाग) -->
+        <div class="contact-info">
+            मदतीसाठी संपर्क करा:<br>
+            <!-- इथे तुम्ही नंतर 9999999999 च्या जागी तुमचा खरा नंबर टाकू शकता -->
+            <a href="https://wa.me/919999999999" target="_blank">
+                <i class="fab fa-whatsapp" style="font-size: 22px;"></i> 9999999999
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
