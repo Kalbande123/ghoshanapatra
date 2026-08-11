@@ -6,7 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- गुगल शीट कनेक्शनसाठी कॉन्फिडन्स फाईल -->
+  <!-- गुगल शीट कनेक्शनसाठी कॉन्फिगरेशन फाईल -->
   <script src="config.js"></script>
 
   <style>
@@ -78,8 +78,8 @@
     /* प्रिंट सेक्शन (तुमच्या मूळ डिझाईननुसार) */
     .print-section {
       display: none;
-      font-size: 16px;
-      line-height: 1.8;
+      font-size: 17px;
+      line-height: 2.2;
       color: #000;
     }
 
@@ -106,30 +106,27 @@
       height: 150px;
       object-fit: cover;
       border: 1px solid #000;
+      background-color: #fff;
     }
 
     .heading {
       text-align: center;
       font-weight: bold;
       font-size: 22px;
-      margin-bottom: 25px;
+      margin-top: 40px; /* फोटोच्या खाली योग्य अंतर ठेवण्यासाठी */
+      margin-bottom: 30px;
       text-decoration: underline;
     }
 
     .paragraph {
       margin-bottom: 20px;
-      text-indent: 30px;
+      text-indent: 40px;
       text-align: justify;
     }
 
-    .signature-area {
-      text-align: right;
-      margin-top: 20px;
-    }
-
-    .applicant-info {
-      text-align: right;
-      margin-top: 5px;
+    .signature-block {
+      text-align: center; /* 'अर्जदार', नाव आणि पत्ता मध्यभागी एकाखाली एक येण्यासाठी */
+      min-width: 200px;
     }
 
     /* वेबकॅम मोडल */
@@ -228,34 +225,28 @@
   <div class="photo-wrapper">
     <img id="photo" src="">
   </div>
-  <p class="paragraph">
-    <p class="paragraph">
-      <p class="paragraph">
+  
   <div class="heading">
     उत्पन्न घोषणापत्र
   </div>
   
   <p class="paragraph">
-    मा. श्री / श्रीमती <span id="out_name"></span> श्री <span id="out_father"></span> यांचा मुलगा/मुलगी/पत्नी वय <span id="out_age"></span> व्यवसाय <span id="out_occupation"></span> रा. <span id="out_address"></span> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये <span id="out_income"></span> हजार आहे व मला <span id="out_purpose"></span> या करिता स्वयघोषणा आधारे घोषित करतो / करते की मी स्वयं संक्षिप्त उत्पन्न केलेल्या प्रति माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
+    मा. श्री / श्रीमती <strong id="out_name"></strong> श्री <strong id="out_father"></strong> यांचा मुलगा/मुलगी/पत्नी वय <strong id="out_age"></strong> व्यवसाय <strong id="out_occupation"></strong> रा. <strong id="out_address"></strong> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये <strong><span id="out_income"></span> हजार</strong> आहे व मला <strong id="out_purpose"></strong> या करिता स्वयघोषणा आधारे घोषित करतो / करते की मी स्वयं संक्षिप्त उत्पन्न केलेल्या प्रति माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
   </p>
 
   <p class="paragraph">
     वरील सर्व माहिती माझ्या समजुतीप्रमाणे खरी आहे. सदर माहिती खोटी आढळून आल्यास मी भारतीय दंड विधान 1960 चे कलम 1999 व 200 व अन्य कायद्यानुसार शिक्षेस पात्र राहीन याची मला जाणीव आहे.
   </p>
 
-  <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px;">
     <div>
-      दिनांक: <span id="out_date"></span><br>
-      ठिकाण : <span id="out_location">हदगाव</span>
+      <p style="margin: 5px 0;">दिनांक: <span id="out_date"></span></p>
+      <p style="margin: 5px 0;">ठिकाण : <span id="out_location">हदगाव</span></p>
     </div>
-    <div>
-      <div class="signature-area">
-        अर्जदार
-      </div>
-      <div class="applicant-info">
-        <span id="out_name2"></span><br>
-        रा. <span id="out_address2"></span> ता. हदगाव जि. नांदेड
-      </div>
+    <div class="signature-block">
+      <p style="margin-bottom: 50px;">अर्जदार</p> <!-- सही करण्यासाठी 50px ची रिकामी जागा -->
+      <p style="margin: 5px 0; font-weight: bold;"><span id="out_name2"></span></p>
+      <p style="margin: 5px 0;">रा. <span id="out_address2"></span> ता. हदगाव जि. नांदेड</p>
     </div>
   </div>
 </div>
