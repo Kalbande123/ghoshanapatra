@@ -3,315 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>उत्पन्न घोषणापत्र - SevaSpot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>उत्पन्न घोषणापत्र - SevaSpot Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="config.js"></script>
     <style>
-        * { box-sizing: border-box; font-family: 'Mukta', sans-serif; }
-        body { background-color: #f8fafc; padding: 20px; color: #1e293b; margin: 0; }
-        
-        .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
-        
-        .header-title { text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 30px; position: relative; }
-        .header-title::after { content: ''; display: block; width: 80px; height: 2px; background-color: #f97316; margin: 8px auto 0; }
-
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: x 25px; row-gap: 20px; }
-        
-        .field-wrapper { display: flex; gap: 15px; }
-        .icon-box { width: 45px; height: 45px; background: #fff7ed; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #ea580c; font-size: 18px; flex-shrink: 0; margin-top: 24px; }
-        .input-group { flex-grow: 1; }
-        .input-group label { display: block; font-weight: 500; margin-bottom: 5px; font-size: 14px; color: #334155; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; transition: 0.2s; }
-        .input-group input:focus { border-color: #ea580c; }
+        body { font-family: 'Mukta', sans-serif; background: #f1f5f9; padding: 20px; color: #1e293b; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .header-title { text-align: center; color: #ea580c; font-size: 22px; font-weight: bold; margin-bottom: 20px; text-decoration: underline; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
         .full-width { grid-column: 1 / -1; }
-
-        .upload-section { grid-column: 1 / -1; border-top: 1px dashed #cbd5e1; border-bottom: 1px dashed #cbd5e1; padding: 25px 0; margin-top: 10px; text-align: center; position: relative; }
-        .upload-section h3 { font-size: 18px; color: #1e293b; margin-top: 0; margin-bottom: 20px; }
-        .upload-boxes { display: flex; justify-content: center; gap: 20px; position: relative; }
+        .form-group label { font-weight: 600; margin-bottom: 5px; color: #334155; }
+        .form-group input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; }
         
-        .upload-card { width: 45%; padding: 20px; border-radius: 8px; text-align: center; }
-        .card-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
-        .card-green { background: #f0fdf4; border: 1px solid #bbf7d0; }
-        .upload-card i { font-size: 28px; margin-bottom: 10px; }
-        .card-blue i { color: #2563eb; }
-        .card-green i { color: #16a34a; }
-        .upload-card h4 { margin: 0 0 5px 0; color: #1e3a8a; font-size: 16px; }
-        .card-green h4 { color: #166534; }
-        .upload-card p { font-size: 12px; color: #64748b; margin-bottom: 15px; }
+        .upload-section { grid-column: 1 / -1; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 8px; background: #f8fafc; text-align: center; }
+        .upload-options { display: flex; justify-content: space-around; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+        .upload-card { flex: 1; min-width: 250px; background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center; }
+        .upload-btn { background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; display: inline-block; margin-top: 8px; }
+        .cam-btn { background: #16a34a; }
+
+        .submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; }
         
-        .action-btn { background: white; padding: 6px 15px; border-radius: 4px; border: 1px solid; cursor: pointer; font-weight: 500; font-size: 14px; }
-        .btn-blue { color: #2563eb; border-color: #2563eb; }
-        .btn-green { color: #16a34a; border-color: #16a34a; }
+        /* Modal for Webcam */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 100%; }
+        video { width: 100%; border-radius: 6px; background: #000; }
 
-        .or-circle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: #475569; z-index: 2; border: 4px solid white; }
-
-        .submit-btn { background: #f97316; color: white; width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; margin-top: 25px; cursor: pointer; }
-        
-        /* Modal for Camera */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 90%; max-width: 400px; }
-        video { width: 100%; border-radius: 8px; background: #000; margin-bottom: 15px; }
-
-        /* --- Image 2 Print CSS --- */
+        /* Print Styles */
         @media print {
             body { background: white; padding: 0; }
             .no-print { display: none !important; }
             .print-area { display: block !important; }
         }
-        .print-area { display: none; font-size: 17px; line-height: 2.2; color: #000; padding: 20px 40px; }
-        .print-title { text-align: center; font-size: 20px; font-weight: bold; text-decoration: underline; margin-bottom: 40px; }
-        .photo-box { width: 120px; height: 150px; border: 1px solid #000; float: right; display: flex; align-items: center; justify-content: center; background: #fff; margin-left: 20px; margin-bottom: 10px; }
-        .photo-box img { width: 100%; height: 100%; object-fit: cover; }
-        .text-line { border-bottom: 1px dotted #000; display: inline-block; text-align: center; font-weight: 600; line-height: 1.2; }
+        .print-area { display: none; font-size: 16px; line-height: 2.2; padding: 30px; color: #000; font-family: 'Mukta', sans-serif; }
+        
+        .print-header-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; position: relative; }
+        .photo-frame { width: 120px; height: 140px; border: 1px solid #000; position: absolute; right: 0; top: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; background: #fff; }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .print-header-title { text-align: center; font-weight: bold; font-size: 20px; margin-top: 100px; text-decoration: underline; }
+        
+        .dotted-line { border-bottom: 1px dotted #000; display: inline-block; text-align: center; font-weight: 600; min-width: 50px; padding: 0 5px; }
+        .paragraph { text-align: justify; text-justify: inter-word; text-indent: 40px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container no-print">
-    <div style="text-align: right; margin-bottom: 20px;">
-        <a href="home.html" style="color: #64748b; text-decoration: none; font-size: 14px;"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
+    <div style="text-align: right; margin-bottom: 10px;">
+        <a href="home.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-arrow-left"></i> डॅशबोर्डवर जा</a>
     </div>
+    
+    <div class="header-title">उत्पन्न घोषणापत्र फॉर्म</div>
 
-    <div class="header-title">उत्पन्न घोषणापत्र</div>
-
-    <form id="utpannaForm">
+    <form id="incomeForm">
         <div class="form-grid">
-            <!-- फील्ड्स इमेज 1 प्रमाणे -->
-            <div class="field-wrapper full-width">
-                <div class="icon-box"><i class="far fa-user"></i></div>
-                <div class="input-group">
-                    <label>नाव:</label>
-                    <input type="text" id="p_name" required>
-                </div>
+            <div class="form-group full-width">
+                <label>अर्जदाराचे नाव:</label>
+                <input type="text" id="applicantName" placeholder="अर्जदाराचे संपूर्ण नाव" required>
+            </div>
+            <div class="form-group">
+                <label>वडिलांचे नाव:</label>
+                <input type="text" id="fatherName" placeholder="वडिलांचे नाव" required>
+            </div>
+            <div class="form-group">
+                <label>व्यवसाय:</label>
+                <input type="text" id="occupation" placeholder="व्यवसाय" required>
+            </div>
+            <div class="form-group">
+                <label>वय:</label>
+                <input type="number" id="age" placeholder="वय" required>
+            </div>
+            <div class="form-group">
+                <label>उत्पन्न रक्कम:</label>
+                <input type="number" id="incomeAmount" placeholder="वार्षिक उत्पन्न अंकी" required>
+            </div>
+            <div class="form-group full-width">
+                <label>पत्ता:</label>
+                <input type="text" id="address" placeholder="गल्ली/गाव, तालुका, जिल्हा" required>
+            </div>
+            <div class="form-group full-width">
+                <label>कशासाठी:</label>
+                <input type="text" id="reason" placeholder="घोषणापत्राचे कारण" required>
+            </div>
+            <div class="form-group">
+                <label>दिनांक:</label>
+                <input type="date" id="formDate" required>
+            </div>
+            <div class="form-group">
+                <label>ठिकाण:</label>
+                <input type="text" id="location" placeholder="ठिकाण (उदा. हदगाव)" required>
             </div>
 
-            <div class="field-wrapper">
-                <div class="icon-box"><i class="fas fa-user-tie"></i></div>
-                <div class="input-group">
-                    <label>वडिलांचे नाव:</label>
-                    <input type="text" id="p_father" required>
-                </div>
-            </div>
-
-            <div class="field-wrapper">
-                <div class="icon-box"><i class="fas fa-briefcase"></i></div>
-                <div class="input-group">
-                    <label>व्यवसाय:</label>
-                    <input type="text" id="p_occ" required>
-                </div>
-            </div>
-
-            <div class="field-wrapper">
-                <div class="icon-box"><i class="far fa-calendar-alt"></i></div>
-                <div class="input-group">
-                    <label>वय:</label>
-                    <input type="number" id="p_age" required>
-                </div>
-            </div>
-
-            <div class="field-wrapper">
-                <div class="icon-box"><i class="fas fa-rupee-sign"></i></div>
-                <div class="input-group">
-                    <label>उत्पन्न रक्कम:</label>
-                    <input type="number" id="p_amt" required>
-                </div>
-            </div>
-
-            <div class="field-wrapper full-width">
-                <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
-                <div class="input-group">
-                    <label>पत्ता:</label>
-                    <input type="text" id="p_addr" required>
-                </div>
-            </div>
-
-            <div class="field-wrapper full-width">
-                <div class="icon-box"><i class="fas fa-list-ul"></i></div>
-                <div class="input-group">
-                    <label>कशासाठी:</label>
-                    <input type="text" id="p_reason" required>
-                </div>
-            </div>
-
-            <div class="field-wrapper">
-                <div class="icon-box"><i class="far fa-calendar"></i></div>
-                <div class="input-group">
-                    <label>दिनांक:</label>
-                    <input type="date" id="p_date" required>
-                </div>
-            </div>
-            
-            <div class="field-wrapper">
-                <div class="icon-box"><i class="fas fa-map-pin"></i></div>
-                <div class="input-group">
-                    <label>ठिकाण:</label>
-                    <input type="text" id="p_loc" value="हदगाव" required>
-                </div>
-            </div>
-
-            <!-- अपलोड सेक्शन इमेज 1 प्रमाणे -->
+            <!-- Double Option Photo Upload / Webcam -->
             <div class="upload-section">
-                <h3>फोटो अपलोड करा</h3>
-                <div class="upload-boxes">
-                    <!-- फाईल निवडा -->
-                    <div class="upload-card card-blue">
-                        <i class="fas fa-file-upload"></i>
-                        <h4>फाईल निवडा</h4>
-                        <p>आपल्या डिव्हाइस मधून फोटो अपलोड करा</p>
-                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewFile(event)">
-                        <label for="imageInput" class="action-btn btn-blue">Choose File</label>
+                <label style="font-weight:600; font-size: 16px;"><i class="fas fa-camera"></i> फोटो अपलोड करा / काढा</label>
+                <div class="upload-options">
+                    <div class="upload-card">
+                        <p style="font-size: 13px; color: #64748b;">गॅलरीमधून फोटो निवडा</p>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                        <label for="imageInput" class="upload-btn"><i class="fas fa-folder-open"></i> फाईल निवडा</label>
                     </div>
-                    
-                    <div class="or-circle">OR</div>
-                    
-                    <!-- फोटो घ्या -->
-                    <div class="upload-card card-green">
-                        <i class="fas fa-camera"></i>
-                        <h4>फोटो घ्या</h4>
-                        <p>वेबकॅम द्वारे थेट फोटो घ्या</p>
-                        <button type="button" class="action-btn btn-green" onclick="openCam()">फोटो घ्या</button>
+                    <div class="upload-card">
+                        <p style="font-size: 13px; color: #64748b;">वेबकॅम / कॅमेराद्वारे फोटो घ्या</p>
+                        <button type="button" class="upload-btn cam-btn" onclick="openCamModal()"><i class="fas fa-camera"></i> फोटो काढा</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <button type="submit" class="submit-btn" id="submitBtn"><i class="fas fa-print"></i> Print / प्रिंट करा (१ टोकन)</button>
+        <button type="submit" class="submit-btn" id="submitBtn"><i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (१ टोकन)</button>
     </form>
 </div>
 
-<!-- कॅमेरा मोडल -->
+<!-- Webcam Modal -->
 <div class="modal" id="camModal">
     <div class="modal-content">
-        <h4 style="margin-top:0;">कॅमेरा</h4>
-        <video id="video" autoplay playsinline></video>
+        <h3>थेट कॅमेरा</h3>
+        <video id="webcamVideo" autoplay playsinline></video>
         <canvas id="canvas" style="display:none;"></canvas>
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <button type="button" onclick="captureCam()" style="background:#16a34a; color:white; border:none; padding:8px 20px; border-radius:4px; cursor:pointer;">Capture</button>
-            <button type="button" onclick="closeCam()" style="background:#dc2626; color:white; border:none; padding:8px 20px; border-radius:4px; cursor:pointer;">Cancel</button>
+        <div style="margin-top: 15px; display: flex; justify-content: space-between;">
+            <button type="button" onclick="capturePhoto()" style="background: #16a34a; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">फोटो कॅप्चर करा</button>
+            <button type="button" onclick="closeCamModal()" style="background: #dc2626; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">बंद करा</button>
         </div>
     </div>
 </div>
 
-<!-- प्रिंट एरिया (Image 2 हुबेहूब) -->
+<!-- Print Output Area -->
 <div class="print-area" id="printableArea">
-    <div class="photo-box" id="printPhotoBox"></div>
-    
-    <div class="print-title">उत्पन्न घोषणापत्र</div>
-    
-    <div style="text-align: justify; text-justify: inter-word;">
-        मा. श्री/श्रीमती <span class="text-line" id="out_name" style="width: 250px;"></span> रा. <span class="text-line" id="out_addr" style="width: 150px;"></span> श्री <span class="text-line" id="out_father" style="width: 220px;"></span> 
-        यांचा मुलगा/मुलगी/पत्नी वय <span class="text-line" id="out_age" style="width: 50px;"></span> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये 
-        <span class="text-line" id="out_amt" style="width: 120px;"></span> हजार आहे. माझा व्यवसाय <span class="text-line" id="out_occ" style="width: 120px;"></span> आहे .मला <span class="text-line" id="out_reason" style="width: 150px;"></span> या करिता उत्पन्न प्रमाणपत्र हवे आहे. करिता 
-        स्वघोषणा आधारे घोषित करतो/करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह 
-        ही स्वयंघोषणापत्र देत आहे.
+    <div class="print-header-container">
+        <div class="photo-frame" id="printPhotoFrame">फोटो</div>
+        <div class="print-header-title">उत्पन्न घोषणापत्र</div>
     </div>
-
-    <br>
-    <div style="text-align: justify;">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;वरील सर्व माहिती माझ्या समजुतीप्रमाणे खरी आहे. सदर माहिती खोटी आढळून आल्यास मी भारतीय दंड विधान 
-        1960 चे कलम 1999 व 200 व अन्य कायद्यानुसार शिक्षेस पात्र राहीन याची मला जाणीव आहे.
+    
+    <div style="margin-top: 10px;">
+        मा. श्री/श्रीमती <span class="dotted-line" id="pName" style="min-width: 200px;"></span> रा. <span class="dotted-line" id="pAddress" style="min-width: 150px;"></span> श्री <span class="dotted-line" id="pFather" style="min-width: 180px;"></span> 
+        यांचा मुलगा/मुलगी/पत्नी वय <span class="dotted-line" id="pAge" style="min-width: 40px;"></span> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये <span class="dotted-line" id="pAmount" style="min-width: 80px;"></span> हजार आहे. माझा व्यवसाय <span class="dotted-line" id="pOccupation" style="min-width: 100px;"></span> आहे. मला <span class="dotted-line" id="pReason" style="min-width: 150px;"></span> या करिता उत्पन्न प्रमाणपत्र हवे आहे. करिता स्वघोषणा आधारे घोषित करतो/करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
     </div>
-
-    <br><br><br><br>
-    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+    
+    <div class="paragraph">
+        वरील सर्व माहिती माझ्या समजुतीप्रमाणे खरी आहे. सदर माहिती खोटी आढळून आल्यास मी भारतीय दंड विधान 1960 चे कलम 1999 व 200 व अन्य कायद्यानुसार शिक्षेस पात्र राहीन याची मला जाणीव आहे.
+    </div>
+    
+    <br><br><br>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px;">
         <div>
-            <p style="margin:5px 0;">दिनांक: <span id="out_date">.../.../......</span></p>
-            <p style="margin:5px 0;">ठिकाण : <span id="out_loc">........</span></p>
+            <p>दिनांक: <span id="pDate">.../.../......</span></p>
+            <p style="margin-top: 10px;">ठिकाण : <span id="pLocation">........</span></p>
         </div>
         <div style="text-align: center;">
-            <p style="margin-bottom: 50px;">अर्जदार</p>
-            <p style="margin:0;">.....................................................</p>
-            <p style="margin:5px 0;">रा. <span id="out_sign_addr">.........................</span> ता. हदगाव जि. नांदेड</p>
+            <p>अर्जदार</p>
+            <br><br>
+            <p>................................................</p>
+            <p style="margin-top: 5px;">रा. <span class="dotted-line" id="pSignAddress" style="min-width: 120px;"></span> ता. हदगाव जि. नांदेड</p>
         </div>
     </div>
 </div>
 
 <script>
-    let photoData = "";
-    let streamObj = null;
+    let uploadedImageSrc = "";
+    let mediaStream = null;
 
-    window.onload = () => {
-        document.getElementById('p_date').value = new Date().toISOString().split('T')[0];
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('formDate').value = today;
     };
 
-    function previewFile(e) {
-        const file = e.target.files[0];
+    // Manual Storage File Upload
+    function previewImage(event) {
+        const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = (event) => {
-                photoData = event.target.result;
-                document.getElementById('printPhotoBox').innerHTML = `<img src="${photoData}">`;
+            reader.onload = function(e){
+                uploadedImageSrc = e.target.result;
+                document.getElementById('printPhotoFrame').innerHTML = `<img src="${uploadedImageSrc}" alt="Photo">`;
             }
             reader.readAsDataURL(file);
         }
     }
 
-    function openCam() {
-        document.getElementById('camModal').style.display = 'flex';
-        navigator.mediaDevices.getUserMedia({ video: true })
+    // Open Webcam Modal
+    function openCamModal() {
+        const modal = document.getElementById('camModal');
+        modal.style.display = 'flex';
+        const video = document.getElementById('webcamVideo');
+        
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
             .then(stream => {
-                streamObj = stream;
-                document.getElementById('video').srcObject = stream;
-            }).catch(err => alert("Camera Error: " + err));
+                mediaStream = stream;
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                alert("कॅमेरा ॲक्सेस शक्य नाही. कृपया परवानग्या तपासा.");
+                modal.style.display = 'none';
+            });
     }
 
-    function closeCam() {
-        document.getElementById('camModal').style.display = 'none';
-        if (streamObj) streamObj.getTracks().forEach(t => t.stop());
-    }
-
-    function captureCam() {
-        const video = document.getElementById('video');
+    // Capture photo from webcam
+    function capturePhoto() {
+        const video = document.getElementById('webcamVideo');
         const canvas = document.getElementById('canvas');
-        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0);
-        photoData = canvas.toDataURL('image/png');
-        document.getElementById('printPhotoBox').innerHTML = `<img src="${photoData}">`;
-        closeCam();
+        canvas.width = video.videoWidth || 320;
+        canvas.height = video.videoHeight || 240;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        uploadedImageSrc = canvas.toDataURL('image/png');
+        document.getElementById('printPhotoFrame').innerHTML = `<img src="${uploadedImageSrc}" alt="Photo">`;
+        closeCamModal();
     }
 
-    document.getElementById('utpannaForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        btn.innerText = "प्रक्रिया चालू आहे...";
-        btn.disabled = true;
+    // Close Webcam Modal
+    function closeCamModal() {
+        const modal = document.getElementById('camModal');
+        modal.style.display = 'none';
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
+    }
 
-        const user = localStorage.getItem('username') || "demo";
+    document.getElementById('incomeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = "प्रक्रिया चालू आहे...";
+        submitBtn.disabled = true;
+
+        const username = localStorage.getItem('username') || "9876543210";
+
         const formData = new FormData();
         formData.append('action', 'submitForm');
-        formData.append('username', user);
+        formData.append('username', username);
         formData.append('ghoshnaType', 'उत्पन्न घोषणापत्र');
 
-        fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
-        .then(r => r.json())
+        fetch(CONFIG.SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
         .then(data => {
             if(data.status === 'success') {
-                document.getElementById('out_name').innerText = document.getElementById('p_name').value;
-                document.getElementById('out_father').innerText = document.getElementById('p_father').value;
-                document.getElementById('out_age').innerText = document.getElementById('p_age').value;
-                document.getElementById('out_amt').innerText = document.getElementById('p_amt').value;
-                document.getElementById('out_occ').innerText = document.getElementById('p_occ').value;
-                document.getElementById('out_addr').innerText = document.getElementById('p_addr').value;
-                document.getElementById('out_sign_addr').innerText = document.getElementById('p_addr').value;
-                document.getElementById('out_reason').innerText = document.getElementById('p_reason').value;
-                document.getElementById('out_loc').innerText = document.getElementById('p_loc').value;
+                document.getElementById('pName').innerText = document.getElementById('applicantName').value;
+                document.getElementById('pFather').innerText = document.getElementById('fatherName').value;
+                document.getElementById('pAge').innerText = document.getElementById('age').value;
+                document.getElementById('pOccupation').innerText = document.getElementById('occupation').value;
+                document.getElementById('pAddress').innerText = document.getElementById('address').value;
+                document.getElementById('pSignAddress').innerText = document.getElementById('address').value;
+                document.getElementById('pAmount').innerText = document.getElementById('incomeAmount').value;
+                document.getElementById('pReason').innerText = document.getElementById('reason').value;
+                document.getElementById('pLocation').innerText = document.getElementById('location').value;
                 
-                const d = document.getElementById('p_date').value.split('-');
-                document.getElementById('out_date').innerText = `${d[2]}/${d[1]}/${d[0]}`;
+                const rawDate = document.getElementById('formDate').value;
+                if(rawDate) {
+                    const parts = rawDate.split('-');
+                    document.getElementById('pDate').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                }
 
-                setTimeout(() => { window.print(); window.location.href = "home.html"; }, 500);
+                setTimeout(() => {
+                    window.print();
+                    window.location.href = "home.html";
+                }, 500);
+
             } else {
                 alert("त्रुटी: " + data.message);
-                btn.innerText = "Print / प्रिंट करा (१ टोकन)";
-                btn.disabled = false;
+                submitBtn.innerText = "घोषणापत्र सबमिट करा व प्रिंट काढा (१ टोकन)";
+                submitBtn.disabled = false;
             }
-        }).catch(err => {
-            alert("Network Error!");
-            btn.innerText = "Print / प्रिंट करा (१ टोकन)";
-            btn.disabled = false;
+        })
+        .catch(err => {
+            alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
+            submitBtn.innerText = "घोषणापत्र सबमिट करा व प्रिंट काढा (१ टोकन)";
+            submitBtn.disabled = false;
         });
     });
 </script>
+
 </body>
 </html>
