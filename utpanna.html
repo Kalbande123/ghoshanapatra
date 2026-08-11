@@ -36,15 +36,18 @@
             .no-print { display: none !important; }
             .print-area { display: block !important; }
         }
-        .print-area { display: none; font-size: 16px; line-height: 2.2; padding: 30px; color: #000; font-family: 'Mukta', sans-serif; }
         
-        .print-header-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; position: relative; }
-        .photo-frame { width: 120px; height: 140px; border: 1px solid #000; position: absolute; right: 0; top: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; background: #fff; }
+        /* प्रिंट आऊटपुटसाठी नवीन लेआऊट */
+        .print-area { display: none; font-size: 18px; line-height: 2.2; padding: 30px; color: #000; font-family: 'Mukta', sans-serif; }
+        
+        .print-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+        .header-spacer { width: 150px; } /* फोटोच्या साईझइतका स्पेसर, जेणेकरून शीर्षक मध्यभागी राहील */
+        .print-header-title { flex-grow: 1; text-align: center; font-weight: bold; font-size: 24px; text-decoration: underline; padding-top: 60px; }
+        .photo-frame { width: 150px; height: 190px; border: 1px solid #000; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden; }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
-        .print-header-title { text-align: center; font-weight: bold; font-size: 20px; margin-top: 100px; text-decoration: underline; }
         
-        .dotted-line { border-bottom: 1px dotted #000; display: inline-block; text-align: center; font-weight: 600; min-width: 50px; padding: 0 5px; }
-        .paragraph { text-align: justify; text-justify: inter-word; text-indent: 40px; margin-top: 20px; }
+        .paragraph { text-align: justify; text-justify: inter-word; text-indent: 50px; margin-top: 25px; }
+        strong { font-weight: 700; font-size: 19px; }
     </style>
 </head>
 <body>
@@ -95,7 +98,6 @@
                 <input type="text" id="location" placeholder="ठिकाण (उदा. हदगाव)" required>
             </div>
 
-            <!-- Double Option Photo Upload / Webcam -->
             <div class="upload-section">
                 <label style="font-weight:600; font-size: 16px;"><i class="fas fa-camera"></i> फोटो अपलोड करा / काढा</label>
                 <div class="upload-options">
@@ -129,33 +131,37 @@
     </div>
 </div>
 
-<!-- Print Output Area -->
+<!-- Print Output Area (सुधारित) -->
 <div class="print-area" id="printableArea">
-    <div class="print-header-container">
-        <div class="photo-frame" id="printPhotoFrame">फोटो</div>
+    
+    <!-- हेडर सेक्शन: शीर्षक मध्यभागी आणि फोटो उजवीकडे -->
+    <div class="print-header">
+        <div class="header-spacer"></div>
         <div class="print-header-title">उत्पन्न घोषणापत्र</div>
+        <div class="photo-frame" id="printPhotoFrame">फोटो</div>
     </div>
     
-    <div style="margin-top: 10px;">
-        मा. श्री/श्रीमती <span class="pName" style="min-width: 200px;"></span> रा. <span class="pAddress" style="min-width: 150px;"></span> श्री <span class="pFather" style="min-width: 180px;"></span> 
-        यांचा मुलगा/मुलगी/पत्नी वय <span class=="pAge" style="min-width: 40px;"></span> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये <span class="pAmount" style="min-width: 80px;"></span> हजार आहे. माझा व्यवसाय <span class="pOccupation" style="min-width: 100px;"></span> आहे. मला <span class="pReason" style="min-width: 150px;"></span> या करिता उत्पन्न प्रमाणपत्र हवे आहे. करिता स्वघोषणा आधारे घोषित करतो/करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
+    <!-- मुख्य मजकूर: फोटोच्या खालून सलग वाक्यात सुरू -->
+    <div style="text-align: justify; line-height: 2.3;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;मा. श्री/श्रीमती <strong id="pName"></strong> रा. <strong id="pAddress"></strong> श्री <strong id="pFather"></strong> 
+        यांचा मुलगा/मुलगी/पत्नी वय <strong id="pAge"></strong> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये <strong><span id="pAmount"></span> हजार</strong> आहे. माझा व्यवसाय <strong id="pOccupation"></strong> आहे. मला <strong id="pReason"></strong> या करिता उत्पन्न प्रमाणपत्र हवे आहे. करिता स्वघोषणा आधारे घोषित करतो/करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
     </div>
     
     <div class="paragraph">
         वरील सर्व माहिती माझ्या समजुतीप्रमाणे खरी आहे. सदर माहिती खोटी आढळून आल्यास मी भारतीय दंड विधान 1960 चे कलम 1999 व 200 व अन्य कायद्यानुसार शिक्षेस पात्र राहीन याची मला जाणीव आहे.
     </div>
     
-    <br><br><br>
+    <br><br><br><br>
     <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px;">
         <div>
-            <p>दिनांक: <span id="pDate">.../.../......</span></p>
-            <p style="margin-top: 10px;">ठिकाण : <span id="pLocation">........</span></p>
+            <p>दिनांक: <strong id="pDate">.../.../......</strong></p>
+            <p style="margin-top: 10px;">ठिकाण : <strong id="pLocation">........</strong></p>
         </div>
         <div style="text-align: center;">
             <p>अर्जदार</p>
             <br><br>
-            <p><span class="pName" style="min-width: 200px;"></span></p>
-            <p style="margin-top: 5px;">रा. <span class="dotted-line" id="pSignAddress" style="min-width: 120px;"></span> ता. हदगाव जि. नांदेड</p>
+            <p>................................................</p>
+            <p style="margin-top: 5px;">रा. <strong id="pSignAddress"></strong> ता. हदगाव जि. नांदेड</p>
         </div>
     </div>
 </div>
@@ -169,7 +175,6 @@
         document.getElementById('formDate').value = today;
     };
 
-    // Manual Storage File Upload
     function previewImage(event) {
         const file = event.target.files[0];
         if (file) {
@@ -182,7 +187,6 @@
         }
     }
 
-    // Open Webcam Modal
     function openCamModal() {
         const modal = document.getElementById('camModal');
         modal.style.display = 'flex';
@@ -199,7 +203,6 @@
             });
     }
 
-    // Capture photo from webcam
     function capturePhoto() {
         const video = document.getElementById('webcamVideo');
         const canvas = document.getElementById('canvas');
@@ -213,7 +216,6 @@
         closeCamModal();
     }
 
-    // Close Webcam Modal
     function closeCamModal() {
         const modal = document.getElementById('camModal');
         modal.style.display = 'none';
