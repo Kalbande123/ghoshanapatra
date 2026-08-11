@@ -3,513 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sevaspot Center - डॅशबोर्ड</title>
+    <title>डॅशबोर्ड - SevaSpot Center</title>
     
-    <!-- सुंदर मराठी फॉन्ट -->
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- आयकॉन्ससाठी FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Mukta', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; padding-bottom: 50px; }
+        
+        /* Navbar Header */
+        .navbar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area i { font-size: 32px; color: #ea580c; }
+        .logo-text h2 { font-size: 22px; color: #1e3a8a; line-height: 1; }
+        .logo-text p { font-size: 12px; color: #64748b; }
+        
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        
+        /* Token Badge */
+        .token-badge { background: #fef08a; color: #ca8a04; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        /* Notification */
+        .notification { position: relative; font-size: 20px; color: #64748b; cursor: pointer; }
+        .notification .badge { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; }
 
-        body {
-            background-color: #f0f4f8;
-            color: #1e293b;
-        }
+        /* User Profile Dropdown */
+        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
+        .user-profile .avatar { font-size: 35px; color: #2563eb; }
+        .user-info { display: flex; flex-direction: column; line-height: 1.2; }
+        .user-info small { font-size: 12px; color: #64748b; }
+        .user-info span { font-weight: bold; font-size: 15px; color: #1e3a8a; }
+        
+        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background: white; min-width: 180px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-radius: 8px; margin-top: 15px; overflow: hidden; border: 1px solid #e2e8f0; }
+        .dropdown-menu.active { display: block; }
+        .dropdown-menu a { display: block; padding: 12px 15px; text-decoration: none; color: #334155; font-size: 15px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
+        .dropdown-menu a:hover { background: #f8fafc; color: #ea580c; }
+        .dropdown-menu a i { width: 20px; text-align: center; margin-right: 8px; }
 
-        /* ----- Header ----- */
-        header {
-            background-color: #ffffff;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        /* Main Container */
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        /* Welcome Banner */
+        .welcome-banner { background: linear-gradient(to right, #eff6ff, #ffffff); border: 1px solid #bfdbfe; padding: 30px; border-radius: 12px; margin-bottom: 30px; }
+        .welcome-banner h4 { color: #ea580c; margin-bottom: 5px; font-size: 18px; }
+        .welcome-banner h1 { color: #1e3a8a; font-size: 28px; margin-bottom: 10px; }
+        .welcome-banner p { color: #64748b; font-size: 15px; }
 
-        .logo-section img {
-            height: 50px;
-        }
+        /* Quick Access (Image 2) */
+        .section-title { text-align: center; margin-bottom: 20px; position: relative; }
+        .section-title span { background: #1e3a8a; color: white; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+        
+        .quick-access-box { background: white; padding: 25px; border-radius: 12px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .qa-item { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; }
+        .qa-item:hover { transform: translateY(-3px); }
+        .qa-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .qa-item span { font-size: 15px; font-weight: 600; color: #334155; }
+        
+        /* Icon Colors */
+        .icon-orange { background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; }
+        .icon-blue { background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe; }
+        .icon-green { background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce3; }
+        .icon-purple { background: #faf5ff; color: #9333ea; border: 1px solid #f3e8ff; }
 
-        .logo-text h1 {
-            color: #ea580c; /* केशरी रंग */
-            font-size: 24px;
-            font-weight: 800;
-            margin: 0;
-            line-height: 1.1;
-        }
+        /* Services Grid (Image 1) */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .service-card { background: white; padding: 30px 20px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0; position: relative; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .service-card:hover { border-color: #bfdbfe; box-shadow: 0 8px 25px rgba(37,99,235,0.1); }
+        
+        .card-number { position: absolute; top: 15px; left: 15px; width: 28px; height: 28px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+        .service-icon { width: 70px; height: 70px; margin: 0 auto 20px; background: #f8fafc; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        
+        .service-card h3 { font-size: 18px; color: #1e293b; margin-bottom: 20px; }
+        .start-btn { display: inline-block; padding: 8px 25px; border: 1px solid #1e3a8a; border-radius: 20px; color: #1e3a8a; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        .start-btn:hover { background: #1e3a8a; color: white; }
 
-        .logo-text h1 span {
-            color: #1e3a8a; /* निळा रंग */
-        }
-
-        .logo-text p {
-            color: #64748b;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        /* क्रेडीट्स बॅज */
-        .credits-badge {
-            background-color: #fef08a;
-            color: #ca8a04;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            border: 1px solid #fde047;
-        }
-
-        .notification {
-            position: relative;
-            font-size: 22px;
-            color: #1e3a8a;
-            cursor: pointer;
-        }
-
-        .notification .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #ef4444;
-            color: white;
-            font-size: 10px;
-            border-radius: 50%;
-            padding: 2px 5px;
-            font-weight: bold;
-        }
-
-        .profile-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .profile-info i.fa-user-circle {
-            font-size: 35px;
-            color: #2563eb;
-        }
-
-        .profile-text {
-            text-align: right;
-            line-height: 1.2;
-        }
-
-        .profile-text span {
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        .profile-text strong {
-            font-size: 15px;
-            color: #1e3a8a;
-            display: block;
-        }
-
-        /* ----- Hero Banner ----- */
-        .welcome-banner {
-            background: linear-gradient(135deg, #fdfbf7 0%, #e0f2fe 100%);
-            margin: 20px 5%;
-            padding: 30px;
-            border-radius: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border: 1px solid #bae6fd;
-        }
-
-        .banner-text h2 {
-            color: #ea580c;
-            font-size: 22px;
-            margin-bottom: 5px;
-        }
-
-        .banner-text h1 {
-            color: #1e3a8a;
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .banner-text p {
-            color: #64748b;
-            font-size: 16px;
-        }
-
-        .banner-icon {
-            font-size: 80px;
-            color: #3b82f6;
-            opacity: 0.8;
-        }
-
-        /* ----- Section Title Badge ----- */
-        .section-badge-container {
-            text-align: center;
-            margin: 30px 0 20px;
-        }
-
-        .section-badge {
-            background-color: #1e3a8a;
-            color: white;
-            padding: 8px 25px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 16px;
-            display: inline-block;
-        }
-
-        /* ----- Services Grid ----- */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 0 5%;
-            margin-bottom: 40px;
-        }
-
-        .service-card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 25px 20px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-            text-decoration: none;
-            display: block;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        /* कार्डचे वेगवेगळे रंग */
-        .card-1 { background: linear-gradient(to bottom, #eff6ff, #ffffff); border: 1px solid #bfdbfe; }
-        .card-2 { background: linear-gradient(to bottom, #f0fdf4, #ffffff); border: 1px solid #bbf7d0; }
-        .card-3 { background: linear-gradient(to bottom, #fefce8, #ffffff); border: 1px solid #fef08a; }
-        .card-4 { background: linear-gradient(to bottom, #fef2f2, #ffffff); border: 1px solid #fecaca; }
-        .card-5 { background: linear-gradient(to bottom, #fff7ed, #ffffff); border: 1px solid #fed7aa; }
-        .card-6 { background: linear-gradient(to bottom, #f0fdfa, #ffffff); border: 1px solid #99f6e4; }
-        .card-7 { background: linear-gradient(to bottom, #faf5ff, #ffffff); border: 1px solid #e9d5ff; }
-        .card-8 { background: linear-gradient(to bottom, #f8fafc, #ffffff); border: 1px solid #e2e8f0; }
-        .card-9 { background: linear-gradient(to bottom, #fefce8, #ffffff); border: 1px solid #fde047; }
-
-        /* अनुक्रमांक (नंबर) */
-        .card-number {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 30px;
-            height: 30px;
-            background-color: #3b82f6;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        /* कार्डमधील आयकॉन */
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            background-color: white;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 35px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        /* आयकॉन्सचे रंग */
-        .card-1 .card-icon { color: #3b82f6; }
-        .card-2 .card-icon { color: #22c55e; }
-        .card-3 .card-icon { color: #d97706; }
-        .card-4 .card-icon { color: #ef4444; }
-        .card-5 .card-icon { color: #f97316; }
-        .card-6 .card-icon { color: #0d9488; }
-        .card-7 .card-icon { color: #9333ea; }
-        .card-8 .card-icon { color: #475569; }
-        .card-9 .card-icon { color: #ca8a04; }
-
-        .service-card h3 {
-            color: #0f172a;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .start-btn {
-            background-color: white;
-            color: #1e3a8a;
-            border: 1px solid #1e3a8a;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .service-card:hover .start-btn {
-            background-color: #1e3a8a;
-            color: white;
-        }
-
-        /* ----- Quick Access (त्वरित सुविधा) ----- */
-        .quick-access-container {
-            background-color: white;
-            margin: 0 5% 40px;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .quick-access-grid {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .qa-btn {
-            text-align: center;
-            text-decoration: none;
-            color: #1e293b;
-            font-weight: 600;
-            transition: transform 0.3s;
-        }
-
-        .qa-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .qa-icon {
-            width: 60px;
-            height: 60px;
-            background-color: #f8fafc;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 10px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .qa-btn:nth-child(1) .qa-icon { color: #f97316; }
-        .qa-btn:nth-child(2) .qa-icon { color: #3b82f6; }
-        .qa-btn:nth-child(3) .qa-icon { color: #22c55e; }
-        .qa-btn:nth-child(4) .qa-icon { color: #9333ea; }
-        .qa-btn:nth-child(5) .qa-icon { color: #ef4444; }
-
-        /* ----- Footer ----- */
-        footer {
-            background-color: #0f2b5b;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 14px;
-        }
+        /* Card specific colors */
+        .c-blue .card-number { background: #3b82f6; } .c-blue .service-icon { color: #3b82f6; }
+        .c-green .card-number { background: #22c55e; } .c-green .service-icon { color: #22c55e; }
+        .c-orange .card-number { background: #f59e0b; } .c-orange .service-icon { color: #f59e0b; }
+        .c-red .card-number { background: #ef4444; } .c-red .service-icon { color: #ef4444; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="logo-section">
-            <i class="fas fa-bars" style="font-size: 24px; color: #1e3a8a; cursor: pointer; margin-right: 10px;"></i>
-            <img src="logo.png" alt="Logo">
+    <!-- Header / Navbar -->
+    <nav class="navbar">
+        <div class="logo-area">
+            <i class="fas fa-desktop"></i>
             <div class="logo-text">
-                <h1>SevaSpot <span>Center</span></h1>
+                <h2>SevaSpot Center</h2>
                 <p>आपली सेवा - आमची जबाबदारी</p>
             </div>
         </div>
-        <div class="user-section">
-            <!-- उर्वरित क्रेडीट्स -->
-            <div class="credits-badge">
-                <i class="fas fa-coins"></i> ५० 
+
+        <div class="nav-right">
+            <!-- Token Badge -->
+            <div class="token-badge" title="तुमचे शिल्लक टोकन्स">
+                <i class="fas fa-coins"></i> <span id="displayTokens">0</span>
             </div>
             
             <div class="notification">
                 <i class="far fa-bell"></i>
-                <span class="badge">३</span>
+                <span class="badge">3</span>
             </div>
-            <div class="profile-info">
-                <i class="fas fa-user-circle"></i>
-                <div class="profile-text">
-                    <span>Welcome,</span>
-                    <strong>User Name</strong>
+
+            <!-- User Profile Dropdown -->
+            <div class="user-profile" onclick="toggleDropdown()">
+                <i class="fas fa-user-circle avatar"></i>
+                <div class="user-info">
+                    <small>Welcome,</small>
+                    <span id="displayUserName">Loading...</span>
                 </div>
-                <i class="fas fa-chevron-down" style="color: #64748b; font-size: 12px;"></i>
+                <i class="fas fa-chevron-down" style="font-size: 12px; color: #64748b;"></i>
+                
+                <div class="dropdown-menu" id="userMenu">
+                    <a href="#" onclick="alert('प्रोफाईल पेजवर लवकरच काम सुरू होईल!')"><i class="far fa-id-card"></i> My Profile</a>
+                    <a href="#" style="color: #ef4444;" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Welcome Banner -->
-    <div class="welcome-banner">
-        <div class="banner-text">
-            <h2>नमस्कार!</h2>
+    <div class="container">
+        
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <h4>नमस्कार!</h4>
             <h1>आपले स्वागत आहे SevaSpot Center मध्ये</h1>
             <p>आपल्या सर्व सेवा एका क्लिकवर उपलब्ध</p>
         </div>
-        <div class="banner-icon">
-            <i class="fas fa-laptop-code"></i>
+
+        <!-- Quick Access (Image 2 - Without Logout) -->
+        <div class="section-title">
+            <span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span>
         </div>
+        
+        <div class="quick-access-box">
+            <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
+                <div class="qa-icon icon-orange"><i class="far fa-user"></i></div>
+                <span>माझी प्रोफाईल</span>
+            </div>
+            <div class="qa-item" onclick="alert('अर्जांची यादी लवकरच येत आहे!')">
+                <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div>
+                <span>माझे अर्ज</span>
+            </div>
+            <div class="qa-item">
+                <div class="qa-icon icon-green"><i class="fas fa-cloud-download-alt"></i></div>
+                <span>डाउनलोड</span>
+            </div>
+            <div class="qa-item">
+                <div class="qa-icon icon-purple"><i class="far fa-bell"></i></div>
+                <span>सूचना</span>
+            </div>
+        </div>
+
+        <!-- Services Menu -->
+        <div class="section-title">
+            <span><i class="fas fa-th-large"></i> सेवा निवडा (Service Menu)</span>
+        </div>
+
+        <div class="services-grid">
+            <!-- Service 1 (Active) -->
+            <div class="service-card c-blue">
+                <div class="card-number">१</div>
+                <div class="service-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                <h3>उत्पन्न घोषणा पत्र</h3>
+                <a href="utpanna.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Service 2 (Upcoming) -->
+            <div class="service-card c-green">
+                <div class="card-number">२</div>
+                <div class="service-icon"><i class="fas fa-file-contract"></i></div>
+                <h3>३ वर्षाचे उत्पन्न घोषणा पत्र</h3>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Service 3 (Upcoming) -->
+            <div class="service-card c-orange">
+                <div class="card-number">३</div>
+                <div class="service-icon"><i class="fas fa-users"></i></div>
+                <h3>रहिवासी घोषणा पत्र</h3>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <!-- Service 4 (Upcoming) -->
+            <div class="service-card c-red">
+                <div class="card-number">४</div>
+                <div class="service-icon"><i class="fas fa-stamp"></i></div>
+                <h3>प्रतिज्ञापत्र (Affidavit)</h3>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Services Badge -->
-    <div class="section-badge-container">
-        <div class="section-badge">
-            <i class="fas fa-th-large"></i> सेवा निवडा (Service Menu)
-        </div>
-    </div>
+    <script>
+        // पेज लोड झाल्यावर युजरचे नाव आणि टोकन्स चेक करणे
+        window.onload = function() {
+            const userName = localStorage.getItem('userFullName');
+            const tokens = localStorage.getItem('remainingTokens');
 
-    <!-- Services Grid -->
-    <div class="services-grid">
-        <!-- 1. उत्पन्न घोषणा पत्र (येथे utpanna.html लिंक दिली आहे) -->
-        <a href="utpanna.html" class="service-card card-1">
-            <div class="card-number" style="background-color: #3b82f6;">१</div>
-            <div class="card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-            <h3>उत्पन्न घोषणा पत्र</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
+            // जर युजरने लॉगिन केले नसेल, तर त्याला परत login.html वर पाठवणे
+            if (!userName) {
+                window.location.href = "login.html";
+                return;
+            }
 
-        <!-- 2. ३ वर्षांचे उत्पन्न -->
-        <a href="#" class="service-card card-2">
-            <div class="card-number" style="background-color: #22c55e;">२</div>
-            <div class="card-icon"><i class="fas fa-file-contract"></i></div>
-            <h3>३ वर्षांचे उत्पन्न घोषणा पत्र</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
+            // नाव आणि टोकन्स वेबसाईटवर दाखवणे
+            document.getElementById('displayUserName').innerText = userName;
+            document.getElementById('displayTokens').innerText = tokens;
+        };
 
-        <!-- 3. रहिवासी -->
-        <a href="#" class="service-card card-3">
-            <div class="card-number" style="background-color: #d97706;">३</div>
-            <div class="card-icon"><i class="fas fa-users"></i></div>
-            <h3>रहिवासी घोषणा पत्र</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
+        // ड्रॉपडाऊन मेनू उघडणे/बंद करणे
+        function toggleDropdown() {
+            const menu = document.getElementById('userMenu');
+            menu.classList.toggle('active');
+        }
 
-        <!-- 4. जात घोषणा पत्र -->
-        <a href="#" class="service-card card-4">
-            <div class="card-number" style="background-color: #ef4444;">४</div>
-            <div class="card-icon"><i class="fas fa-user-friends"></i></div>
-            <h3>जात घोषणा पत्र</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
+        // बाहेर कुठेही क्लिक केल्यावर ड्रॉपडाऊन बंद करणे
+        window.onclick = function(event) {
+            if (!event.target.closest('.user-profile')) {
+                const dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('active');
+                }
+            }
+        }
 
-        <!-- 5. शिक्षा पत्रिका -->
-        <a href="#" class="service-card card-5">
-            <div class="card-number" style="background-color: #f97316;">५</div>
-            <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
-            <h3>शिक्षा पत्रिका / दुरुस्ती अर्ज</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
-
-        <!-- 6. रेशन कार्ड -->
-        <a href="#" class="service-card card-6">
-            <div class="card-number" style="background-color: #0d9488;">६</div>
-            <div class="card-icon"><i class="fas fa-desktop"></i></div>
-            <h3>रेशन कार्ड ऑनलाईन अर्ज</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
-
-        <!-- 7. नॅशनॅलिटी -->
-        <a href="#" class="service-card card-7">
-            <div class="card-number" style="background-color: #9333ea;">७</div>
-            <div class="card-icon"><i class="fab fa-accessible-icon"></i></div>
-            <h3>नॅशनॅलिटी घोषणा पत्र</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
-
-        <!-- 8. नॉन क्रिमिलियर -->
-        <a href="#" class="service-card card-8">
-            <div class="card-number" style="background-color: #475569;">८</div>
-            <div class="card-icon"><i class="fas fa-user-tie"></i></div>
-            <h3>नॉन क्रिमिलियर घोषणा पत्र</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
-
-        <!-- 9. अल्पभूधारक -->
-        <a href="#" class="service-card card-9">
-            <div class="card-number" style="background-color: #ca8a04;">९</div>
-            <div class="card-icon"><i class="fas fa-file-signature"></i></div>
-            <h3>अल्पभूधारक घोषणा पत्र</h3>
-            <span class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></span>
-        </a>
-    </div>
-
-    <!-- Quick Access Badge -->
-    <div class="section-badge-container">
-        <div class="section-badge" style="background-color: #f0f4f8; color: #1e3a8a; border: 1px solid #1e3a8a;">
-            त्वरित सुविधा (Quick Access)
-        </div>
-    </div>
-
-    <!-- Quick Access Links -->
-    <div class="quick-access-container">
-        <div class="quick-access-grid">
-            <a href="#" class="qa-btn">
-                <div class="qa-icon"><i class="fas fa-user"></i></div>
-                माझी प्रोफाईल
-            </a>
-            <a href="#" class="qa-btn">
-                <div class="qa-icon"><i class="fas fa-folder-open"></i></div>
-                माझे अर्ज
-            </a>
-            <a href="#" class="qa-btn">
-                <div class="qa-icon"><i class="fas fa-cloud-download-alt"></i></div>
-                डाउनलोड
-            </a>
-            <a href="#" class="qa-btn">
-                <div class="qa-icon"><i class="fas fa-bell"></i></div>
-                सूचना
-            </a>
-            <a href="index.html" class="qa-btn">
-                <div class="qa-icon"><i class="fas fa-sign-out-alt"></i></div>
-                लॉगआउट
-            </a>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5%;">
-            <div>&copy; 2026 SevaSpot Center | सर्व हक्क राखीव</div>
-            <div>विकासासाठी – सेवा हीच खरी संपत्ती</div>
-        </div>
-    </footer>
+        // लॉगआऊट फंक्शन
+        function logoutUser() {
+            // ब्राऊझरमधील सेव्ह केलेला सर्व डेटा डिलीट करणे
+            localStorage.clear();
+            // युजरला लॉगिन पेजवर पाठवणे
+            window.location.href = "login.html";
+        }
+    </script>
 
 </body>
 </html>
