@@ -6,133 +6,40 @@
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- गुगल शीट कनेक्शनसाठी कॉन्फिगरेशन फाईल -->
   <script src="config.js"></script>
 
   <style>
-    body {
-      font-family: 'Mukta', sans-serif;
-      background-color: #f1f5f9;
-      padding: 20px;
-      color: #1e293b;
-    }
+    body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
 
-    /* फॉर्म डिझाईन (डॅशबोर्ड व्ह्यू) */
-    .form-container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
+    /* फॉर्म डिझाईन */
+    .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    .form-section { margin-bottom: 15px; }
+    .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
+    .form-section input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-    .form-section {
-      margin-bottom: 15px;
-    }
-
-    .form-section label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 5px;
-      color: #334155;
-    }
-
-    .form-section input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 15px;
-      background: #f8fafc;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .upload-box {
-      border: 2px dashed #cbd5e1;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
-      background: #f8fafc;
-      margin-top: 15px;
-    }
-
-    .print-btn {
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    /* प्रिंट सेक्शन (तुमच्या मूळ डिझाईननुसार) */
-    .print-section {
-      display: none;
-      font-size: 17px;
-      line-height: 2.2;
-      color: #000;
-    }
-
-    @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-      .form-container, .print-btn {
-        display: none !important;
-      }
-      .print-section {
-        display: block !important;
-      }
-    }
-
-    .photo-wrapper {
-      text-align: right;
-      margin-bottom: 10px;
-    }
-
-    #photo {
-      width: 120px;
-      height: 150px;
-      object-fit: cover;
-      border: 1px solid #000;
-      background-color: #fff;
-    }
-
-    .heading {
-      text-align: center;
-      font-weight: bold;
-      font-size: 22px;
-      margin-top: 40px; /* फोटोच्या खाली योग्य अंतर ठेवण्यासाठी */
-      margin-bottom: 30px;
-      text-decoration: underline;
-    }
-
-    .paragraph {
-      margin-bottom: 20px;
-      text-indent: 40px;
-      text-align: justify;
-    }
-
-    .signature-block {
-      text-align: center; /* 'अर्जदार', नाव आणि पत्ता मध्यभागी एकाखाली एक येण्यासाठी */
-      min-width: 200px;
-    }
+    .upload-box { border: 2px dashed #cbd5e1; padding: 15px; border-radius: 8px; text-align: center; background: #f8fafc; margin-top: 15px; }
+    .print-btn { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
 
     /* वेबकॅम मोडल */
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
     .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 100%; }
     video { width: 100%; border-radius: 6px; background: #000; }
+
+    /* प्रिंट सेक्शन */
+    .print-section { display: none; font-size: 17px; line-height: 2.2; color: #000; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .form-container, .print-btn { display: none !important; }
+      .print-section { display: block !important; }
+    }
+
+    .photo-wrapper { text-align: right; margin-bottom: 10px; }
+    #photo { width: 120px; height: 150px; object-fit: cover; border: 1px solid #000; background-color: #fff; }
+    .heading { text-align: center; font-weight: bold; font-size: 22px; margin-top: 40px; margin-bottom: 30px; text-decoration: underline; }
+    .paragraph { margin-bottom: 20px; text-indent: 40px; text-align: justify; }
+    .signature-block { text-align: center; min-width: 200px; }
   </style>
 </head>
 <body>
@@ -193,7 +100,6 @@
       </div>
     </div>
 
-    <!-- फोटो अपलोड व वेबकॅम पर्याय -->
     <div class="upload-box">
       <label style="font-weight: bold; margin-bottom: 10px; display: block;"><i class="fas fa-camera"></i> फोटो निवडा किंवा काढा</label>
       <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
@@ -231,7 +137,7 @@
   </div>
   
   <p class="paragraph">
-    मा. श्री / श्रीमती <strong id="out_name"></strong> श्री <strong id="out_father"></strong> यांचा मुलगा/मुलगी/पत्नी वय <strong id="out_age"></strong> व्यवसाय <strong id="out_occupation"></strong> रा. <strong id="out_address"></strong> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये <strong><span id="out_income"></span> हजार</strong> आहे व मला <strong id="out_purpose"></strong> या करिता स्वयघोषणा आधारे घोषित करतो / करते की मी स्वयं संक्षिप्त उत्पन्न केलेल्या प्रति माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
+    मा. श्री / श्रीमती <strong id="out_name"></strong> श्री <strong id="out_father"></strong> यांचा मुलगा/मुलगी/पत्नी वय <strong id="out_age"></strong> व्यवसाय <strong id="out_occupation"></strong> रा. <strong id="out_address"></strong> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2025-2026 मध्ये <strong><span id="out_income"></span> हजार</strong> आहे व मला <strong id="out_purpose"></strong> या करिता स्वयघोषणा आधारे घोषित करतो / करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
   </p>
 
   <p class="paragraph">
@@ -244,7 +150,7 @@
       <p style="margin: 5px 0;">ठिकाण : <span id="out_location">हदगाव</span></p>
     </div>
     <div class="signature-block">
-      <p style="margin-bottom: 50px;">अर्जदार</p> <!-- सही करण्यासाठी 50px ची रिकामी जागा -->
+      <p style="margin-bottom: 50px;">अर्जदार</p> 
       <p style="margin: 5px 0; font-weight: bold;"><span id="out_name2"></span></p>
       <p style="margin: 5px 0;">रा. <span id="out_address2"></span> ता. हदगाव जि. नांदेड</p>
     </div>
@@ -254,62 +160,42 @@
 <script>
   let mediaStream = null;
 
-  // आजची तारीख ऑटोमॅटिक सेट करणे
   window.onload = function() {
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('date').value = today;
   };
 
-  // गॅलरीतून फोटो लोड करणे
   function loadPhoto(event) {
     const file = event.target.files[0];
     if (file) {
-      const photo = document.getElementById('photo');
-      photo.src = URL.createObjectURL(file);
+      document.getElementById('photo').src = URL.createObjectURL(file);
     }
   }
 
-  // वेबकॅम सुरू करणे
   function openCamModal() {
       const modal = document.getElementById('camModal');
       modal.style.display = 'flex';
       const video = document.getElementById('webcamVideo');
       
       navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-          .then(stream => {
-              mediaStream = stream;
-              video.srcObject = stream;
-          })
-          .catch(err => {
-              alert("कॅमेरा सुरू होऊ शकला नाही. परवानग्या तपासा.");
-              modal.style.display = 'none';
-          });
+          .then(stream => { mediaStream = stream; video.srcObject = stream; })
+          .catch(err => { alert("कॅमेरा सुरू होऊ शकला नाही. परवानग्या तपासा."); modal.style.display = 'none'; });
   }
 
-  // वेबकॅमवरून फोटो कॅप्चर करणे
   function capturePhoto() {
       const video = document.getElementById('webcamVideo');
       const canvas = document.getElementById('canvas');
-      canvas.width = video.videoWidth || 320;
-      canvas.height = video.videoHeight || 240;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
-      const photo = document.getElementById('photo');
-      photo.src = canvas.toDataURL('image/png');
+      canvas.width = video.videoWidth || 320; canvas.height = video.videoHeight || 240;
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+      document.getElementById('photo').src = canvas.toDataURL('image/png');
       closeCamModal();
   }
 
-  // वेबकॅम बंद करणे
   function closeCamModal() {
-      const modal = document.getElementById('camModal');
-      modal.style.display = 'none';
-      if (mediaStream) {
-          mediaStream.getTracks().forEach(track => track.stop());
-      }
+      document.getElementById('camModal').style.display = 'none';
+      if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
   }
 
-  // फॉर्म सबमिट आणि टोकन वजावट प्रक्रिया
   document.getElementById('incomeForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -331,26 +217,27 @@
     .then(res => res.json())
     .then(data => {
         if(data.status === 'success') {
-            // व्हॅल्यूज प्रिंट सेक्शनमध्ये मॅप करणे
+            
+            // --- Live Token Update Code ---
+            let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+            if(currentTokens > 0) {
+                localStorage.setItem('remainingTokens', currentTokens - 1);
+            }
+            // ------------------------------
+
             const name = document.getElementById('name').value;
-            const father = document.getElementById('father').value;
-            const age = document.getElementById('age').value;
-            const occupation = document.getElementById('occupation').value;
             const address = document.getElementById('address').value;
-            const income = document.getElementById('income').value;
-            const purpose = document.getElementById('purpose').value;
-            const rawDate = document.getElementById('date').value;
-            const location = document.getElementById('location').value;
 
             document.getElementById('out_name').innerText = name;
-            document.getElementById('out_father').innerText = father;
-            document.getElementById('out_age').innerText = age;
-            document.getElementById('out_occupation').innerText = occupation;
+            document.getElementById('out_father').innerText = document.getElementById('father').value;
+            document.getElementById('out_age').innerText = document.getElementById('age').value;
+            document.getElementById('out_occupation').innerText = document.getElementById('occupation').value;
             document.getElementById('out_address').innerText = address;
-            document.getElementById('out_income').innerText = income;
-            document.getElementById('out_purpose').innerText = purpose;
-            document.getElementById('out_location').innerText = location;
+            document.getElementById('out_income').innerText = document.getElementById('income').value;
+            document.getElementById('out_purpose').innerText = document.getElementById('purpose').value;
+            document.getElementById('out_location').innerText = document.getElementById('location').value;
 
+            const rawDate = document.getElementById('date').value;
             if(rawDate) {
                 const parts = rawDate.split('-');
                 document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
@@ -359,7 +246,6 @@
             document.getElementById('out_name2').innerText = name;
             document.getElementById('out_address2').innerText = address;
 
-            // प्रिंट डायलॉग ट्रिगर करणे
             setTimeout(() => {
                 window.print();
                 window.location.href = "home.html";
