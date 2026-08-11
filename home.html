@@ -15,9 +15,12 @@
         /* Navbar Header */
         .navbar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .logo-area { display: flex; align-items: center; gap: 15px; }
-        .logo-area i { font-size: 32px; color: #ea580c; }
-        .logo-text h2 { font-size: 22px; color: #1e3a8a; line-height: 1; }
-        .logo-text p { font-size: 12px; color: #64748b; }
+        
+        /* नवीन लोगो इमेज CSS */
+        .site-logo { width: 55px; height: 55px; border-radius: 8px; object-fit: contain; }
+        
+        .logo-text h2 { font-size: 22px; color: #ea580c; line-height: 1; }
+        .logo-text p { font-size: 13px; color: #64748b; font-weight: 500; }
         
         .nav-right { display: flex; align-items: center; gap: 20px; }
         
@@ -50,7 +53,7 @@
         .welcome-banner h1 { color: #1e3a8a; font-size: 28px; margin-bottom: 10px; }
         .welcome-banner p { color: #64748b; font-size: 15px; }
 
-        /* Quick Access (Image 2) */
+        /* Quick Access */
         .section-title { text-align: center; margin-bottom: 20px; position: relative; }
         .section-title span { background: #1e3a8a; color: white; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; }
         
@@ -66,8 +69,8 @@
         .icon-green { background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce3; }
         .icon-purple { background: #faf5ff; color: #9333ea; border: 1px solid #f3e8ff; }
 
-        /* Services Grid (Image 1) */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        /* Services Grid */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .service-card { background: white; padding: 30px 20px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0; position: relative; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
         .service-card:hover { border-color: #bfdbfe; box-shadow: 0 8px 25px rgba(37,99,235,0.1); }
         
@@ -81,8 +84,11 @@
         /* Card specific colors */
         .c-blue .card-number { background: #3b82f6; } .c-blue .service-icon { color: #3b82f6; }
         .c-green .card-number { background: #22c55e; } .c-green .service-icon { color: #22c55e; }
-        .c-orange .card-number { background: #f59e0b; } .c-orange .service-icon { color: #f59e0b; }
+        .c-orange .card-number { background: #f97316; } .c-orange .service-icon { color: #f97316; }
         .c-red .card-number { background: #ef4444; } .c-red .service-icon { color: #ef4444; }
+        .c-purple .card-number { background: #8b5cf6; } .c-purple .service-icon { color: #8b5cf6; }
+        .c-teal .card-number { background: #14b8a6; } .c-teal .service-icon { color: #14b8a6; }
+        .c-indigo .card-number { background: #6366f1; } .c-indigo .service-icon { color: #6366f1; }
     </style>
 </head>
 <body>
@@ -90,7 +96,8 @@
     <!-- Header / Navbar -->
     <nav class="navbar">
         <div class="logo-area">
-            <i class="fas fa-desktop"></i>
+            <!-- येथे नवीन लोगो इमेज लावली आहे -->
+            <img src="logo.png" alt="SevaSpot Logo" class="site-logo">
             <div class="logo-text">
                 <h2>SevaSpot Center</h2>
                 <p>आपली सेवा - आमची जबाबदारी</p>
@@ -134,7 +141,7 @@
             <p>आपल्या सर्व सेवा एका क्लिकवर उपलब्ध</p>
         </div>
 
-        <!-- Quick Access (Image 2 - Without Logout) -->
+        <!-- Quick Access -->
         <div class="section-title">
             <span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span>
         </div>
@@ -168,31 +175,55 @@
             <div class="service-card c-blue">
                 <div class="card-number">१</div>
                 <div class="service-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                <h3>उत्पन्न घोषणा पत्र</h3>
+                <h3>१. उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Service 2 (Upcoming) -->
+            <!-- Service 2 -->
             <div class="service-card c-green">
                 <div class="card-number">२</div>
                 <div class="service-icon"><i class="fas fa-file-contract"></i></div>
-                <h3>३ वर्षाचे उत्पन्न घोषणा पत्र</h3>
+                <h3>२. ३ वर्षाचे उत्पन्न घोषणा पत्र</h3>
                 <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Service 3 (Upcoming) -->
+            <!-- Service 3 -->
             <div class="service-card c-orange">
                 <div class="card-number">३</div>
-                <div class="service-icon"><i class="fas fa-users"></i></div>
-                <h3>रहिवासी घोषणा पत्र</h3>
+                <div class="service-icon"><i class="fas fa-home"></i></div>
+                <h3>३. रहिवासी घोषणा पत्र</h3>
                 <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
             
-            <!-- Service 4 (Upcoming) -->
+            <!-- Service 4 -->
             <div class="service-card c-red">
                 <div class="card-number">४</div>
-                <div class="service-icon"><i class="fas fa-stamp"></i></div>
-                <h3>प्रतिज्ञापत्र (Affidavit)</h3>
+                <div class="service-icon"><i class="fas fa-users"></i></div>
+                <h3>४. जातीचे घोषणा पत्र</h3>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-card c-purple">
+                <div class="card-number">५</div>
+                <div class="service-icon"><i class="fas fa-flag"></i></div>
+                <h3>५. राष्ट्रीयत्व घोषणा पत्र</h3>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-card c-teal">
+                <div class="card-number">६</div>
+                <div class="service-icon"><i class="fas fa-file-signature"></i></div>
+                <h3>६. नॉन-क्रीमीलेअर घोषणा पत्र</h3>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Service 7 -->
+            <div class="service-card c-indigo">
+                <div class="card-number">७</div>
+                <div class="service-icon"><i class="fas fa-tractor"></i></div>
+                <h3>७. अल्पभूधारक घोषणा पत्र</h3>
                 <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
