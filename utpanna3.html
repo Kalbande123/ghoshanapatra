@@ -13,7 +13,7 @@
     <style>
         body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
         
-        /* डॅशबोर्ड फॉर्म डिझाईन */
+        /* फॉर्म डिझाईन */
         .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .form-section { margin-bottom: 15px; }
         .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
@@ -29,7 +29,7 @@
         .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 100%; }
         video { width: 100%; border-radius: 6px; background: #000; }
 
-        /* प्रिंट सेक्शन (तुमच्या मूळ डिझाईननुसार) */
+        /* प्रिंट सेक्शन */
         .print-section { display: none; font-size: 17px; line-height: 2.2; color: #000; }
 
         @media print {
@@ -82,7 +82,6 @@
             </div>
         </div>
 
-        <!-- ३ वर्षांचे उत्पन्न -->
         <h4 style="margin-top: 10px; margin-bottom: 10px; color: #1e3a8a;">उत्पन्न रक्कम (हजारात)</h4>
         <div class="grid-3">
             <div class="form-section">
@@ -115,7 +114,6 @@
             </div>
         </div>
 
-        <!-- फोटो अपलोड व वेबकॅम -->
         <div class="upload-box">
             <label style="font-weight: bold; margin-bottom: 10px; display: block;"><i class="fas fa-camera"></i> फोटो निवडा किंवा काढा</label>
             <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
@@ -228,6 +226,14 @@
         .then(res => res.json())
         .then(data => {
             if(data.status === 'success') {
+
+                // --- Live Token Update Code ---
+                let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+                if(currentTokens > 0) {
+                    localStorage.setItem('remainingTokens', currentTokens - 1);
+                }
+                // ------------------------------
+
                 const name = document.getElementById('name').value;
                 const address = document.getElementById('address').value;
                 
