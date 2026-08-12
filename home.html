@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Config File for Token Cost -->
+    <script src="config.js"></script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
         body { background-color: #f1f5f9; color: #1e293b; padding-bottom: 50px; }
@@ -15,23 +18,15 @@
         /* Navbar Header */
         .navbar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .logo-area { display: flex; align-items: center; gap: 15px; }
-        
-        /* नवीन लोगो इमेज CSS */
         .site-logo { width: 55px; height: 55px; border-radius: 8px; object-fit: contain; }
-        
         .logo-text h2 { font-size: 22px; color: #ea580c; line-height: 1; }
         .logo-text p { font-size: 13px; color: #64748b; font-weight: 500; }
-        
         .nav-right { display: flex; align-items: center; gap: 20px; }
         
-        /* Token Badge */
         .token-badge { background: #fef08a; color: #ca8a04; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        
-        /* Notification */
         .notification { position: relative; font-size: 20px; color: #64748b; cursor: pointer; }
         .notification .badge { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; }
 
-        /* User Profile Dropdown */
         .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
         .user-profile .avatar { font-size: 35px; color: #2563eb; }
         .user-info { display: flex; flex-direction: column; line-height: 1.2; }
@@ -42,18 +37,18 @@
         .dropdown-menu.active { display: block; }
         .dropdown-menu a { display: block; padding: 12px 15px; text-decoration: none; color: #334155; font-size: 15px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
         .dropdown-menu a:hover { background: #f8fafc; color: #ea580c; }
-        .dropdown-menu a i { width: 20px; text-align: center; margin-right: 8px; }
 
-        /* Main Container */
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
 
-        /* Welcome Banner */
-        .welcome-banner { background: linear-gradient(to right, #eff6ff, #ffffff); border: 1px solid #bfdbfe; padding: 30px; border-radius: 12px; margin-bottom: 30px; }
+        .welcome-banner { background: linear-gradient(to right, #eff6ff, #ffffff); border: 1px solid #bfdbfe; padding: 30px; border-radius: 12px; margin-bottom: 20px; }
         .welcome-banner h4 { color: #ea580c; margin-bottom: 5px; font-size: 18px; }
         .welcome-banner h1 { color: #1e3a8a; font-size: 28px; margin-bottom: 10px; }
         .welcome-banner p { color: #64748b; font-size: 15px; }
 
-        /* Quick Access */
+        /* नवीन: टोकन सूचना बॅनर (Notice Banner) */
+        .notice-banner { background: #fffbeb; border-left: 5px solid #f59e0b; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; color: #b45309; display: flex; align-items: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .notice-banner i { font-size: 22px; color: #f59e0b; }
+
         .section-title { text-align: center; margin-bottom: 20px; position: relative; }
         .section-title span { background: #1e3a8a; color: white; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; }
         
@@ -63,7 +58,6 @@
         .qa-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .qa-item span { font-size: 15px; font-weight: 600; color: #334155; }
         
-        /* Icon Colors */
         .icon-orange { background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; }
         .icon-blue { background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe; }
         .icon-green { background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce3; }
@@ -75,8 +69,11 @@
         .service-card:hover { border-color: #bfdbfe; box-shadow: 0 8px 25px rgba(37,99,235,0.1); }
         
         .card-number { position: absolute; top: 15px; left: 15px; width: 28px; height: 28px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
-        .service-icon { width: 70px; height: 70px; margin: 0 auto 20px; background: #f8fafc; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         
+        /* नवीन: सर्व्हिस कार्डवरील टोकन बॅज */
+        .service-cost-badge { position: absolute; top: 15px; right: 15px; background: #fef08a; color: #b45309; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #fde047; }
+
+        .service-icon { width: 70px; height: 70px; margin: 0 auto 20px; background: #f8fafc; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .service-card h3 { font-size: 18px; color: #1e293b; margin-bottom: 20px; }
         .start-btn { display: inline-block; padding: 8px 25px; border: 1px solid #1e3a8a; border-radius: 20px; color: #1e3a8a; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
         .start-btn:hover { background: #1e3a8a; color: white; }
@@ -93,29 +90,19 @@
 </head>
 <body>
 
-    <!-- Header / Navbar -->
     <nav class="navbar">
         <div class="logo-area">
-            <!-- येथे नवीन लोगो इमेज लावली आहे -->
             <img src="logo.png" alt="SevaSpot Logo" class="site-logo">
             <div class="logo-text">
                 <h2>SevaSpot Center</h2>
                 <p>आपली सेवा - आमची जबाबदारी</p>
             </div>
         </div>
-
         <div class="nav-right">
-            <!-- Token Badge -->
             <div class="token-badge" title="तुमचे शिल्लक टोकन्स">
                 <i class="fas fa-coins"></i> <span id="displayTokens">0</span>
             </div>
-            
-            <div class="notification">
-                <i class="far fa-bell"></i>
-                <span class="badge">3</span>
-            </div>
-
-            <!-- User Profile Dropdown -->
+            <div class="notification"><i class="far fa-bell"></i><span class="badge">3</span></div>
             <div class="user-profile" onclick="toggleDropdown()">
                 <i class="fas fa-user-circle avatar"></i>
                 <div class="user-info">
@@ -123,7 +110,6 @@
                     <span id="displayUserName">Loading...</span>
                 </div>
                 <i class="fas fa-chevron-down" style="font-size: 12px; color: #64748b;"></i>
-                
                 <div class="dropdown-menu" id="userMenu">
                     <a href="#" onclick="alert('प्रोफाईल पेजवर लवकरच काम सुरू होईल!')"><i class="far fa-id-card"></i> My Profile</a>
                     <a href="#" style="color: #ef4444;" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -134,143 +120,126 @@
 
     <div class="container">
         
-        <!-- Welcome Banner -->
         <div class="welcome-banner">
             <h4>नमस्कार!</h4>
             <h1>आपले स्वागत आहे SevaSpot Center मध्ये</h1>
             <p>आपल्या सर्व सेवा एका क्लिकवर उपलब्ध</p>
         </div>
 
-        <!-- Quick Access -->
-        <div class="section-title">
-            <span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span>
+        <!-- नवीन: टोकन सूचना बॅनर -->
+        <div class="notice-banner">
+            <i class="fas fa-info-circle"></i> 
+            <div><strong>महत्त्वाची सूचना:</strong> प्रत्येक घोषणापत्र सेवेसाठी तुमच्या खात्यातून <strong style="font-size: 18px; color: #ea580c;"><span class="dynamic-token-cost">२</span> टोकन</strong> वजा केले जातील.</div>
         </div>
-        
+
+        <div class="section-title"><span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span></div>
         <div class="quick-access-box">
             <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
-                <div class="qa-icon icon-orange"><i class="far fa-user"></i></div>
-                <span>माझी प्रोफाईल</span>
+                <div class="qa-icon icon-orange"><i class="far fa-user"></i></div><span>माझी प्रोफाईल</span>
             </div>
             <div class="qa-item" onclick="alert('अर्जांची यादी लवकरच येत आहे!')">
-                <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div>
-                <span>माझे अर्ज</span>
+                <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div><span>माझे अर्ज</span>
             </div>
-            <div class="qa-item">
-                <div class="qa-icon icon-green"><i class="fas fa-cloud-download-alt"></i></div>
-                <span>डाउनलोड</span>
-            </div>
-            <div class="qa-item">
-                <div class="qa-icon icon-purple"><i class="far fa-bell"></i></div>
-                <span>सूचना</span>
-            </div>
+            <div class="qa-item"><div class="qa-icon icon-green"><i class="fas fa-cloud-download-alt"></i></div><span>डाउनलोड</span></div>
+            <div class="qa-item"><div class="qa-icon icon-purple"><i class="far fa-bell"></i></div><span>सूचना</span></div>
         </div>
 
-        <!-- Services Menu -->
-        <div class="section-title">
-            <span><i class="fas fa-th-large"></i> सेवा निवडा (Service Menu)</span>
-        </div>
+        <div class="section-title"><span><i class="fas fa-th-large"></i> सेवा निवडा (Service Menu)</span></div>
 
         <div class="services-grid">
-            <!-- Service 1 (Active) -->
             <div class="service-card c-blue">
                 <div class="card-number">१</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                 <h3>१. उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-           <!-- Service 2 (Active) -->
             <div class="service-card c-green">
                 <div class="card-number">२</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-contract"></i></div>
                 <h3>२. ३ वर्षाचे उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna3.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Service 3 -->
             <div class="service-card c-orange">
                 <div class="card-number">३</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-home"></i></div>
                 <h3>३. रहिवासी घोषणा पत्र</h3>
-                <a href="utpanna3.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
             
-            <!-- Service 4 -->
             <div class="service-card c-red">
                 <div class="card-number">४</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-users"></i></div>
                 <h3>४. जातीचे घोषणा पत्र</h3>
                 <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Service 5 -->
             <div class="service-card c-purple">
                 <div class="card-number">५</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-flag"></i></div>
                 <h3>५. राष्ट्रीयत्व घोषणा पत्र</h3>
                 <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Service 6 -->
             <div class="service-card c-teal">
                 <div class="card-number">६</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-signature"></i></div>
                 <h3>६. नॉन-क्रीमीलेअर घोषणा पत्र</h3>
                 <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Service 7 -->
             <div class="service-card c-indigo">
                 <div class="card-number">७</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
                 <h3>७. अल्पभूधारक घोषणा पत्र</h3>
                 <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
-
     </div>
 
     <script>
-        // पेज लोड झाल्यावर युजरचे नाव आणि टोकन्स चेक करणे
         window.onload = function() {
             const userName = localStorage.getItem('userFullName');
             const tokens = localStorage.getItem('remainingTokens');
 
-            // जर युजरने लॉगिन केले नसेल, तर त्याला परत login.html वर पाठवणे
             if (!userName) {
                 window.location.href = "login.html";
                 return;
             }
 
-            // नाव आणि टोकन्स वेबसाईटवर दाखवणे
             document.getElementById('displayUserName').innerText = userName;
             document.getElementById('displayTokens').innerText = tokens;
+
+            // --- नवीन: config.js मधून टोकन रेट घेऊन स्क्रीनवर दाखवणे ---
+            if (typeof CONFIG !== 'undefined' && CONFIG.GHOSHANA_TOKEN_COST) {
+                const costSpans = document.querySelectorAll('.dynamic-token-cost');
+                costSpans.forEach(span => {
+                    span.innerText = CONFIG.GHOSHANA_TOKEN_COST;
+                });
+            }
         };
 
-        // ड्रॉपडाऊन मेनू उघडणे/बंद करणे
-        function toggleDropdown() {
-            const menu = document.getElementById('userMenu');
-            menu.classList.toggle('active');
-        }
+        function toggleDropdown() { document.getElementById('userMenu').classList.toggle('active'); }
 
-        // बाहेर कुठेही क्लिक केल्यावर ड्रॉपडाऊन बंद करणे
         window.onclick = function(event) {
             if (!event.target.closest('.user-profile')) {
                 const dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    dropdowns[i].classList.remove('active');
-                }
+                for (let i = 0; i < dropdowns.length; i++) dropdowns[i].classList.remove('active');
             }
         }
 
-        // लॉगआऊट फंक्शन
         function logoutUser() {
-            // ब्राऊझरमधील सेव्ह केलेला सर्व डेटा डिलीट करणे
             localStorage.clear();
-            // युजरला लॉगिन पेजवर पाठवणे
             window.location.href = "login.html";
         }
     </script>
-
 </body>
 </html>
