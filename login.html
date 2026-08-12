@@ -42,9 +42,11 @@
             margin-bottom: 25px;
         }
 
-        .logo-area i {
-            font-size: 50px;
-            color: #ea580c;
+        /* नवीन लोगो डिझाईन */
+        .site-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
             margin-bottom: 10px;
         }
 
@@ -127,7 +129,8 @@
 
     <div class="login-container">
         <div class="logo-area">
-            <i class="fas fa-desktop"></i>
+            <!-- आयकॉन ऐवजी आता तुमचा मूळ लोगो दिसेल -->
+            <img src="logo.png" alt="SevaSpot Logo" class="site-logo">
             <h2>सेवास्पॉट Center</h2>
             <p>आपली सेवा, आमची जबाबदारी</p>
         </div>
@@ -172,22 +175,22 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    // यशस्वी लॉगिन झाल्यावर युजरचा डेटा ब्राऊझरमध्ये सेव्ह करणे
+                    // Fallback जोडले आहेत (डेटा जर रिकामी आला तरी क्रॅश होणार नाही)
                     localStorage.setItem('username', user);
-                    localStorage.setItem('userFullName', data.name);
-                    localStorage.setItem('remainingTokens', data.remaining);
+                    localStorage.setItem('userFullName', data.name || "युजर");
+                    localStorage.setItem('remainingTokens', data.remaining || 0);
                     
                     // डॅशबोर्डवर (home.html) जाणे
                     window.location.href = "home.html";
                 } else {
-                    // चुकीचा पासवर्ड किंवा युजरनेम असल्यास एरर दाखवणे
-                    alert(data.message); 
+                    // नवीन मराठी एरर मेसेज
+                    alert("लॉगिन अयशस्वी! \nतुमचा मोबाईल नंबर किंवा पासवर्ड चुकीचा आहे. कृपया पुन्हा तपासून पहा."); 
                     loginBtn.innerText = "लॉगिन करा";
                     loginBtn.disabled = false;
                 }
             })
             .catch(err => {
-                alert("इंटरनेट एरर! कृपया पुन्हा प्रयत्न करा.");
+                alert("इंटरनेट एरर! कृपया आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.");
                 loginBtn.innerText = "लॉगिन करा";
                 loginBtn.disabled = false;
             });
