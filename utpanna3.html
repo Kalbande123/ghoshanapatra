@@ -13,7 +13,6 @@
     <style>
         body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
         
-        /* फॉर्म डिझाईन */
         .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .form-section { margin-bottom: 15px; }
         .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
@@ -24,12 +23,10 @@
         .upload-box { border: 2px dashed #cbd5e1; padding: 15px; border-radius: 8px; text-align: center; background: #f8fafc; margin-top: 15px; }
         .print-btn { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
         
-        /* वेबकॅम मोडल */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 100%; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 90%; }
         video { width: 100%; border-radius: 6px; background: #000; }
 
-        /* प्रिंट सेक्शन */
         .print-section { display: none; font-size: 17px; line-height: 2.2; color: #000; }
 
         @media print {
@@ -57,7 +54,7 @@
     <form id="income3Form">
         <div class="form-section">
             <label>अर्जदाराचे नाव:</label>
-            <input type="text" id="name" placeholder="संपूर्ण नाव" required>
+            <input type="text" id="name" required>
         </div>
 
         <div class="grid-2">
@@ -86,15 +83,15 @@
         <div class="grid-3">
             <div class="form-section">
                 <label>2023-2024:</label>
-                <input type="text" id="inc1" placeholder="उदा. ५०" required>
+                <input type="text" id="inc1" required>
             </div>
             <div class="form-section">
                 <label>2024-2025:</label>
-                <input type="text" id="inc2" placeholder="उदा. ५५" required>
+                <input type="text" id="inc2" required>
             </div>
             <div class="form-section">
                 <label>2025-2026:</label>
-                <input type="text" id="inc3" placeholder="उदा. ६०" required>
+                <input type="text" id="inc3" required>
             </div>
         </div>
 
@@ -121,6 +118,8 @@
                 <label for="imageInput" style="background: #2563eb; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">फाईल निवडा</label>
                 <button type="button" onclick="openCamModal()" style="background: #16a34a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">वेबकॅम फोटो</button>
             </div>
+            <!-- निवडलेला फोटो दाखवण्यासाठी (Preview) -->
+            <img id="formPreviewImg" src="" style="display: none; width: 80px; height: 100px; object-fit: cover; margin: 15px auto 0; border: 2px solid #cbd5e1; border-radius: 8px;" alt="Preview">
         </div>
 
         <button type="submit" class="print-btn" id="submitBtn"><i class="fas fa-print"></i> सबमिट करा व प्रिंट काढा (१ टोकन)</button>
@@ -130,25 +129,23 @@
 <!-- वेबकॅम मोडल -->
 <div class="modal" id="camModal">
     <div class="modal-content">
-        <h3>थेट कॅमेरा</h3>
+        <h3 style="margin-top: 0; margin-bottom: 10px;">थेट कॅमेरा</h3>
         <video id="webcamVideo" autoplay playsinline></video>
         <canvas id="canvas" style="display:none;"></canvas>
-        <div style="margin-top: 15px; display: flex; justify-content: space-between;">
-            <button type="button" onclick="capturePhoto()" style="background: #16a34a; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">फोटो घ्या</button>
-            <button type="button" onclick="closeCamModal()" style="background: #dc2626; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">बंद करा</button>
+        <div style="margin-top: 15px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <button type="button" onclick="capturePhoto()" style="flex: 1; background: #16a34a; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">फोटो घ्या</button>
+            <button type="button" onclick="switchCamera()" style="flex: 1; background: #f59e0b; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;"><i class="fas fa-sync-alt"></i> बदला</button>
+            <button type="button" onclick="closeCamModal()" style="flex: 1; background: #dc2626; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">बंद करा</button>
         </div>
     </div>
 </div>
 
-<!-- प्रिंट आऊटपुट सेक्शन -->
 <div class="print-section" id="output">
     <div class="photo-wrapper">
         <img id="printPhoto" src="">
     </div>
     
-    <div class="heading">
-        उत्पन्न घोषणापत्र
-    </div>
+    <div class="heading">उत्पन्न घोषणापत्र</div>
     
     <p class="paragraph">
         मा. श्री / श्रीमती <strong id="out_name"></strong> श्री <strong id="out_father"></strong> यांचा मुलगा/मुलगी/पत्नी वय <strong id="out_age"></strong> व्यवसाय <strong id="out_occupation"></strong> रा. <strong id="out_address"></strong> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2023-2024 मध्ये <strong><span id="out_inc1"></span></strong>, 2024-2025 मध्ये <strong><span id="out_inc2"></span></strong>, आणि 2025-2026 मध्ये <strong><span id="out_inc3"></span> हजार</strong> आहे आणि मला <strong id="out_purpose"></strong> या करिता स्वयघोषणा आधारे करतो / करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
@@ -173,6 +170,7 @@
 
 <script>
     let mediaStream = null;
+    let currentFacingMode = 'environment';
 
     window.onload = function() {
         const today = new Date().toISOString().split('T')[0];
@@ -182,17 +180,33 @@
     function loadPhoto(event) {
         const file = event.target.files[0];
         if (file) {
-            document.getElementById('printPhoto').src = URL.createObjectURL(file);
+            const url = URL.createObjectURL(file);
+            document.getElementById('printPhoto').src = url;
+            
+            const preview = document.getElementById('formPreviewImg');
+            preview.src = url;
+            preview.style.display = 'block';
         }
     }
 
     function openCamModal() {
-        const modal = document.getElementById('camModal');
-        modal.style.display = 'flex';
+        document.getElementById('camModal').style.display = 'flex';
+        startCamera();
+    }
+
+    function startCamera() {
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
         const video = document.getElementById('webcamVideo');
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false })
             .then(stream => { mediaStream = stream; video.srcObject = stream; })
-            .catch(err => { alert("कॅमेरा सुरू होऊ शकला नाही."); modal.style.display = 'none'; });
+            .catch(err => { alert("कॅमेरा सुरू होऊ शकला नाही."); document.getElementById('camModal').style.display = 'none'; });
+    }
+
+    function switchCamera() {
+        currentFacingMode = (currentFacingMode === 'user') ? 'environment' : 'user';
+        startCamera();
     }
 
     function capturePhoto() {
@@ -200,7 +214,14 @@
         const canvas = document.getElementById('canvas');
         canvas.width = video.videoWidth || 320; canvas.height = video.videoHeight || 240;
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-        document.getElementById('printPhoto').src = canvas.toDataURL('image/png');
+        
+        const dataUrl = canvas.toDataURL('image/png');
+        document.getElementById('printPhoto').src = dataUrl;
+        
+        const preview = document.getElementById('formPreviewImg');
+        preview.src = dataUrl;
+        preview.style.display = 'block';
+        
         closeCamModal();
     }
 
@@ -227,12 +248,8 @@
         .then(data => {
             if(data.status === 'success') {
 
-                // --- Live Token Update Code ---
                 let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
-                if(currentTokens > 0) {
-                    localStorage.setItem('remainingTokens', currentTokens - 1);
-                }
-                // ------------------------------
+                if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - 1); }
 
                 const name = document.getElementById('name').value;
                 const address = document.getElementById('address').value;
@@ -259,7 +276,22 @@
                 document.getElementById('out_name2').innerText = name;
                 document.getElementById('out_address2').innerText = address;
 
-                setTimeout(() => { window.print(); window.location.href = "home.html"; }, 500);
+                // प्रिंट कमांड दिल्यानंतर रिडायरेक्ट करण्याऐवजी बटन बदलणे
+                setTimeout(() => {
+                    window.print();
+                    submitBtn.style.display = 'none';
+                    
+                    const successBtn = document.createElement('a');
+                    successBtn.href = "home.html";
+                    successBtn.className = "print-btn";
+                    successBtn.style.display = "block";
+                    successBtn.style.textAlign = "center";
+                    successBtn.style.textDecoration = "none";
+                    successBtn.style.background = "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)";
+                    successBtn.innerHTML = "<i class='fas fa-check-circle'></i> यशस्वी! डॅशबोर्डवर परत जा";
+                    
+                    submitBtn.parentNode.appendChild(successBtn);
+                }, 500);
 
             } else {
                 alert("त्रुटी: " + data.message);
