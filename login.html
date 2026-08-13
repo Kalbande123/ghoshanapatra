@@ -5,131 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>लॉगिन - SevaSpot Center</title>
     
-    <!-- गुगल फॉन्ट्स आणि आयकॉन्स -->
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- कॉन्फिगरेशन फाईल (गुगल शीट लिंकसाठी) -->
     <script src="config.js"></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Mukta', sans-serif;
-        }
-
-        body {
-            background-color: #f1f5f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .logo-area {
-            margin-bottom: 25px;
-        }
-
-        /* नवीन लोगो डिझाईन */
-        .site-logo {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
-
-        .logo-area h2 {
-            color: #1e3a8a;
-            font-size: 26px;
-            font-weight: 700;
-        }
-
-        .logo-area p {
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #334155;
-            font-size: 15px;
-        }
-
-        .input-group i {
-            position: absolute;
-            top: 40px;
-            left: 15px;
-            color: #94a3b8;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 12px 12px 40px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 15px;
-            background: #f8fafc;
-            transition: 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #ea580c;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
-        }
-
-        .login-btn {
-            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        .login-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-        
-        .login-btn:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-            transform: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
+        body { background-color: #f1f5f9; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .logo-area { margin-bottom: 25px; }
+        .site-logo { width: 70px; height: 70px; object-fit: contain; margin-bottom: 10px; }
+        .logo-area h2 { color: #1e3a8a; font-size: 26px; font-weight: 700; }
+        .logo-area p { color: #64748b; font-size: 14px; }
+        .input-group { position: relative; margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #334155; font-size: 15px; }
+        .input-group i { position: absolute; top: 40px; left: 15px; color: #94a3b8; }
+        .input-group input { width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; background: #f8fafc; transition: 0.3s; }
+        .input-group input:focus { outline: none; border-color: #ea580c; background: #fff; box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1); }
+        .login-btn { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .login-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .login-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
     </style>
 </head>
 <body>
 
     <div class="login-container">
         <div class="logo-area">
-            <!-- आयकॉन ऐवजी आता तुमचा मूळ लोगो दिसेल -->
             <img src="logo.png" alt="SevaSpot Logo" class="site-logo">
             <h2>सेवास्पॉट Center</h2>
             <p>आपली सेवा, आमची जबाबदारी</p>
@@ -141,13 +42,11 @@
                 <i class="fas fa-phone-alt"></i>
                 <input type="text" id="username" placeholder="तुमचा नोंदणीकृत मोबाईल नंबर" required>
             </div>
-
             <div class="input-group">
                 <label>पासवर्ड</label>
                 <i class="fas fa-lock"></i>
                 <input type="password" id="password" placeholder="तुमचा पासवर्ड टाका" required>
             </div>
-
             <button type="submit" class="login-btn" id="loginBtn">लॉगिन करा</button>
         </form>
     </div>
@@ -175,15 +74,20 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    // Fallback जोडले आहेत (डेटा जर रिकामी आला तरी क्रॅश होणार नाही)
                     localStorage.setItem('username', user);
                     localStorage.setItem('userFullName', data.name || "युजर");
                     localStorage.setItem('remainingTokens', data.remaining || 0);
                     
-                    // डॅशबोर्डवर (home.html) जाणे
-                    window.location.href = "home.html";
+                    // --- स्मार्ट लॉगिन सिस्टीम (Role-Based Routing) ---
+                    // टीप: जेव्हा तुम्हाला तुमचा खरा नंबर टाकायचा असेल, तेव्हा '9999999999' च्या जागी तो नंबर टाका.
+                    if(user === '9999999999') {
+                        window.location.href = "admin.html"; // ॲडमिन पेजवर जाईल
+                    } else {
+                        window.location.href = "home.html"; // सामान्य युजर डॅशबोर्डवर जाईल
+                    }
+                    // ---------------------------------------------------
+                    
                 } else {
-                    // नवीन मराठी एरर मेसेज
                     alert("लॉगिन अयशस्वी! \nतुमचा मोबाईल नंबर किंवा पासवर्ड चुकीचा आहे. कृपया पुन्हा तपासून पहा."); 
                     loginBtn.innerText = "लॉगिन करा";
                     loginBtn.disabled = false;
@@ -196,6 +100,5 @@
             });
         });
     </script>
-
 </body>
 </html>
