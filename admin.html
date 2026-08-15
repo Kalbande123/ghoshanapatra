@@ -297,7 +297,7 @@
             document.getElementById('rechRemark').value = act + " " + amt + " Tokens";
         }
 
-        // 1. ADD USER (Now clears the form after success)
+        // 1. ADD USER
         function addUser() {
             let btn = document.getElementById('btnAdd');
             btn.innerText = "प्रक्रिया चालू आहे...";
@@ -317,7 +317,6 @@
             .then(data=>{
                 alert(data.message);
                 if(data.status === 'success') {
-                    // Form Reset
                     document.getElementById('addName').value = "";
                     document.getElementById('addShop').value = "";
                     document.getElementById('addAddress').value = "";
@@ -333,7 +332,7 @@
             });
         }
 
-        // 2. SEARCH USER (Fixed UI showing problem)
+        // 2. SEARCH USER
         function searchUser(type) {
             let searchId = "";
             let btnId = "";
@@ -370,7 +369,7 @@
                         document.getElementById('edUsername').value = data.username;
                         document.getElementById('edPass').value = data.pass;
                         
-                        let st = data.status ? data.status.toLowerCase() : 'active';
+                        let st = data.userStatus ? data.userStatus.toLowerCase() : 'active';
                         document.getElementById('edStatus').value = (st === 'blocked') ? 'Blocked' : 'Active';
                     }
                     if(type==='recharge') {
@@ -380,15 +379,15 @@
                     if(type==='statement') {
                         document.getElementById('stmtFilters').style.display = 'block';
                         document.getElementById('stmtCard').innerHTML = `युजर: <span>${data.name}</span> | मोबाईल: <span>${data.mobile}</span>`;
-                        // Setup PDF Header Info
+                        
                         document.getElementById('pdfName').innerText = data.name;
                         document.getElementById('pdfShop').innerText = data.shop;
                         document.getElementById('pdfMobile').innerText = data.mobile;
                         document.getElementById('pdfUsername').innerText = data.username;
-                        document.getElementById('pdfStatus').innerText = data.status;
+                        document.getElementById('pdfStatus').innerText = data.userStatus;
                     }
                 } else {
-                    alert(data.message); // Shows "युजर सापडला नाही"
+                    alert(data.message); 
                 }
             }).catch(err => {
                 btn.innerText = "शोधा";
@@ -444,7 +443,7 @@
             
             let formData = new FormData();
             formData.append('action', 'statement');
-            formData.append('mobile', currentUserData.username); // Always fetch by username internally
+            formData.append('mobile', currentUserData.username); 
 
             fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData }).then(res=>res.json()).then(data=>{
                 if(data.status==='success') {
