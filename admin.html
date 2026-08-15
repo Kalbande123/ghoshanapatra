@@ -40,12 +40,14 @@
         .user-card { background: #f8fafc; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 15px; }
         .user-card span { font-weight: bold; color: #ea580c; }
 
-        /* PDF Statement Design */
+        /* PDF Statement Design - Fixed Width for A4 Compatibility */
         #printAreaWrapper { display: none; margin-top: 30px; overflow-x: auto; }
         
         .pdf-container { 
-            width: 800px; margin: 0 auto; background: white; padding: 20px; 
+            width: 750px; /* Reduced from 800px to strictly fit within A4 */
+            margin: 0 auto; background: white; padding: 20px; 
             border: 4px solid #001040; border-radius: 10px; font-family: 'Mukta', sans-serif; position: relative;
+            box-sizing: border-box; /* Ensures padding doesn't increase width */
         }
         
         .pdf-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #001040; padding-bottom: 10px; margin-bottom: 20px; }
@@ -73,13 +75,13 @@
         .pill-title-center { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #001040; color: white; padding: 2px 15px; border-radius: 15px; font-size: 14px; font-weight: bold; }
         
         .pdf-table-wrapper { border: 2px solid #001040; border-radius: 8px; position: relative; padding-top: 15px; margin-bottom: 20px; }
-        table.pdf-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.pdf-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; word-wrap: break-word; } /* Fixed layout prevents expansion */
         .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
         .pdf-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #000; }
         .text-left { text-align: left !important; }
         
         .pdf-summary-wrapper { border: 2px solid #001040; border-radius: 8px; position: relative; padding: 20px; display: flex; justify-content: space-around; }
-        .sum-box { border: 1px solid #001040; border-radius: 8px; padding: 10px 20px; text-align: center; min-width: 180px; }
+        .sum-box { border: 1px solid #001040; border-radius: 8px; padding: 10px 15px; text-align: center; min-width: 160px; }
         .sum-title { font-weight: bold; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
         .sum-val { font-size: 28px; font-weight: bold; }
         
@@ -200,7 +202,7 @@
                     
                     <div class="pdf-header">
                         <div class="pdf-logo">
-                            <!-- इथे लोगो ऍड केला आहे. जर logo.png नसेल, तर कॉम्प्युटरचा आयकॉन दिसेल -->
+                            <!-- इथे लोगो ऍड केला आहे -->
                             <img src="logo.png" alt="" onerror="this.style.display='none'; document.getElementById('iconLogo').style.display='block';">
                             <i id="iconLogo" class="fas fa-desktop" style="font-size: 50px; display: none;"></i>
                             <br>सेवास्पॉट<br>Center
@@ -278,8 +280,9 @@
                         </div>
                     </div>
 
+                    <!-- फुटरमधील बदल: फक्त आयकॉन आणि नोट -->
                     <div class="pdf-footer">
-                        <i class="fas fa-globe"></i> www.sevaspotcenter.in &nbsp; | &nbsp; <i class="fas fa-map-marker-alt"></i> Hadgaon, Dist. Nanded
+                        <i class="fas fa-globe"></i> (वेबसाईट नंतर ॲड केली जाईल) &nbsp; | &nbsp; <i class="fas fa-map-marker-alt"></i> Hadgaon, Dist. Nanded
                     </div>
                 </div>
                 <button class="btn-red" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> PDF डाऊनलोड करा</button>
@@ -296,7 +299,7 @@
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
             
-            // टॅब बदलल्यावर जुने स्टेटमेंट आणि फॉर्म लपवणे (Clean up)
+            // Clean up
             document.getElementById('printAreaWrapper').style.display = 'none';
             document.getElementById('stmtFilters').style.display = 'none';
             document.getElementById('rechForm').style.display = 'none';
@@ -392,7 +395,6 @@
                         document.getElementById('stmtFilters').style.display = 'block';
                         document.getElementById('stmtCard').innerHTML = `युजर: <span>${data.name}</span> | मोबाईल: <span>${data.mobile}</span>`;
                         
-                        // नवीन सर्च केल्यावर आधीचे स्टेटमेंट लपवणे (Reset Statement View)
                         document.getElementById('printAreaWrapper').style.display = 'none';
 
                         document.getElementById('pdfName').innerText = data.name;
@@ -427,7 +429,7 @@
                 alert(data.message);
                 if(data.status === 'success') {
                     document.getElementById('editForm').style.display = 'none';
-                    document.getElementById('editSearch').value = ""; // Clear Search
+                    document.getElementById('editSearch').value = ""; 
                 }
             });
         }
@@ -443,7 +445,6 @@
             fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData }).then(res=>res.json()).then(data=>{
                 alert(data.message);
                 if(data.status === 'success') {
-                    // फॉर्म आणि डेटा क्लिअर करणे (Reset Recharge Data)
                     document.getElementById('rechForm').style.display = 'none';
                     document.getElementById('rechSearch').value = ""; 
                     document.getElementById('rechAmount').value = "";
@@ -526,11 +527,10 @@
             });
         }
 
-        // PDF Generation (Fixed Zoom and Crop Issue)
+        // PDF Generation Fix
         function downloadPDF() {
             const element = document.getElementById('pdfTemplate');
             
-            // पीडीएफ तयार होत असल्याचे बटनावर दाखवण्यासाठी
             let printBtn = document.querySelector('.btn-red');
             let originalText = printBtn.innerHTML;
             printBtn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> PDF तयार होत आहे...";
@@ -542,14 +542,11 @@
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
-                    useCORS: true, 
-                    windowWidth: 850, // यामुळे झूम प्रॉब्लेम १००% सॉल्व्ह होईल
-                    scrollY: 0 
+                    useCORS: true 
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
-            // पीडीएफ डाऊनलोड झाल्यावर बटन पुन्हा नॉर्मल करणे
             html2pdf().set(opt).from(element).save().then(() => {
                 printBtn.innerHTML = originalText;
                 printBtn.disabled = false;
