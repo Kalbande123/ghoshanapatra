@@ -110,11 +110,11 @@
       <img id="formPreviewImg" src="" style="display: none; width: 80px; height: 100px; object-fit: cover; margin: 15px auto 0; border: 2px solid #cbd5e1; border-radius: 8px;" alt="Preview">
     </div>
 
-    <button type="submit" class="print-btn" id="submitBtn"><i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (१ टोकन)</button>
+    <button type="submit" class="print-btn" id="submitBtn"><i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा</button>
   </form>
 </div>
 
-<!-- वेबकॅम मोडल (कॅमेरा बदलण्याचे बटण जोडले आहे) -->
+<!-- वेबकॅम मोडल -->
 <div class="modal" id="camModal">
   <div class="modal-content">
       <h3 style="margin-top: 0; margin-bottom: 10px;">थेट कॅमेरा</h3>
@@ -159,11 +159,12 @@
 
 <script>
   let mediaStream = null;
-  let currentFacingMode = 'environment'; // मोबाईलचा मागचा कॅमेरा डीफॉल्ट
+  let currentFacingMode = 'environment';
 
   window.onload = function() {
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('date').value = today;
+      document.getElementById('submitBtn').innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
   };
 
   function loadPhoto(event) {
@@ -171,7 +172,6 @@
     if (file) {
       const url = URL.createObjectURL(file);
       document.getElementById('photo').src = url;
-      
       const preview = document.getElementById('formPreviewImg');
       preview.src = url;
       preview.style.display = 'block';
@@ -184,23 +184,11 @@
   }
 
   function startCamera() {
-      if (mediaStream) {
-          mediaStream.getTracks().forEach(track => track.stop());
-      }
+      if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
       const video = document.getElementById('webcamVideo');
-      
-      navigator.mediaDevices.getUserMedia({
-          video: { facingMode: currentFacingMode },
-          audio: false
-      })
-      .then(stream => { 
-          mediaStream = stream; 
-          video.srcObject = stream; 
-      })
-      .catch(err => { 
-          alert("कॅमेरा सुरू होऊ शकला नाही. परवानग्या तपासा."); 
-          document.getElementById('camModal').style.display = 'none'; 
-      });
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false })
+      .then(stream => { mediaStream = stream; video.srcObject = stream; })
+      .catch(err => { alert("कॅमेरा सुरू होऊ शकला नाही."); document.getElementById('camModal').style.display = 'none'; });
   }
 
   function switchCamera() {
@@ -214,14 +202,11 @@
       canvas.width = video.videoWidth || 320; 
       canvas.height = video.videoHeight || 240;
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-      
       const dataUrl = canvas.toDataURL('image/png');
       document.getElementById('photo').src = dataUrl;
-      
       const preview = document.getElementById('formPreviewImg');
       preview.src = dataUrl;
       preview.style.display = 'block';
-      
       closeCamModal();
   }
 
@@ -238,23 +223,25 @@
     submitBtn.disabled = true;
 
     const username = localStorage.getItem('username') || "9876543210";
+    const applicantName = document.getElementById('name').value; // अर्जदाराचे नाव कॅप्चर केले
+
     const formData = new FormData();
     formData.append('action', 'submitForm');
     formData.append('username', username);
     formData.append('ghoshnaType', 'उत्पन्न घोषणापत्र');
+    formData.append('applicantName', applicantName); // नाव बॅकएंडला पाठवले
 
     fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
     .then(res => res.json())
     .then(data => {
         if(data.status === 'success') {
             
+            // 1 ऐवजी आता CONFIG मधून टोकन मायनस होतील
             let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
-            if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - 1); }
+            if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - CONFIG.GHOSHANA_TOKEN_COST); }
 
-            const name = document.getElementById('name').value;
             const address = document.getElementById('address').value;
-
-            document.getElementById('out_name').innerText = name;
+            document.getElementById('out_name').innerText = applicantName;
             document.getElementById('out_father').innerText = document.getElementById('father').value;
             document.getElementById('out_age').innerText = document.getElementById('age').value;
             document.getElementById('out_occupation').innerText = document.getElementById('occupation').value;
@@ -269,10 +256,9 @@
                 document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            document.getElementById('out_name2').innerText = name;
+            document.getElementById('out_name2').innerText = applicantName;
             document.getElementById('out_address2').innerText = address;
 
-            // प्रिंट कमांड दिल्यानंतर रिडायरेक्ट करण्याऐवजी बटन बदलणे
             setTimeout(() => {
                 window.print();
                 submitBtn.style.display = 'none';
@@ -291,13 +277,13 @@
 
         } else {
             alert("त्रुटी: " + data.message);
-            submitBtn.innerText = "घोषणापत्र सबमिट करा व प्रिंट काढा (१ टोकन)";
+            submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
             submitBtn.disabled = false;
         }
     })
     .catch(err => {
         alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
-        submitBtn.innerText = "घोषणापत्र सबमिट करा व प्रिंट काढा (१ टोकन)";
+        submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
         submitBtn.disabled = false;
     });
   });
