@@ -296,7 +296,7 @@
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
             
-            // टॅब बदलल्यावर स्टेटमेंट आणि रिचार्ज फॉर्म लपवणे (Clean up)
+            // टॅब बदलल्यावर जुने स्टेटमेंट आणि फॉर्म लपवणे (Clean up)
             document.getElementById('printAreaWrapper').style.display = 'none';
             document.getElementById('stmtFilters').style.display = 'none';
             document.getElementById('rechForm').style.display = 'none';
@@ -526,17 +526,34 @@
             });
         }
 
-        // PDF Generation
+        // PDF Generation (Fixed Zoom and Crop Issue)
         function downloadPDF() {
             const element = document.getElementById('pdfTemplate');
+            
+            // पीडीएफ तयार होत असल्याचे बटनावर दाखवण्यासाठी
+            let printBtn = document.querySelector('.btn-red');
+            let originalText = printBtn.innerHTML;
+            printBtn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> PDF तयार होत आहे...";
+            printBtn.disabled = true;
+
             const opt = {
                 margin: 5,
                 filename: 'Statement_' + currentUserData.username + '.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 3, useCORS: true },
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    windowWidth: 850, // यामुळे झूम प्रॉब्लेम १००% सॉल्व्ह होईल
+                    scrollY: 0 
+                },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(element).save();
+            
+            // पीडीएफ डाऊनलोड झाल्यावर बटन पुन्हा नॉर्मल करणे
+            html2pdf().set(opt).from(element).save().then(() => {
+                printBtn.innerHTML = originalText;
+                printBtn.disabled = false;
+            });
         }
 
         function logoutAdmin() {
