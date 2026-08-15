@@ -118,11 +118,10 @@
                 <label for="imageInput" style="background: #2563eb; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">फाईल निवडा</label>
                 <button type="button" onclick="openCamModal()" style="background: #16a34a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">वेबकॅम फोटो</button>
             </div>
-            <!-- निवडलेला फोटो दाखवण्यासाठी (Preview) -->
             <img id="formPreviewImg" src="" style="display: none; width: 80px; height: 100px; object-fit: cover; margin: 15px auto 0; border: 2px solid #cbd5e1; border-radius: 8px;" alt="Preview">
         </div>
 
-        <button type="submit" class="print-btn" id="submitBtn"><i class="fas fa-print"></i> सबमिट करा व प्रिंट काढा (१ टोकन)</button>
+        <button type="submit" class="print-btn" id="submitBtn"><i class="fas fa-print"></i> सबमिट करा व प्रिंट काढा</button>
     </form>
 </div>
 
@@ -175,6 +174,8 @@
     window.onload = function() {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('date').value = today;
+        // बटनावर CONFIG मधील टोकनची संख्या दाखवणे
+        document.getElementById('submitBtn').innerHTML = `<i class="fas fa-print"></i> सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
     };
 
     function loadPhoto(event) {
@@ -238,23 +239,26 @@
         submitBtn.disabled = true;
 
         const username = localStorage.getItem('username') || "9876543210";
+        const applicantName = document.getElementById('name').value; // अर्जदाराचे नाव
+
         const formData = new FormData();
         formData.append('action', 'submitForm');
         formData.append('username', username);
         formData.append('ghoshnaType', '३ वर्षाचे उत्पन्न घोषणापत्र');
+        formData.append('applicantName', applicantName); // नाव ट्रान्झॅक्शन शीटसाठी जोडले
 
         fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
         .then(res => res.json())
         .then(data => {
             if(data.status === 'success') {
 
+                // स्क्रीनवरील टोकन बरोबर वजा करणे
                 let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
-                if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - 1); }
+                if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - CONFIG.GHOSHANA_TOKEN_COST); }
 
-                const name = document.getElementById('name').value;
                 const address = document.getElementById('address').value;
                 
-                document.getElementById('out_name').innerText = name;
+                document.getElementById('out_name').innerText = applicantName;
                 document.getElementById('out_father').innerText = document.getElementById('father').value;
                 document.getElementById('out_age').innerText = document.getElementById('age').value;
                 document.getElementById('out_occupation').innerText = document.getElementById('occupation').value;
@@ -273,10 +277,9 @@
                     document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
                 }
 
-                document.getElementById('out_name2').innerText = name;
+                document.getElementById('out_name2').innerText = applicantName;
                 document.getElementById('out_address2').innerText = address;
 
-                // प्रिंट कमांड दिल्यानंतर रिडायरेक्ट करण्याऐवजी बटन बदलणे
                 setTimeout(() => {
                     window.print();
                     submitBtn.style.display = 'none';
@@ -295,13 +298,13 @@
 
             } else {
                 alert("त्रुटी: " + data.message);
-                submitBtn.innerText = "सबमिट करा व प्रिंट काढा (१ टोकन)";
+                submitBtn.innerHTML = `<i class="fas fa-print"></i> सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
                 submitBtn.disabled = false;
             }
         })
         .catch(err => {
             alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
-            submitBtn.innerText = "सबमिट करा व प्रिंट काढा (१ टोकन)";
+            submitBtn.innerHTML = `<i class="fas fa-print"></i> सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
             submitBtn.disabled = false;
         });
     });
