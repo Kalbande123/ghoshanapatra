@@ -8,190 +8,283 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- PDF बनवण्यासाठी लायब्ररी -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <!-- कॉन्फिगरेशन फाईल -->
     <script src="config.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
         body { background-color: #f1f5f9; color: #1e293b; padding-bottom: 50px; }
         
-        .navbar { background: #1e3a8a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .navbar h2 { margin: 0; font-size: 24px; display: flex; align-items: center; gap: 10px; }
-        .logout-btn { background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .navbar { background: #001040; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        .logout-btn { background: #ea580c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
-        
-        /* Tabs Styling */
         .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .tab-btn { flex: 1; min-width: 150px; padding: 12px; border: none; background: #f8fafc; color: #64748b; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .tab-btn:hover { background: #e2e8f0; }
-        .tab-btn.active { background: #ea580c; color: white; box-shadow: 0 4px 10px rgba(234, 88, 12, 0.2); }
+        .tab-btn.active { background: #ea580c; color: white; }
         
-        /* Form Sections */
-        .section-content { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); animation: fadeIn 0.4s; }
+        .section-content { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .section-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .section-content h3 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 20px; font-size: 22px; }
         
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; }
-        .form-group input:focus { border-color: #ea580c; outline: none; }
-        
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         
-        .submit-btn { background: #16a34a; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px; }
-        .submit-btn:hover { background: #15803d; }
-        .search-btn { background: #2563eb; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-green { background: #16a34a; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-blue { background: #2563eb; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-red { background: #dc2626; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
         
-        /* Statement Table */
-        .statement-area { margin-top: 30px; display: none; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-        th, td { border: 1px solid #cbd5e1; padding: 12px; text-align: left; }
-        th { background: #f8fafc; color: #1e3a8a; text-align: center; }
-        td.text-center { text-align: center; }
-        .credit { color: #16a34a; font-weight: bold; }
-        .debit { color: #dc2626; font-weight: bold; }
-        .desc-title { font-weight: bold; color: #1e293b; display: block; }
-        .desc-sub { font-size: 12px; color: #64748b; }
+        .user-card { background: #f8fafc; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 15px; }
+        .user-card span { font-weight: bold; color: #ea580c; }
+
+        /* PDF Statement Design matching the image */
+        #printAreaWrapper { display: none; margin-top: 30px; overflow-x: auto; }
         
-        .pdf-btn { background: #dc2626; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; display: block; margin: 20px auto 0; }
+        .pdf-container { 
+            width: 800px; margin: 0 auto; background: white; padding: 20px; 
+            border: 4px solid #001040; border-radius: 10px; font-family: 'Mukta', sans-serif; position: relative;
+        }
         
-        @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+        .pdf-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #001040; padding-bottom: 10px; margin-bottom: 20px; }
+        .pdf-logo { width: 120px; text-align: center; color: #ea580c; font-weight: bold; font-size: 14px; }
+        .pdf-logo i { font-size: 50px; }
+        .pdf-title-box { text-align: center; flex: 1; }
+        .pdf-title-box h1 { color: #001040; font-size: 34px; margin: 0; font-weight: 900; letter-spacing: 1px; }
+        .pdf-title-box h3 { color: #001040; font-size: 18px; margin: 5px 0; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .pdf-title-box h3::before, .pdf-title-box h3::after { content: ""; height: 2px; width: 50px; background: #ea580c; }
+        .pdf-badge { background: #001040; color: white; display: inline-block; padding: 5px 20px; border-radius: 20px; font-size: 18px; font-weight: bold; margin-top: 5px; }
+        .pdf-features { font-size: 14px; font-weight: bold; color: #001040; line-height: 1.8; }
+        
+        .pdf-info-grid { display: flex; border: 2px solid #001040; border-radius: 8px; margin-bottom: 20px; position: relative; }
+        .pdf-info-left { width: 50%; padding: 15px; border-right: 2px solid #001040; }
+        .pdf-info-right { width: 50%; padding: 15px; text-align: center; }
+        
+        .info-row { display: flex; margin-bottom: 8px; font-size: 15px; color: #001040; font-weight: bold; }
+        .info-row i { width: 25px; color: #001040; }
+        .info-row .lbl { width: 100px; }
+        
+        .pill-title { position: absolute; top: -12px; right: 20%; background: #001040; color: white; padding: 2px 15px; border-radius: 15px; font-size: 14px; font-weight: bold; }
+        .pill-title-center { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #001040; color: white; padding: 2px 15px; border-radius: 15px; font-size: 14px; font-weight: bold; }
+        
+        .pdf-table-wrapper { border: 2px solid #001040; border-radius: 8px; position: relative; padding-top: 15px; margin-bottom: 20px; }
+        table.pdf-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
+        .pdf-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #000; }
+        .text-left { text-align: left !important; }
+        
+        .pdf-summary-wrapper { border: 2px solid #001040; border-radius: 8px; position: relative; padding: 20px; display: flex; justify-content: space-around; }
+        .sum-box { border: 1px solid #001040; border-radius: 8px; padding: 10px 20px; text-align: center; min-width: 180px; }
+        .sum-title { font-weight: bold; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
+        .sum-val { font-size: 28px; font-weight: bold; }
+        
+        .pdf-footer { background: #001040; color: white; text-align: center; padding: 8px; border-radius: 0 0 6px 6px; font-size: 14px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <h2><i class="fas fa-shield-alt"></i> ॲडमिन पॅनेल</h2>
+        <h2><i class="fas fa-shield-alt"></i> SevaSpot Admin</h2>
         <button class="logout-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </nav>
 
     <div class="container">
-        <!-- Tabs Navigation -->
+        <!-- Tabs -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('add')"><i class="fas fa-user-plus"></i> Add User</button>
-            <button class="tab-btn" onclick="switchTab('edit')"><i class="fas fa-user-edit"></i> Edit User</button>
-            <button class="tab-btn" onclick="switchTab('recharge')"><i class="fas fa-coins"></i> Recharge</button>
-            <button class="tab-btn" onclick="switchTab('statement')"><i class="fas fa-file-invoice"></i> Statement</button>
+            <button class="tab-btn active" onclick="switchTab('add')">Add User</button>
+            <button class="tab-btn" onclick="switchTab('edit')">Edit User</button>
+            <button class="tab-btn" onclick="switchTab('recharge')">Recharge</button>
+            <button class="tab-btn" onclick="switchTab('statement')">Statement</button>
         </div>
 
-        <!-- 1. Add User Section -->
+        <!-- 1. ADD USER -->
         <div id="add" class="section-content active">
-            <h3>नवीन युजर तयार करा</h3>
+            <h3><i class="fas fa-user-plus"></i> नवीन युजर जोडा</h3>
             <div class="grid-2">
-                <div class="form-group">
-                    <label>संपूर्ण नाव:</label>
-                    <input type="text" id="newName" placeholder="युजरचे नाव">
-                </div>
-                <div class="form-group">
-                    <label>मोबाईल नंबर:</label>
-                    <input type="text" id="newMobile" placeholder="10 अंकी नंबर">
-                </div>
+                <div class="form-group"><label>नाव:</label><input type="text" id="addName"></div>
+                <div class="form-group"><label>शॉपचे नाव:</label><input type="text" id="addShop"></div>
+                <div class="form-group"><label>पत्ता:</label><input type="text" id="addAddress"></div>
+                <div class="form-group"><label>मोबाईल नंबर:</label><input type="text" id="addMobile"></div>
+                <div class="form-group"><label>युजरनेम (लॉगिन आयडी):</label><input type="text" id="addUsername"></div>
+                <div class="form-group"><label>पासवर्ड:</label><input type="text" id="addPass"></div>
+                <div class="form-group"><label>सुरुवातीचे टोकन:</label><input type="number" id="addTokens" value="0"></div>
             </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>पासवर्ड सेट करा:</label>
-                    <input type="text" id="newPass" placeholder="पासवर्ड">
-                </div>
-                <div class="form-group">
-                    <label>सुरुवातीचे टोकन (Opening Balance):</label>
-                    <input type="number" id="newTokens" placeholder="उदा. 100">
-                </div>
-            </div>
-            <button class="submit-btn" id="btnAdd" onclick="executeAction('Add User', 'btnAdd')">युजर सेव्ह करा</button>
+            <button class="btn-green" id="btnAdd" onclick="addUser()">युजर सेव्ह करा</button>
         </div>
 
-        <!-- 2. Edit User Section -->
+        <!-- 2. EDIT USER -->
         <div id="edit" class="section-content">
-            <h3>युजर डेटा एडिट करा</h3>
-            <div class="form-group">
-                <label>जुन्या मोबाईल नंबरने युजर शोधा:</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="searchMobile" placeholder="जुना मोबाईल नंबर टाका" style="flex: 2;">
-                    <button class="search-btn" id="btnSearch" style="flex: 1; margin:0;" onclick="executeAction('Search User', 'btnSearch')">शोधा</button>
-                </div>
+            <h3><i class="fas fa-user-edit"></i> युजर एडिट करा</h3>
+            <div class="form-group" style="display:flex; gap:10px;">
+                <input type="text" id="editSearch" placeholder="मोबाईल नंबर किंवा युजरनेम टाका" style="flex:1;">
+                <button class="btn-blue" style="width:120px; margin:0;" onclick="searchUser('edit')">शोधा</button>
             </div>
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0;">
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>नवीन/अपडेटेड नाव:</label>
-                    <input type="text" id="editName" placeholder="नाव बदलायचे असल्यास">
+            <div id="editForm" style="display:none; margin-top:20px; border-top:1px solid #ccc; padding-top:20px;">
+                <input type="hidden" id="editOldId">
+                <div class="grid-3">
+                    <div class="form-group"><label>नाव:</label><input type="text" id="edName"></div>
+                    <div class="form-group"><label>शॉपचे नाव:</label><input type="text" id="edShop"></div>
+                    <div class="form-group"><label>पत्ता:</label><input type="text" id="edAddress"></div>
+                    <div class="form-group"><label>मोबाईल:</label><input type="text" id="edMobile"></div>
+                    <div class="form-group"><label>युजरनेम:</label><input type="text" id="edUsername"></div>
+                    <div class="form-group"><label>पासवर्ड:</label><input type="text" id="edPass"></div>
+                    <div class="form-group">
+                        <label>स्टेटस:</label>
+                        <select id="edStatus">
+                            <option value="Active">Active</option>
+                            <option value="Blocked">Blocked</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>नवीन मोबाईल नंबर:</label>
-                    <input type="text" id="editMobile" placeholder="नंबर हरवला असल्यास नवीन टाका">
-                </div>
-                <div class="form-group">
-                    <label>नवीन पासवर्ड:</label>
-                    <input type="text" id="editPass" placeholder="पासवर्ड बदलायचा असल्यास">
-                </div>
+                <button class="btn-green" onclick="updateUser()">डेटा अपडेट करा</button>
             </div>
-            <button class="submit-btn" id="btnUpdate" onclick="executeAction('Update User', 'btnUpdate')">डेटा अपडेट करा</button>
         </div>
 
-        <!-- 3. Recharge Section -->
+        <!-- 3. RECHARGE -->
         <div id="recharge" class="section-content">
-            <h3>टोकन रिचार्ज करा</h3>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>युजरचा मोबाईल नंबर:</label>
-                    <input type="text" id="rechMobile" placeholder="मोबाईल नंबर">
+            <h3><i class="fas fa-coins"></i> टोकन रिचार्ज</h3>
+            <div class="form-group" style="display:flex; gap:10px;">
+                <input type="text" id="rechSearch" placeholder="युजरनेम टाका" style="flex:1;">
+                <button class="btn-blue" style="width:120px; margin:0;" onclick="searchUser('recharge')">शोधा</button>
+            </div>
+            <div id="rechForm" style="display:none; margin-top:15px;">
+                <div class="user-card" id="rechCard"></div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>ॲक्शन (प्रकार):</label>
+                        <select id="rechAction" onchange="autoRemark()">
+                            <option value="Recharge">Recharge</option>
+                            <option value="Welcome Bonus">Welcome Bonus</option>
+                            <option value="Adjustment">Adjustment</option>
+                            <option value="Refund">Refund</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>टोकन रक्कम:</label>
+                        <input type="number" id="rechAmount" oninput="autoRemark()">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>किती टोकन द्यायचे आहेत?</label>
-                    <input type="number" id="rechAmount" placeholder="उदा. 50">
+                    <label>शेरा (Remark):</label>
+                    <input type="text" id="rechRemark">
                 </div>
+                <button class="btn-green" onclick="submitRecharge()">रिचार्ज करा</button>
             </div>
-            <div class="form-group">
-                <label>शेरा (Remark / Note):</label>
-                <input type="text" id="rechRemark" placeholder="उदा. 500 Rs Received / Bonus Token">
-            </div>
-            <button class="submit-btn" id="btnRecharge" onclick="executeAction('Recharge', 'btnRecharge')">रिचार्ज करा</button>
         </div>
 
-        <!-- 4. Statement Section -->
+        <!-- 4. STATEMENT -->
         <div id="statement" class="section-content">
-            <h3>टोकन स्टेटमेंट (Passbook)</h3>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>युजरचा मोबाईल नंबर:</label>
-                    <input type="text" id="stmtMobile" placeholder="मोबाईल नंबर">
-                </div>
+            <h3><i class="fas fa-file-invoice"></i> स्टेटमेंट (Statement)</h3>
+            <div class="form-group" style="display:flex; gap:10px;">
+                <input type="text" id="stmtSearch" placeholder="युजरनेम टाका" style="flex:1;">
+                <button class="btn-blue" style="width:120px; margin:0;" onclick="searchUser('statement')">शोधा</button>
             </div>
-            <button class="search-btn" id="btnStatement" onclick="fetchStatement()">स्टेटमेंट शोधा</button>
+            
+            <div id="stmtFilters" style="display:none; margin-top:15px;">
+                <div class="user-card" id="stmtCard"></div>
+                <div class="grid-2">
+                    <div class="form-group"><label>कुठून (From Date):</label><input type="date" id="stmtFrom"></div>
+                    <div class="form-group"><label>कुठपर्यंत (To Date):</label><input type="date" id="stmtTo"></div>
+                </div>
+                <button class="btn-green" id="btnFetchStmt" onclick="fetchStatement()">स्टेटमेंट जनरेट करा</button>
+            </div>
 
-            <!-- PDF Area -->
-            <div class="statement-area" id="printArea">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2 style="color: #1e3a8a; margin: 0;">SevaSpot Center</h2>
-                    <p style="margin: 5px 0 0 0; font-weight: bold;">Token Account Statement</p>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">मोबाईल नंबर: <span id="displayStmtMobile" style="color: #ea580c;">-</span></p>
+            <!-- PDF PRINT AREA -->
+            <div id="printAreaWrapper">
+                <div class="pdf-container" id="pdfTemplate">
+                    
+                    <div class="pdf-header">
+                        <div class="pdf-logo">
+                            <i class="fas fa-desktop"></i><br>सेवास्पॉट<br>Center
+                        </div>
+                        <div class="pdf-title-box">
+                            <h1>SEVASPOT CENTER</h1>
+                            <h3>घोषणापत्र सेवा पोर्टल</h3>
+                            <div class="pdf-badge">USER TOKEN STATEMENT</div>
+                        </div>
+                        <div class="pdf-features">
+                            <i class="far fa-check-circle"></i> विश्वास<br>
+                            <i class="fas fa-users"></i> सेवा<br>
+                            <i class="fas fa-award"></i> सुविधा<br>
+                            <i class="fas fa-star"></i> पारदर्शकता
+                        </div>
+                    </div>
+
+                    <div class="pdf-info-grid">
+                        <div class="pill-title">STATEMENT PERIOD</div>
+                        <div class="pdf-info-left">
+                            <div class="info-row"><i class="fas fa-user-circle"></i> <span class="lbl">नाव</span>: <span id="pdfName" style="margin-left:10px;">-</span></div>
+                            <div class="info-row"><i class="fas fa-store"></i> <span class="lbl">शॉप नाव</span>: <span id="pdfShop" style="margin-left:10px;">-</span></div>
+                            <div class="info-row"><i class="fas fa-phone-alt"></i> <span class="lbl">मोबाईल नंबर</span>: <span id="pdfMobile" style="margin-left:10px;">-</span></div>
+                            <div class="info-row"><i class="fas fa-user"></i> <span class="lbl">यूजरनेम</span>: <span id="pdfUsername" style="margin-left:10px;">-</span></div>
+                            <div class="info-row"><i class="fas fa-check-square"></i> <span class="lbl">स्थिती</span>: <span id="pdfStatus" style="margin-left:10px;">-</span></div>
+                        </div>
+                        <div class="pdf-info-right">
+                            <div style="margin-top:20px; font-size:15px; font-weight:bold; color:#001040;">
+                                <div style="margin-bottom:10px;"><i class="far fa-calendar-alt"></i> दिनांक कालावधी : <span id="pdfFrom"></span> ते <span id="pdfTo"></span></div>
+                                <div style="margin-bottom:15px;"><i class="far fa-clock"></i> स्टेटमेंट तयार दिनांक : <span id="pdfGenDate"></span></div>
+                                <div style="border:1px solid #001040; border-radius:5px; padding:5px; display:inline-block;">
+                                    एकूण कालावधी : <span id="pdfDays" style="border-bottom:1px solid #000; width:50px; display:inline-block; text-align:center;">0</span> दिवस
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pdf-table-wrapper">
+                        <div class="pill-title-center">TRANSACTION DETAILS</div>
+                        <table class="pdf-table">
+                            <thead>
+                                <tr>
+                                    <th width="5%">अ.क्र.</th>
+                                    <th width="15%">दिनांक व वेळ</th>
+                                    <th width="15%">तपशील</th>
+                                    <th width="20%">घोषणापत्र प्रकार / तपशील</th>
+                                    <th width="20%">अर्जदाराचे नाव / शेरा</th>
+                                    <th width="8%">जमा Tokens</th>
+                                    <th width="8%">वापरलेले Tokens</th>
+                                    <th width="9%">शिल्लक Tokens</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pdfTableBody">
+                                <!-- Data will populate here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- html2pdf handles page breaks natively. Summary will push to bottom. -->
+                    <div class="pdf-summary-wrapper" style="page-break-inside: avoid;">
+                        <div class="pill-title-center">सारांश (SUMMARY)</div>
+                        <div class="sum-box">
+                            <div class="sum-title" style="color:#16a34a;"><i class="fas fa-arrow-circle-down"></i> एकूण रिचार्ज (जमा)</div>
+                            <div class="sum-val" id="sumCredit" style="color:#16a34a;">0</div>
+                            <div style="color:#16a34a; font-weight:bold;">Tokens</div>
+                        </div>
+                        <div class="sum-box">
+                            <div class="sum-title" style="color:#dc2626;"><i class="fas fa-arrow-circle-up"></i> एकूण वापरले (डेबिट)</div>
+                            <div class="sum-val" id="sumDebit" style="color:#dc2626;">0</div>
+                            <div style="color:#dc2626; font-weight:bold;">Tokens</div>
+                        </div>
+                        <div class="sum-box">
+                            <div class="sum-title" style="color:#001040;"><i class="fas fa-stopwatch"></i> शिल्लक Tokens</div>
+                            <div class="sum-val" id="sumBalance" style="color:#001040;">0</div>
+                            <div style="color:#001040; font-weight:bold;">Tokens</div>
+                        </div>
+                    </div>
+
+                    <div class="pdf-footer">
+                        <i class="fas fa-globe"></i> www.sevaspotcenter.in &nbsp; | &nbsp; <i class="fas fa-map-marker-alt"></i> Hadgaon, Dist. Nanded
+                    </div>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>दिनांक</th>
-                            <th>तपशील (Particulars)</th>
-                            <th>जमा</th>
-                            <th>वजा</th>
-                            <th>शिल्लक</th>
-                        </tr>
-                    </thead>
-                    <tbody id="statementBody">
-                        <!-- Data will come from Google Script -->
-                    </tbody>
-                </table>
+                <button class="btn-red" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> PDF डाऊनलोड करा</button>
             </div>
-            <button class="pdf-btn" id="pdfBtn" style="display:none;" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Statement PDF डाऊनलोड करा</button>
         </div>
     </div>
 
     <script>
-        // टॅब बदलण्यासाठी स्क्रिप्ट
+        let currentUserData = {};
+
         function switchTab(tabId) {
             document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -199,130 +292,196 @@
             event.currentTarget.classList.add('active');
         }
 
-        // Add, Update आणि Recharge साठी कॉमन फंक्शन
-        function executeAction(actionName, btnId) {
-            const formData = new FormData();
-            const btn = document.getElementById(btnId);
-            const originalText = btn.innerText;
-            
-            if(actionName === 'Add User') {
-                const mobile = document.getElementById('newMobile').value;
-                if(!mobile) { alert("मोबाईल नंबर आवश्यक आहे!"); return; }
-                formData.append('action', 'addUser');
-                formData.append('name', document.getElementById('newName').value);
-                formData.append('mobile', mobile);
-                formData.append('password', document.getElementById('newPass').value);
-                formData.append('tokens', document.getElementById('newTokens').value || 0);
-            } 
-            else if(actionName === 'Search User') {
-                const mobile = document.getElementById('searchMobile').value;
-                if(!mobile) { alert("मोबाईल नंबर टाका!"); return; }
-                formData.append('action', 'searchUser');
-                formData.append('mobile', mobile);
-            }
-            else if(actionName === 'Update User') {
-                formData.append('action', 'updateUser');
-                formData.append('oldMobile', document.getElementById('searchMobile').value);
-                formData.append('newName', document.getElementById('editName').value);
-                formData.append('newMobile', document.getElementById('editMobile').value);
-                formData.append('newPass', document.getElementById('editPass').value);
-            }
-            else if(actionName === 'Recharge') {
-                const mobile = document.getElementById('rechMobile').value;
-                const amount = document.getElementById('rechAmount').value;
-                if(!mobile || !amount) { alert("मोबाईल नंबर आणि टोकन रक्कम आवश्यक आहे!"); return; }
-                formData.append('action', 'recharge');
-                formData.append('mobile', mobile);
-                formData.append('amount', amount);
-                formData.append('remark', document.getElementById('rechRemark').value);
-            }
+        function autoRemark() {
+            let act = document.getElementById('rechAction').value;
+            let amt = document.getElementById('rechAmount').value || '0';
+            document.getElementById('rechRemark').value = act + " " + amt + " Tokens";
+        }
 
-            btn.innerText = "प्रक्रिया चालू आहे...";
-            btn.disabled = true;
+        // 1. ADD USER
+        function addUser() {
+            let formData = new FormData();
+            formData.append('action', 'addUser');
+            formData.append('name', document.getElementById('addName').value);
+            formData.append('shopName', document.getElementById('addShop').value);
+            formData.append('address', document.getElementById('addAddress').value);
+            formData.append('mobile', document.getElementById('addMobile').value);
+            formData.append('username', document.getElementById('addUsername').value);
+            formData.append('password', document.getElementById('addPass').value);
+            formData.append('tokens', document.getElementById('addTokens').value);
 
-            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    if(actionName === 'Search User') {
-                        document.getElementById('editName').value = data.name;
-                        document.getElementById('editMobile').value = data.mobile;
-                        document.getElementById('editPass').value = data.pass;
-                        alert("युजर सापडला! तुम्ही आता माहिती बदलू शकता.");
-                    } else {
-                        alert("यशस्वी! " + data.message);
-                        document.querySelectorAll('input').forEach(input => input.value = '');
-                    }
-                } else {
-                    alert("त्रुटी: " + data.message);
-                }
-                btn.innerText = originalText;
-                btn.disabled = false;
-            })
-            .catch(err => {
-                alert("इंटरनेट किंवा सर्व्हर एरर!");
-                btn.innerText = originalText;
-                btn.disabled = false;
+            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData }).then(res=>res.json()).then(data=>{
+                alert(data.message);
             });
         }
 
-        // स्टेटमेंट शोधणे आणि टेबलमध्ये भरणे
-        function fetchStatement() {
-            const mobile = document.getElementById('stmtMobile').value;
-            if(!mobile) { alert("मोबाईल नंबर टाका!"); return; }
-            
-            const btn = document.getElementById('btnStatement');
-            btn.innerText = "शोधत आहे...";
-            btn.disabled = true;
-            
-            document.getElementById('displayStmtMobile').innerText = mobile;
-            
-            const formData = new FormData();
-            formData.append('action', 'statement');
-            formData.append('mobile', mobile);
+        // 2. SEARCH USER (Common for Edit, Recharge, Statement)
+        function searchUser(type) {
+            let searchId = "";
+            if(type==='edit') searchId = document.getElementById('editSearch').value;
+            if(type==='recharge') searchId = document.getElementById('rechSearch').value;
+            if(type==='statement') searchId = document.getElementById('stmtSearch').value;
 
-            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    document.getElementById('printArea').style.display = 'block';
-                    document.getElementById('pdfBtn').style.display = 'block';
+            if(!searchId) return alert("आयडी टाका!");
+
+            let formData = new FormData();
+            formData.append('action', 'searchUser');
+            formData.append('mobile', searchId);
+
+            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData }).then(res=>res.json()).then(data=>{
+                if(data.status==='success') {
+                    currentUserData = data;
+                    if(type==='edit') {
+                        document.getElementById('editForm').style.display = 'block';
+                        document.getElementById('editOldId').value = data.username;
+                        document.getElementById('edName').value = data.name;
+                        document.getElementById('edShop').value = data.shop;
+                        document.getElementById('edAddress').value = data.address;
+                        document.getElementById('edMobile').value = data.mobile;
+                        document.getElementById('edUsername').value = data.username;
+                        document.getElementById('edPass').value = data.pass;
+                        document.getElementById('edStatus').value = data.status;
+                    }
+                    if(type==='recharge') {
+                        document.getElementById('rechForm').style.display = 'block';
+                        document.getElementById('rechCard').innerHTML = `युजर: <span>${data.name}</span> | शॉप: <span>${data.shop}</span> | शिल्लक: <span>${data.balance}</span>`;
+                    }
+                    if(type==='statement') {
+                        document.getElementById('stmtFilters').style.display = 'block';
+                        document.getElementById('stmtCard').innerHTML = `युजर: <span>${data.name}</span> | मोबाईल: <span>${data.mobile}</span>`;
+                        // Setup PDF Header Info
+                        document.getElementById('pdfName').innerText = data.name;
+                        document.getElementById('pdfShop').innerText = data.shop;
+                        document.getElementById('pdfMobile').innerText = data.mobile;
+                        document.getElementById('pdfUsername').innerText = data.username;
+                        document.getElementById('pdfStatus').innerText = data.status;
+                    }
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        // 3. UPDATE USER
+        function updateUser() {
+            let formData = new FormData();
+            formData.append('action', 'updateUser');
+            formData.append('oldMobile', document.getElementById('editOldId').value);
+            formData.append('newName', document.getElementById('edName').value);
+            formData.append('newShop', document.getElementById('edShop').value);
+            formData.append('newAddress', document.getElementById('edAddress').value);
+            formData.append('newMobile', document.getElementById('edMobile').value);
+            formData.append('newUsername', document.getElementById('edUsername').value);
+            formData.append('newPass', document.getElementById('edPass').value);
+            formData.append('newStatus', document.getElementById('edStatus').value);
+
+            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData }).then(res=>res.json()).then(data=>{
+                alert(data.message);
+            });
+        }
+
+        // 4. RECHARGE SUBMIT
+        function submitRecharge() {
+            let formData = new FormData();
+            formData.append('action', 'recharge');
+            formData.append('mobile', currentUserData.username);
+            formData.append('amount', document.getElementById('rechAmount').value);
+            formData.append('remark', document.getElementById('rechRemark').value);
+
+            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData }).then(res=>res.json()).then(data=>{
+                alert(data.message);
+                document.getElementById('rechForm').style.display = 'none';
+            });
+        }
+
+        // 5. FETCH & FILTER STATEMENT
+        function fetchStatement() {
+            let fromDate = document.getElementById('stmtFrom').value;
+            let toDate = document.getElementById('stmtTo').value;
+            
+            if(!fromDate || !toDate) return alert("कृपया तारखा निवडा!");
+
+            document.getElementById('btnFetchStmt').innerText = "Generating...";
+            
+            let formData = new FormData();
+            formData.append('action', 'statement');
+            formData.append('mobile', currentUserData.username);
+
+            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData }).then(res=>res.json()).then(data=>{
+                if(data.status==='success') {
                     
-                    const tbody = document.getElementById('statementBody');
-                    tbody.innerHTML = ""; 
-                    
-                    data.transactions.forEach(tx => {
+                    let fDate = new Date(fromDate);
+                    let tDate = new Date(toDate);
+                    tDate.setHours(23, 59, 59); // End of day
+
+                    // Filter Logic (Dates from Sheet are dd/MM/yyyy HH:mm:ss)
+                    let filtered = data.transactions.filter(tx => {
+                        let parts = tx.date.split(' ')[0].split('/'); // get dd, mm, yyyy
+                        let txDate = new Date(parts[2], parts[1]-1, parts[0]);
+                        return txDate >= fDate && txDate <= tDate;
+                    });
+
+                    // Calculations & Table Build
+                    let tbody = document.getElementById('pdfTableBody');
+                    tbody.innerHTML = "";
+                    let totCredit = 0, totDebit = 0, lastBal = 0;
+
+                    filtered.forEach((tx, i) => {
+                        totCredit += parseInt(tx.credit) || 0;
+                        totDebit += parseInt(tx.debit) || 0;
+                        lastBal = tx.balance; // Takes the balance of the last row logically
+
                         tbody.innerHTML += `
                             <tr>
-                                <td class="text-center">${tx.date}</td>
-                                <td>
-                                    <span class="desc-title">${tx.particulars}</span>
-                                    <span class="desc-sub">${tx.remark ? 'शेरा: ' + tx.remark : ''}</span>
-                                </td>
-                                <td class="text-center credit">${tx.credit ? '+' + tx.credit : '-'}</td>
-                                <td class="text-center debit">${tx.debit ? '-' + tx.debit : '-'}</td>
-                                <td class="text-center font-bold">${tx.balance}</td>
+                                <td>${i+1}</td>
+                                <td>${tx.date}</td>
+                                <td class="text-left">${tx.particulars}</td>
+                                <td class="text-left">${tx.particulars.includes('घोषणापत्र') ? tx.particulars : '-'}</td>
+                                <td class="text-left">${tx.remark}</td>
+                                <td style="color:#16a34a; font-weight:bold;">${tx.credit || '-'}</td>
+                                <td style="color:#dc2626; font-weight:bold;">${tx.debit || '-'}</td>
+                                <td>${tx.balance}</td>
                             </tr>
                         `;
                     });
+
+                    // If no data
+                    if(filtered.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="8">या कालावधीत कोणतेही व्यवहार झाले नाहीत.</td></tr>`;
+                    }
+
+                    // Setup Summary & Dates
+                    document.getElementById('pdfFrom').innerText = fromDate.split('-').reverse().join('/');
+                    document.getElementById('pdfTo').innerText = toDate.split('-').reverse().join('/');
+                    
+                    let today = new Date();
+                    document.getElementById('pdfGenDate').innerText = `${today.getDate().toString().padStart(2,'0')}/${(today.getMonth()+1).toString().padStart(2,'0')}/${today.getFullYear()}`;
+                    
+                    let diffDays = Math.ceil((tDate - fDate) / (1000 * 60 * 60 * 24));
+                    document.getElementById('pdfDays').innerText = diffDays;
+
+                    document.getElementById('sumCredit').innerText = totCredit;
+                    document.getElementById('sumDebit').innerText = totDebit;
+                    document.getElementById('sumBalance').innerText = currentUserData.balance; // Current Live Balance
+
+                    document.getElementById('printAreaWrapper').style.display = 'block';
                 } else {
-                    alert("त्रुटी: " + data.message);
-                    document.getElementById('printArea').style.display = 'none';
-                    document.getElementById('pdfBtn').style.display = 'none';
+                    alert(data.message);
                 }
-                btn.innerText = "स्टेटमेंट शोधा";
-                btn.disabled = false;
-            })
-            .catch(err => {
-                alert("इंटरनेट किंवा सर्व्हर एरर!");
-                btn.innerText = "स्टेटमेंट शोधा";
-                btn.disabled = false;
+                document.getElementById('btnFetchStmt').innerText = "स्टेटमेंट जनरेट करा";
             });
         }
 
+        // PDF Generation
         function downloadPDF() {
-            const element = document.getElementById('printArea');
-            const opt = { margin: 10, filename: 'Statement_' + document.getElementById('stmtMobile').value + '.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+            const element = document.getElementById('pdfTemplate');
+            const opt = {
+                margin: 5,
+                filename: 'Statement_' + currentUserData.username + '.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 3, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
             html2pdf().set(opt).from(element).save();
         }
 
