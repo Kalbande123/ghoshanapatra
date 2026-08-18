@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- html2pdf लायब्ररी काढून टाकली आहे कारण आपण Native Print वापरणार आहोत -->
     <script src="config.js"></script>
 
     <style>
@@ -72,7 +71,7 @@
         .pill-title { position: absolute; top: -10px; right: 20%; background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
         .pill-title-center { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
         
-        /* Table Layout Fixed prevents cells from expanding outside the container */
+        /* Table Layout Fixed */
         .pdf-table-wrapper { border: 2px solid #001040; border-radius: 6px; position: relative; padding-top: 15px; margin-bottom: 15px; }
         table.pdf-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; word-wrap: break-word; }
         .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 6px 4px; text-align: center; white-space: nowrap; }
@@ -84,15 +83,13 @@
         .sum-title { font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 5px; }
         .sum-val { font-size: 22px; font-weight: bold; }
         
-        .pdf-footer { background: #001040; color: white; text-align: center; padding: 6px; border-radius: 4px; font-size: 12px; margin-top: 10px; }
+        .pdf-footer { background: #001040; color: white; text-align: center; padding: 10px; border-radius: 4px; font-size: 13px; margin-top: 10px; }
 
         /* --- NATIVE PRINT CSS (मराठी फॉन्टसाठी परफेक्ट सेटिंग) --- */
         @media print {
             body { background-color: white !important; margin: 0; padding: 0; }
-            /* नको असलेल्या गोष्टी प्रिंट करताना लपवा */
             .navbar, .tabs, #stmtFilters, .btn-red { display: none !important; }
             
-            /* फक्त PDF कंटेनर दाखवा */
             body * { visibility: hidden; }
             #printAreaWrapper, #printAreaWrapper * { visibility: visible; }
             
@@ -281,9 +278,10 @@
                                     <th width="15%">तपशील</th>
                                     <th width="20%">घोषणापत्र प्रकार</th>
                                     <th width="20%">अर्जदाराचे नाव / शेरा</th>
-                                    <th width="8%">जमा Tokens</th>
-                                    <th width="8%">वापरले Tokens</th>
-                                    <th width="8%">शिल्लक Tokens</th>
+                                    <!-- नवीन सुटसुटीत हेडिंग्स -->
+                                    <th width="8%">जमा</th>
+                                    <th width="8%">वापर</th>
+                                    <th width="8%">शिल्लक</th>
                                 </tr>
                             </thead>
                             <tbody id="pdfTableBody">
@@ -311,8 +309,9 @@
                         </div>
                     </div>
 
+                    <!-- नवीन अपडेटेड फुटर (WhatsApp सूचनेसह) -->
                     <div class="pdf-footer">
-                        <i class="fas fa-globe"></i> (वेबसाईट नंतर ॲड केली जाईल) &nbsp; | &nbsp; <i class="fas fa-map-marker-alt"></i> Hadgaon, Dist. Nanded
+                        <i class="fab fa-whatsapp" style="color: #25D366; font-size: 16px;"></i> कोणत्याही मदतीसाठी किंवा अधिक माहितीसाठी <b>9999999999</b> या नंबरवर WhatsApp करा.
                     </div>
                 </div>
                 <button class="btn-red" onclick="downloadPDF()"><i class="fas fa-print"></i> स्टेटमेंट प्रिंट/PDF सेव्ह करा</button>
@@ -558,8 +557,6 @@
 
         // --- NEW PRINT FUNCTION ---
         function downloadPDF() {
-            // ही कमांड ब्राउझरचे मूळ प्रिंटर/PDF डायलॉग ओपन करेल.
-            // इथे Destination मध्ये "Save as PDF" निवडा.
             window.print();
         }
 
