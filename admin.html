@@ -44,7 +44,7 @@
         #printAreaWrapper { display: none; margin-top: 30px; overflow-x: auto; }
         
         .pdf-container { 
-            width: 730px; min-width: 730px; /* Reduced to ensure it fits A4 completely within margins */
+            width: 730px; min-width: 730px; /* Perfect for A4 */
             margin: 0 auto; background: white; padding: 10px 20px; 
             font-family: 'Mukta', sans-serif; position: relative; box-sizing: border-box;
             letter-spacing: normal;
@@ -523,7 +523,7 @@
             });
         }
 
-        // PDF Generation Fix - Margin and Layout settings adjusted for perfect A4 output
+        // PDF Generation Fix - Marathi Font Overlap Fix
         function downloadPDF() {
             const element = document.getElementById('pdfTemplate');
             
@@ -533,13 +533,13 @@
             printBtn.disabled = true;
 
             const opt = {
-                margin: [10, 5, 10, 5], // 10mm Top/Bottom, 5mm Left/Right margin
+                margin: [10, 5, 10, 5], 
                 filename: 'Statement_' + currentUserData.username + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    letterRendering: true,
+                    // letterRendering: true - ही सेटिंग आता काढून टाकली आहे
                     scrollX: 0, 
                     scrollY: 0  
                 },
