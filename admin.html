@@ -40,51 +40,56 @@
         .user-card { background: #f8fafc; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 15px; }
         .user-card span { font-weight: bold; color: #ea580c; }
 
-        /* PDF Statement Design */
+        /* PDF Statement Design - Compact & A4 Fitted */
         #printAreaWrapper { display: none; margin-top: 30px; overflow-x: auto; }
         
         .pdf-container { 
-            width: 794px; min-width: 794px; /* Perfect A4 width */
-            margin: 0 auto; background: white; padding: 20px; 
-            border: 4px solid #001040; border-radius: 10px; font-family: 'Mukta', sans-serif; position: relative; box-sizing: border-box;
+            width: 800px; 
+            margin: 0 auto; background: white; padding: 10px 20px; 
+            /* बाहेरची जाड बॉर्डर काढली आहे */
+            font-family: 'Mukta', sans-serif; position: relative; box-sizing: border-box;
+            letter-spacing: normal;
         }
         
-        .pdf-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #001040; padding-bottom: 10px; margin-bottom: 20px; }
-        .pdf-logo { width: 120px; text-align: center; color: #ea580c; font-weight: bold; font-size: 14px; }
-        
-        /* Logo Styling */
-        .pdf-logo img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 5px; }
+        /* हेडर डिझाईन */
+        .pdf-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #001040; padding-bottom: 10px; margin-bottom: 15px; }
+        .pdf-logo { width: 100px; text-align: center; color: #ea580c; font-weight: bold; font-size: 12px; }
+        .pdf-logo img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 5px; }
         
         .pdf-title-box { text-align: center; flex: 1; }
-        .pdf-title-box h1 { color: #001040; font-size: 34px; margin: 0; font-weight: 900; letter-spacing: 1px; }
-        .pdf-title-box h3 { color: #001040; font-size: 18px; margin: 5px 0; display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .pdf-title-box h3::before, .pdf-title-box h3::after { content: ""; height: 2px; width: 50px; background: #ea580c; }
-        .pdf-badge { background: #001040; color: white; display: inline-block; padding: 5px 20px; border-radius: 20px; font-size: 18px; font-weight: bold; margin-top: 5px; }
-        .pdf-features { font-size: 14px; font-weight: bold; color: #001040; line-height: 1.8; }
+        .pdf-title-box h1 { color: #001040; font-size: 26px; margin: 0; font-weight: 900; letter-spacing: 1px; }
+        .pdf-title-box h3 { color: #001040; font-size: 16px; margin: 3px 0; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .pdf-title-box h3::before, .pdf-title-box h3::after { content: ""; height: 2px; width: 40px; background: #ea580c; }
+        .pdf-badge { background: #001040; color: white; display: inline-block; padding: 3px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-top: 5px; }
+        .pdf-features { font-size: 12px; font-weight: bold; color: #001040; line-height: 1.6; }
         
-        .pdf-info-grid { display: flex; border: 2px solid #001040; border-radius: 8px; margin-bottom: 20px; position: relative; }
-        .pdf-info-left { width: 50%; padding: 15px; border-right: 2px solid #001040; }
-        .pdf-info-right { width: 50%; padding: 15px; text-align: center; }
+        /* युजर इन्फो बॉक्स */
+        .pdf-info-grid { display: flex; border: 2px solid #001040; border-radius: 6px; margin-bottom: 15px; position: relative; }
+        .pdf-info-left { width: 50%; padding: 10px 15px; border-right: 2px solid #001040; }
+        .pdf-info-right { width: 50%; padding: 10px 15px; text-align: center; }
         
-        .info-row { display: flex; margin-bottom: 8px; font-size: 15px; color: #001040; font-weight: bold; }
-        .info-row i { width: 25px; color: #001040; }
-        .info-row .lbl { width: 100px; }
+        .info-row { display: flex; margin-bottom: 5px; font-size: 13px; color: #001040; font-weight: bold; }
+        .info-row i { width: 20px; color: #001040; }
+        .info-row .lbl { width: 90px; }
         
-        .pill-title { position: absolute; top: -12px; right: 20%; background: #001040; color: white; padding: 2px 15px; border-radius: 15px; font-size: 14px; font-weight: bold; }
-        .pill-title-center { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #001040; color: white; padding: 2px 15px; border-radius: 15px; font-size: 14px; font-weight: bold; }
+        /* पिल्स (Pills) */
+        .pill-title { position: absolute; top: -10px; right: 20%; background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .pill-title-center { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
         
-        .pdf-table-wrapper { border: 2px solid #001040; border-radius: 8px; position: relative; padding-top: 15px; margin-bottom: 20px; }
-        table.pdf-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; word-wrap: break-word; }
-        .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
-        .pdf-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; color: #000; }
+        /* मुख्य टेबल - फॉन्ट साईझ लहान आणि सिंगल लाईन हेडिंग */
+        .pdf-table-wrapper { border: 2px solid #001040; border-radius: 6px; position: relative; padding-top: 15px; margin-bottom: 15px; }
+        table.pdf-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: auto; }
+        .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 6px 4px; text-align: center; white-space: nowrap; } /* nowrap मुळे २ लाईन होणार नाहीत */
+        .pdf-table td { border: 1px solid #cbd5e1; padding: 5px 4px; text-align: center; color: #000; }
         .text-left { text-align: left !important; }
         
-        .pdf-summary-wrapper { border: 2px solid #001040; border-radius: 8px; position: relative; padding: 20px; display: flex; justify-content: space-around; }
-        .sum-box { border: 1px solid #001040; border-radius: 8px; padding: 10px 15px; text-align: center; min-width: 160px; }
-        .sum-title { font-weight: bold; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
-        .sum-val { font-size: 28px; font-weight: bold; }
+        /* सारांश (Summary) */
+        .pdf-summary-wrapper { border: 2px solid #001040; border-radius: 6px; position: relative; padding: 15px; display: flex; justify-content: space-around; margin-bottom: 15px; }
+        .sum-box { border: 1px solid #001040; border-radius: 6px; padding: 8px 12px; text-align: center; min-width: 140px; }
+        .sum-title { font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 5px; }
+        .sum-val { font-size: 22px; font-weight: bold; }
         
-        .pdf-footer { background: #001040; color: white; text-align: center; padding: 8px; border-radius: 0 0 6px 6px; font-size: 14px; margin-top: 10px; }
+        .pdf-footer { background: #001040; color: white; text-align: center; padding: 6px; border-radius: 4px; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -201,9 +206,8 @@
                     
                     <div class="pdf-header">
                         <div class="pdf-logo">
-                            <!-- इथे लोगो ऍड केला आहे -->
                             <img src="logo.png" alt="" onerror="this.style.display='none'; document.getElementById('iconLogo').style.display='block';">
-                            <i id="iconLogo" class="fas fa-desktop" style="font-size: 50px; display: none;"></i>
+                            <i id="iconLogo" class="fas fa-desktop" style="font-size: 40px; display: none;"></i>
                             <br>सेवास्पॉट<br>Center
                         </div>
                         <div class="pdf-title-box">
@@ -229,11 +233,11 @@
                             <div class="info-row"><i class="fas fa-check-square"></i> <span class="lbl">स्थिती</span>: <span id="pdfStatus" style="margin-left:10px;">-</span></div>
                         </div>
                         <div class="pdf-info-right">
-                            <div style="margin-top:20px; font-size:15px; font-weight:bold; color:#001040;">
-                                <div style="margin-bottom:10px;"><i class="far fa-calendar-alt"></i> दिनांक कालावधी : <span id="pdfFrom"></span> ते <span id="pdfTo"></span></div>
-                                <div style="margin-bottom:15px;"><i class="far fa-clock"></i> स्टेटमेंट तयार दिनांक : <span id="pdfGenDate"></span></div>
-                                <div style="border:1px solid #001040; border-radius:5px; padding:5px; display:inline-block;">
-                                    एकूण कालावधी : <span id="pdfDays" style="border-bottom:1px solid #000; width:50px; display:inline-block; text-align:center;">0</span> दिवस
+                            <div style="margin-top:10px; font-size:14px; font-weight:bold; color:#001040;">
+                                <div style="margin-bottom:8px;"><i class="far fa-calendar-alt"></i> कालावधी : <span id="pdfFrom"></span> ते <span id="pdfTo"></span></div>
+                                <div style="margin-bottom:12px;"><i class="far fa-clock"></i> स्टेटमेंट दिनांक : <span id="pdfGenDate"></span></div>
+                                <div style="border:1px solid #001040; border-radius:5px; padding:3px; display:inline-block;">
+                                    एकूण कालावधी : <span id="pdfDays" style="border-bottom:1px solid #000; width:40px; display:inline-block; text-align:center;">0</span> दिवस
                                 </div>
                             </div>
                         </div>
@@ -243,15 +247,16 @@
                         <div class="pill-title-center">TRANSACTION DETAILS</div>
                         <table class="pdf-table">
                             <thead>
+                                <!-- हेडिंग एका लाईनमध्ये येण्यासाठी रुंदी ॲडजस्ट केली आहे -->
                                 <tr>
-                                    <th width="5%">अ.क्र.</th>
+                                    <th width="6%">अ.क्र.</th>
                                     <th width="15%">दिनांक व वेळ</th>
                                     <th width="15%">तपशील</th>
-                                    <th width="20%">घोषणापत्र प्रकार / तपशील</th>
+                                    <th width="20%">घोषणापत्र प्रकार</th>
                                     <th width="20%">अर्जदाराचे नाव / शेरा</th>
                                     <th width="8%">जमा Tokens</th>
-                                    <th width="8%">वापरलेले Tokens</th>
-                                    <th width="9%">शिल्लक Tokens</th>
+                                    <th width="8%">वापरले Tokens</th>
+                                    <th width="8%">शिल्लक Tokens</th>
                                 </tr>
                             </thead>
                             <tbody id="pdfTableBody">
@@ -263,23 +268,22 @@
                     <div class="pdf-summary-wrapper" style="page-break-inside: avoid;">
                         <div class="pill-title-center">सारांश (SUMMARY)</div>
                         <div class="sum-box">
-                            <div class="sum-title" style="color:#16a34a;"><i class="fas fa-arrow-circle-down"></i> एकूण रिचार्ज (जमा)</div>
+                            <div class="sum-title" style="color:#16a34a;"><i class="fas fa-arrow-circle-down"></i> एकूण जमा</div>
                             <div class="sum-val" id="sumCredit" style="color:#16a34a;">0</div>
-                            <div style="color:#16a34a; font-weight:bold;">Tokens</div>
+                            <div style="color:#16a34a; font-weight:bold; font-size:11px;">Tokens</div>
                         </div>
                         <div class="sum-box">
-                            <div class="sum-title" style="color:#dc2626;"><i class="fas fa-arrow-circle-up"></i> एकूण वापरले (डेबिट)</div>
+                            <div class="sum-title" style="color:#dc2626;"><i class="fas fa-arrow-circle-up"></i> एकूण वापरले</div>
                             <div class="sum-val" id="sumDebit" style="color:#dc2626;">0</div>
-                            <div style="color:#dc2626; font-weight:bold;">Tokens</div>
+                            <div style="color:#dc2626; font-weight:bold; font-size:11px;">Tokens</div>
                         </div>
                         <div class="sum-box">
-                            <div class="sum-title" style="color:#001040;"><i class="fas fa-stopwatch"></i> शिल्लक Tokens</div>
+                            <div class="sum-title" style="color:#001040;"><i class="fas fa-stopwatch"></i> शिल्लक</div>
                             <div class="sum-val" id="sumBalance" style="color:#001040;">0</div>
-                            <div style="color:#001040; font-weight:bold;">Tokens</div>
+                            <div style="color:#001040; font-weight:bold; font-size:11px;">Tokens</div>
                         </div>
                     </div>
 
-                    <!-- फुटरमधील बदल: फक्त आयकॉन आणि नोट -->
                     <div class="pdf-footer">
                         <i class="fas fa-globe"></i> (वेबसाईट नंतर ॲड केली जाईल) &nbsp; | &nbsp; <i class="fas fa-map-marker-alt"></i> Hadgaon, Dist. Nanded
                     </div>
@@ -525,38 +529,28 @@
             });
         }
 
-        // PDF Generation Fix: Temporary margin reset to avoid left cut-off
+        // PDF Generation Fix: 10mm margins added to fit A4 perfectly without zoom
         function downloadPDF() {
             const element = document.getElementById('pdfTemplate');
             
-            // PDF डावीकडून कट होऊ नये म्हणून आपण तात्पुरते त्याला डावीकडे सरकवणार आहोत
-            const originalMargin = element.style.margin;
-            element.style.margin = '0';
-            document.getElementById('printAreaWrapper').style.overflow = 'visible';
-
             let printBtn = document.querySelector('.btn-red');
             let originalText = printBtn.innerHTML;
             printBtn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> PDF तयार होत आहे...";
             printBtn.disabled = true;
 
             const opt = {
-                margin: [5, 5, 5, 5],
+                margin: [10, 10, 10, 10], // Top, Left, Bottom, Right margin in mm (A4 fitting)
                 filename: 'Statement_' + currentUserData.username + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    scrollX: 0,
-                    scrollY: 0
+                    letterRendering: true // मराठी फॉन्ट स्पष्ट दिसण्यासाठी
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
             html2pdf().set(opt).from(element).save().then(() => {
-                // काम झाल्यावर पुन्हा मध्यभागी (Center) आणणे
-                element.style.margin = originalMargin;
-                document.getElementById('printAreaWrapper').style.overflowX = 'auto';
-                
                 printBtn.innerHTML = originalText;
                 printBtn.disabled = false;
             });
