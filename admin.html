@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- html2pdf लायब्ररी काढून टाकली आहे कारण आपण Native Print वापरणार आहोत -->
     <script src="config.js"></script>
 
     <style>
@@ -85,6 +85,39 @@
         .sum-val { font-size: 22px; font-weight: bold; }
         
         .pdf-footer { background: #001040; color: white; text-align: center; padding: 6px; border-radius: 4px; font-size: 12px; margin-top: 10px; }
+
+        /* --- NATIVE PRINT CSS (मराठी फॉन्टसाठी परफेक्ट सेटिंग) --- */
+        @media print {
+            body { background-color: white !important; margin: 0; padding: 0; }
+            /* नको असलेल्या गोष्टी प्रिंट करताना लपवा */
+            .navbar, .tabs, #stmtFilters, .btn-red { display: none !important; }
+            
+            /* फक्त PDF कंटेनर दाखवा */
+            body * { visibility: hidden; }
+            #printAreaWrapper, #printAreaWrapper * { visibility: visible; }
+            
+            #printAreaWrapper { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                margin: 0; 
+                padding: 0; 
+                display: block !important; 
+            }
+            .pdf-container {
+                width: 100% !important;
+                min-width: 100% !important;
+                border: none !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 10mm; /* पेजच्या चारही बाजूंना थोडी रिकामी जागा */
+            }
+        }
     </style>
 </head>
 <body>
@@ -282,7 +315,7 @@
                         <i class="fas fa-globe"></i> (वेबसाईट नंतर ॲड केली जाईल) &nbsp; | &nbsp; <i class="fas fa-map-marker-alt"></i> Hadgaon, Dist. Nanded
                     </div>
                 </div>
-                <button class="btn-red" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> PDF डाऊनलोड करा</button>
+                <button class="btn-red" onclick="downloadPDF()"><i class="fas fa-print"></i> स्टेटमेंट प्रिंट/PDF सेव्ह करा</button>
             </div>
         </div>
     </div>
@@ -523,33 +556,11 @@
             });
         }
 
-        // PDF Generation Fix - Marathi Font Overlap Fix
+        // --- NEW PRINT FUNCTION ---
         function downloadPDF() {
-            const element = document.getElementById('pdfTemplate');
-            
-            let printBtn = document.querySelector('.btn-red');
-            let originalText = printBtn.innerHTML;
-            printBtn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> PDF तयार होत आहे...";
-            printBtn.disabled = true;
-
-            const opt = {
-                margin: [10, 5, 10, 5], 
-                filename: 'Statement_' + currentUserData.username + '.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true,
-                    // letterRendering: true - ही सेटिंग आता काढून टाकली आहे
-                    scrollX: 0, 
-                    scrollY: 0  
-                },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            html2pdf().set(opt).from(element).save().then(() => {
-                printBtn.innerHTML = originalText;
-                printBtn.disabled = false;
-            });
+            // ही कमांड ब्राउझरचे मूळ प्रिंटर/PDF डायलॉग ओपन करेल.
+            // इथे Destination मध्ये "Save as PDF" निवडा.
+            window.print();
         }
 
         function logoutAdmin() {
