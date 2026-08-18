@@ -44,14 +44,11 @@
         #printAreaWrapper { display: none; margin-top: 30px; overflow-x: auto; }
         
         .pdf-container { 
-            width: 800px; 
+            width: 794px; min-width: 794px; /* A4 Width matching */
             margin: 0 auto; background: white; padding: 10px 20px; 
-            /* बाहेरची जाड बॉर्डर काढली आहे */
             font-family: 'Mukta', sans-serif; position: relative; box-sizing: border-box;
-            letter-spacing: normal;
         }
         
-        /* हेडर डिझाईन */
         .pdf-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #001040; padding-bottom: 10px; margin-bottom: 15px; }
         .pdf-logo { width: 100px; text-align: center; color: #ea580c; font-weight: bold; font-size: 12px; }
         .pdf-logo img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 5px; }
@@ -63,7 +60,6 @@
         .pdf-badge { background: #001040; color: white; display: inline-block; padding: 3px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-top: 5px; }
         .pdf-features { font-size: 12px; font-weight: bold; color: #001040; line-height: 1.6; }
         
-        /* युजर इन्फो बॉक्स */
         .pdf-info-grid { display: flex; border: 2px solid #001040; border-radius: 6px; margin-bottom: 15px; position: relative; }
         .pdf-info-left { width: 50%; padding: 10px 15px; border-right: 2px solid #001040; }
         .pdf-info-right { width: 50%; padding: 10px 15px; text-align: center; }
@@ -72,18 +68,15 @@
         .info-row i { width: 20px; color: #001040; }
         .info-row .lbl { width: 90px; }
         
-        /* पिल्स (Pills) */
         .pill-title { position: absolute; top: -10px; right: 20%; background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
         .pill-title-center { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
         
-        /* मुख्य टेबल - फॉन्ट साईझ लहान आणि सिंगल लाईन हेडिंग */
         .pdf-table-wrapper { border: 2px solid #001040; border-radius: 6px; position: relative; padding-top: 15px; margin-bottom: 15px; }
         table.pdf-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: auto; }
-        .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 6px 4px; text-align: center; white-space: nowrap; } /* nowrap मुळे २ लाईन होणार नाहीत */
+        .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 6px 4px; text-align: center; white-space: nowrap; }
         .pdf-table td { border: 1px solid #cbd5e1; padding: 5px 4px; text-align: center; color: #000; }
         .text-left { text-align: left !important; }
         
-        /* सारांश (Summary) */
         .pdf-summary-wrapper { border: 2px solid #001040; border-radius: 6px; position: relative; padding: 15px; display: flex; justify-content: space-around; margin-bottom: 15px; }
         .sum-box { border: 1px solid #001040; border-radius: 6px; padding: 8px 12px; text-align: center; min-width: 140px; }
         .sum-title { font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 5px; }
@@ -247,7 +240,6 @@
                         <div class="pill-title-center">TRANSACTION DETAILS</div>
                         <table class="pdf-table">
                             <thead>
-                                <!-- हेडिंग एका लाईनमध्ये येण्यासाठी रुंदी ॲडजस्ट केली आहे -->
                                 <tr>
                                     <th width="6%">अ.क्र.</th>
                                     <th width="15%">दिनांक व वेळ</th>
@@ -529,7 +521,7 @@
             });
         }
 
-        // PDF Generation Fix: 10mm margins added to fit A4 perfectly without zoom
+        // PDF Generation Fix - with Scroll and Margin settings for perfect A4 output
         function downloadPDF() {
             const element = document.getElementById('pdfTemplate');
             
@@ -539,13 +531,15 @@
             printBtn.disabled = true;
 
             const opt = {
-                margin: [10, 10, 10, 10], // Top, Left, Bottom, Right margin in mm (A4 fitting)
+                margin: [10, 10, 10, 10], // Top, Left, Bottom, Right margin
                 filename: 'Statement_' + currentUserData.username + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    letterRendering: true // मराठी फॉन्ट स्पष्ट दिसण्यासाठी
+                    letterRendering: true,
+                    scrollX: 0, // Fixes left cut-off
+                    scrollY: 0  // Fixes blank space at top
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
