@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ID Card Printing - SevaSpot</title>
+    <title>Aadhaar Card Service - SevaSpot</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,22 +23,31 @@
         .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .notice-box a { color: #166534; text-decoration: none; border-bottom: 1px dashed #166534; }
         
-        h2 { color: #001040; margin-bottom: 15px; }
+        /* Heading */
+        h2 { color: #ea580c; margin-bottom: 20px; border-bottom: 2px solid #ea580c; padding-bottom: 10px; display: inline-block; font-size: 24px; }
         
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #334155; }
         .form-group input, .form-group select { width: 100%; padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #cbd5e1; }
         
-        .btn-preview { background-color: #2563eb; color: white; border: none; padding: 12px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; }
-        .btn-preview:hover { background-color: #1d4ed8; }
+        .btn-process { background-color: #2563eb; color: white; border: none; padding: 12px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-process:hover { background-color: #1d4ed8; }
         
-        .btn-download { background-color: #ea580c; color: white; border: none; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 20px; display: none; }
-        .btn-download:hover { background-color: #c2410c; }
+        .btn-download { background-color: #ea580c; color: white; border: none; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; display: none; transition: 0.3s; }
+        .btn-download:hover { background-color: #c2410c; box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3); }
         
         .error { color: red; font-weight: bold; display: none; margin-top: 10px; }
         
-        #previewArea { margin-top: 30px; display: none; }
-        canvas { background-color: white; width: 100%; max-width: 450px; height: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #ccc; }
+        /* नवीन सक्सेस मेसेज पट्टी */
+        .success-strip { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 20px; display: none; }
+
+        #actionArea { margin-top: 20px; }
+        
+        /* कॅनव्हास लपवून ठेवला आहे (फक्त बॅकग्राउंडला प्रोसेस होईल) */
+        canvas { display: none; } 
+        
+        .back-btn { display: inline-block; margin-top: 20px; color: #64748b; text-decoration: none; font-weight: bold; }
+        .back-btn:hover { color: #1e293b; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -50,18 +59,8 @@
             <span>टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919999999999" target="_blank">9999999999</a> वर संपर्क साधा.</span>
         </div>
 
-        <h2><i class="fas fa-id-card"></i> स्मार्ट आयडी कार्ड प्रिंटिंग</h2>
+        <h2><i class="fas fa-fingerprint"></i> आधार कार्ड सेवा</h2>
         
-        <div class="form-group">
-            <label>कोणते कार्ड बनवायचे आहे?</label>
-            <select id="cardType" onchange="updatePriceUI()">
-                <option value="आधार कार्ड" data-price="5">आधार कार्ड (5 Tokens)</option>
-                <option value="मतदान कार्ड" data-price="5">मतदान कार्ड (5 Tokens)</option>
-                <option value="पॅन कार्ड" data-price="5">पॅन कार्ड (5 Tokens)</option>
-                <option value="शेतकरी ओळखपत्र" data-price="10">शेतकरी ओळखपत्र (10 Tokens)</option>
-            </select>
-        </div>
-
         <div class="form-group">
             <label>पेपरची साईझ निवडा:</label>
             <select id="printSize">
@@ -71,42 +70,42 @@
         </div>
 
         <div class="form-group">
-            <label>PDF फाईल निवडा:</label>
+            <label>आधारची PDF फाईल निवडा:</label>
             <input type="file" id="pdfFile" accept="application/pdf">
         </div>
 
         <div class="form-group">
             <label>PDF पासवर्ड (असल्यास):</label>
-            <input type="password" id="pdfPassword" placeholder="PDF चा पासवर्ड टाका">
+            <input type="password" id="pdfPassword" placeholder="उदा. तुमच्या नावाचे ४ अक्षर आणि जन्मवर्ष">
         </div>
         
-        <!-- मोफत प्रिव्ह्यू -->
-        <button class="btn-preview" onclick="generatePreview()"><i class="fas fa-eye"></i> प्रिव्ह्यू पहा (Free)</button>
+        <!-- प्रोसेस बटन -->
+        <button id="btnProcess" class="btn-process" onclick="processCard()"><i class="fas fa-cogs"></i> फाईल प्रोसेस करा</button>
         <p id="errorMsg" class="error"></p>
         
-        <!-- हा कॅनव्हास फक्त प्रिव्ह्यू आणि डाऊनलोडसाठी वापरला जाईल -->
-        <div id="previewArea">
-            <h3 style="margin-bottom: 10px; color: #16a34a;">✅ प्रिव्ह्यू रेडी आहे!</h3>
-            <canvas id="idCanvas"></canvas>
+        <!-- हिडन कॅनव्हास (डिझाईन बॅकग्राउंडला सेट करण्यासाठी) -->
+        <canvas id="idCanvas"></canvas>
+
+        <!-- फायनल ॲक्शन एरिया -->
+        <div id="actionArea">
+            <div id="successMsg" class="success-strip">
+                <i class="fas fa-check-circle"></i> तुमचे आधार कार्ड प्रिंटसाठी रेडी आहे!
+            </div>
             
-            <!-- फायनल डाऊनलोड बटन (इथे टोकन कट होतील) -->
+            <!-- फायनल डाऊनलोड बटन (इथे ५ टोकन कट होतील) -->
             <button id="btnDownload" class="btn-download" onclick="deductTokenAndDownload()">
-                <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (<span id="btnPrice">5</span> Tokens)
+                <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (5 Tokens)
             </button>
         </div>
+
+        <a href="home.html" class="back-btn"><i class="fas fa-arrow-left"></i> डॅशबोर्डवर परत जा</a>
     </div>
 
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
         let currentSize = '4x6'; 
 
-        function updatePriceUI() {
-            let select = document.getElementById('cardType');
-            let price = select.options[select.selectedIndex].getAttribute('data-price');
-            document.getElementById('btnPrice').innerText = price;
-        }
-
-        // --- DRAW ROUNDED CORNERS (तुमचा ओरिजिनल कोड) ---
+        // --- DRAW ROUNDED CORNERS ---
         function drawRoundedCard(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh, radius) {
             ctx.save();
             ctx.beginPath();
@@ -128,21 +127,25 @@
             ctx.restore();
         }
 
-        // --- PREVIEW GENERATION (FREE) ---
-        async function generatePreview() {
+        // --- PROCESS PDF (BACKGROUND) ---
+        async function processCard() {
             const fileInput = document.getElementById('pdfFile').files[0];
             const password = document.getElementById('pdfPassword').value;
             const errorMsg = document.getElementById('errorMsg');
-            const previewArea = document.getElementById('previewArea');
+            const successMsg = document.getElementById('successMsg');
             const btnDownload = document.getElementById('btnDownload');
+            const btnProcess = document.getElementById('btnProcess');
             
             currentSize = document.getElementById('printSize').value;
 
-            if (!fileInput) { alert("कृपया PDF फाईल निवडा."); return; }
+            if (!fileInput) { alert("कृपया आधारची PDF फाईल निवडा."); return; }
 
             errorMsg.style.display = 'none';
-            previewArea.style.display = 'none';
+            successMsg.style.display = 'none';
             btnDownload.style.display = 'none';
+            
+            btnProcess.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रोसेस होत आहे...";
+            btnProcess.disabled = true;
 
             const fileReader = new FileReader();
             
@@ -163,7 +166,7 @@
 
                     await page.render({ canvasContext: tempCtx, viewport: viewport }).promise;
 
-                    // --- CROP SETTINGS (तुमचे आधारचे सेटिंग्ज) ---
+                    // --- AADHAAR CROP SETTINGS ---
                     const CARD_ASPECT_RATIO = 1.586; 
                     const cropWidth = tempCanvas.width * 0.426; 
                     const cropHeight = cropWidth / CARD_ASPECT_RATIO; 
@@ -179,7 +182,6 @@
                     const cornerRadius = 32; 
 
                     if (currentSize === '4x6') {
-                        // 4x6 CANVAS LOGIC (1200x1800)
                         finalCanvas.width = 1200;  
                         finalCanvas.height = 1800; 
                         finalCtx.fillStyle = "white";
@@ -193,7 +195,6 @@
                         drawRoundedCard(finalCtx, tempCanvas, rightCropX, cropY, cropWidth, cropHeight, marginX, topPadding + drawHeight + gapBetweenCards, drawWidth, drawHeight, cornerRadius);
                     
                     } else if (currentSize === 'A4') {
-                        // A4 CANVAS LOGIC (2480x3508)
                         finalCanvas.width = 2480;  
                         finalCanvas.height = 3508; 
                         finalCtx.fillStyle = "white";
@@ -218,30 +219,45 @@
                         finalCtx.setLineDash([]);
                     }
 
-                    previewArea.style.display = 'block';
+                    // प्रोसेस पूर्ण झाल्यावर सक्सेस मेसेज आणि बटन दाखवा
+                    successMsg.style.display = 'block';
                     btnDownload.style.display = 'block';
+                    
+                    btnProcess.innerHTML = "<i class='fas fa-cogs'></i> फाईल प्रोसेस करा";
+                    btnProcess.disabled = false;
 
                 } catch (error) {
-                    errorMsg.innerText = error.name === 'PasswordException' ? "चुकीचा पासवर्ड!" : "PDF प्रोसेस करण्यात अडचण आली.";
+                    errorMsg.innerText = error.name === 'PasswordException' ? "चुकीचा पासवर्ड! आधारचा बरोबर पासवर्ड टाका." : "PDF प्रोसेस करण्यात अडचण आली.";
                     errorMsg.style.display = 'block';
+                    btnProcess.innerHTML = "<i class='fas fa-cogs'></i> फाईल प्रोसेस करा";
+                    btnProcess.disabled = false;
                 }
             };
             fileReader.readAsArrayBuffer(fileInput);
         }
 
-        // --- TOKEN DEDUCTION & HD PDF EXPORT ---
+        // --- TOKEN DEDUCTION & HD PDF EXPORT (Login Bug Fixed) ---
         function deductTokenAndDownload() {
-            // युजरनेम localStorage मधून घेणे (तुमच्या home.html प्रमाणे)
-            let loggedInUser = localStorage.getItem("loggedInUser");
-            if(!loggedInUser) return alert("कृपया प्रथम लॉगिन करा!");
+            // १. युजरचा आयडी शोधणे
+            let loggedInUser = localStorage.getItem("loggedInUser") || localStorage.getItem("userMobile") || localStorage.getItem("loginId");
 
-            let select = document.getElementById('cardType');
-            let cardName = select.value;
-            let price = select.options[select.selectedIndex].getAttribute('data-price');
+            // २. जर लॉगिन नसेल, तर पॉप-अप (Prompt) मध्ये मोबाईल नंबर विचारणे
+            if(!loggedInUser) {
+                loggedInUser = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर टाका:");
+                
+                // युजरने कॅन्सल केले तर थांबवणे
+                if(!loggedInUser || loggedInUser.trim() === "") {
+                    return alert("टोकन कट करण्यासाठी मोबाईल नंबर आवश्यक आहे!");
+                }
+                // पुढच्या वेळेसाठी सेव्ह करणे
+                localStorage.setItem("loggedInUser", loggedInUser);
+            }
+
+            let cardName = "आधार कार्ड"; // फिक्स नाव
             
             let btn = document.getElementById('btnDownload');
             let originalText = btn.innerHTML;
-            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> टोकन कट होत आहेत...";
             btn.disabled = true;
 
             let formData = new FormData();
@@ -250,14 +266,17 @@
             formData.append('cardType', cardName);
             formData.append('remark', currentSize + ' Size Export');
 
+            // ३. बॅकएंडला रिक्वेस्ट पाठवणे
             fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // टोकन यशस्वीरीत्या कट झाले, आता HD PDF डाऊनलोड सुरू करा
+                    // डॅशबोर्डसाठी नवीन बॅलन्स अपडेट करणे
+                    localStorage.setItem("remainingTokens", data.remaining);
+                    // टोकन कट झाल्यावर PDF बनवणे
                     exportToPDF();
                 } else {
-                    alert(data.message); // "पुरेसे टोकन नाहीत" एरर दाखवेल
+                    alert(data.message); // बॅलन्स नसल्यास एरर दाखवेल
                 }
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -268,11 +287,11 @@
             });
         }
 
-        // --- CONVERT CANVAS TO HD PDF ---
+        // --- CONVERT CANVAS TO HD PDF (100% Secure from Clipping) ---
         function exportToPDF() {
             const { jsPDF } = window.jspdf;
             const canvas = document.getElementById('idCanvas');
-            const imgData = canvas.toDataURL('image/jpeg', 1.0); // 100% Quality
+            const imgData = canvas.toDataURL('image/jpeg', 1.0); 
             
             let pdf;
             if (currentSize === '4x6') {
@@ -280,13 +299,16 @@
                 pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6);
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                // A4 is 210x297 mm
                 pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
             }
             
-            let cardName = document.getElementById('cardType').value;
-            pdf.save(cardName + '_' + currentSize + '.pdf');
+            pdf.save('Aadhaar_Card_' + currentSize + '.pdf');
             alert("✅ तुमची HD PDF यशस्वीरीत्या डाऊनलोड झाली!");
+            
+            // ५ सेकंदांनंतर पेज रिफ्रेश करून नवीन कार्डसाठी रेडी करणे
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         }
     </script>
 </body>
