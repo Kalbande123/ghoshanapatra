@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Card Printing - SevaSpot</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PDF.js for Reading PDF & jsPDF for Exporting HD PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="config.js"></script> <!-- Ensure CONFIG is linked -->
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; padding: 20px; text-align: center; }
+        
+        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        
+        /* 🚨 WhatsApp Notice Box */
+        .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .notice-box a { color: #166534; text-decoration: none; border-bottom: 1px dashed #166534; }
+        
+        h2 { color: #001040; margin-bottom: 15px; }
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #334155; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #cbd5e1; }
+        
+        .btn-preview { background-color: #2563eb; color: white; border: none; padding: 12px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+        .btn-preview:hover { background-color: #1d4ed8; }
+        
+        .btn-download { background-color: #ea580c; color: white; border: none; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 20px; display: none; }
+        .btn-download:hover { background-color: #c2410c; }
+        
+        .error { color: red; font-weight: bold; display: none; margin-top: 10px; }
+        
+        #previewArea { margin-top: 30px; display: none; }
+        canvas { background-color: white; width: 100%; max-width: 450px; height: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 🎯 WhatsApp Notice -->
+        <div class="notice-box">
+            <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
+            <span>टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919999999999" target="_blank">9999999999</a> वर संपर्क साधा.</span>
+        </div>
+
+        <h2><i class="fas fa-id-card"></i> स्मार्ट आयडी कार्ड प्रिंटिंग</h2>
+        
+        <div class="form-group">
+            <label>कोणते कार्ड बनवायचे आहे?</label>
+            <select id="cardType" onchange="updatePriceUI()">
+                <option value="आधार कार्ड" data-price="5">आधार कार्ड (5 Tokens)</option>
+                <option value="मतदान कार्ड" data-price="5">मतदान कार्ड (5 Tokens)</option>
+                <option value="पॅन कार्ड" data-price="5">पॅन कार्ड (5 Tokens)</option>
+                <option value="शेतकरी ओळखपत्र" data-price="10">शेतकरी ओळखपत्र (10 Tokens)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>पेपरची साईझ निवडा:</label>
+            <select id="printSize">
+                <option value="4x6">4x6 Photo Paper</option>
+                <option value="A4">A4 Full Size Paper</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>PDF फाईल निवडा:</label>
+            <input type="file" id="pdfFile" accept="application/pdf">
+        </div>
+
+        <div class="form-group">
+            <label>PDF पासवर्ड (असल्यास):</label>
+            <input type="password" id="pdfPassword" placeholder="PDF चा पासवर्ड टाका">
+        </div>
+        
+        <!-- मोफत प्रिव्ह्यू -->
+        <button class="btn-preview" onclick="generatePreview()"><i class="fas fa-eye"></i> प्रिव्ह्यू पहा (Free)</button>
+        <p id="errorMsg" class="error"></p>
+        
+        <!-- हा कॅनव्हास फक्त प्रिव्ह्यू आणि डाऊनलोडसाठी वापरला जाईल -->
+        <div id="previewArea">
+            <h3 style="margin-bottom: 10px; color: #16a34a;">✅ प्रिव्ह्यू रेडी आहे!</h3>
+            <canvas id="idCanvas"></canvas>
+            
+            <!-- फायनल डाऊनलोड बटन (इथे टोकन कट होतील) -->
+            <button id="btnDownload" class="btn-download" onclick="deductTokenAndDownload()">
+                <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (<span id="btnPrice">5</span> Tokens)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        let currentSize = '4x6'; 
+
+        function updatePriceUI() {
+            let select = document.getElementById('cardType');
+            let price = select.options[select.selectedIndex].getAttribute('data-price');
+            document.getElementById('btnPrice').innerText = price;
+        }
+
+        // --- DRAW ROUNDED CORNERS (तुमचा ओरिजिनल कोड) ---
+        function drawRoundedCard(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh, radius) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(dx + radius, dy);
+            ctx.lineTo(dx + dw - radius, dy);
+            ctx.quadraticCurveTo(dx + dw, dy, dx + dw, dy + radius);
+            ctx.lineTo(dx + dw, dy + dh - radius);
+            ctx.quadraticCurveTo(dx + dw, dy + dh, dx + dw - radius, dy + dh);
+            ctx.lineTo(dx + radius, dy + dh);
+            ctx.quadraticCurveTo(dx, dy + dh, dx, dy + dh - radius);
+            ctx.lineTo(dx, dy + radius);
+            ctx.quadraticCurveTo(dx, dy, dx + radius, dy);
+            ctx.closePath();
+            ctx.clip(); 
+            ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+            ctx.lineWidth = 6; 
+            ctx.strokeStyle = "#000000"; 
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // --- PREVIEW GENERATION (FREE) ---
+        async function generatePreview() {
+            const fileInput = document.getElementById('pdfFile').files[0];
+            const password = document.getElementById('pdfPassword').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const previewArea = document.getElementById('previewArea');
+            const btnDownload = document.getElementById('btnDownload');
+            
+            currentSize = document.getElementById('printSize').value;
+
+            if (!fileInput) { alert("कृपया PDF फाईल निवडा."); return; }
+
+            errorMsg.style.display = 'none';
+            previewArea.style.display = 'none';
+            btnDownload.style.display = 'none';
+
+            const fileReader = new FileReader();
+            
+            fileReader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                try {
+                    const loadingTask = pdfjsLib.getDocument({ data: typedarray, password: password });
+                    const pdf = await loadingTask.promise;
+                    const page = await pdf.getPage(1);
+
+                    const scale = 3.0; 
+                    const viewport = page.getViewport({ scale: scale });
+
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCanvas.width = viewport.width;
+                    tempCanvas.height = viewport.height;
+
+                    await page.render({ canvasContext: tempCtx, viewport: viewport }).promise;
+
+                    // --- CROP SETTINGS (तुमचे आधारचे सेटिंग्ज) ---
+                    const CARD_ASPECT_RATIO = 1.586; 
+                    const cropWidth = tempCanvas.width * 0.426; 
+                    const cropHeight = cropWidth / CARD_ASPECT_RATIO; 
+                    const cropY = tempCanvas.height * 0.722; 
+                    const leftCropX = tempCanvas.width * 0.073;  
+                    const rightCropX = tempCanvas.width * 0.502; 
+
+                    const finalCanvas = document.getElementById('idCanvas');
+                    const finalCtx = finalCanvas.getContext('2d');
+                    
+                    const drawWidth = 1040; 
+                    const drawHeight = drawWidth / CARD_ASPECT_RATIO; 
+                    const cornerRadius = 32; 
+
+                    if (currentSize === '4x6') {
+                        // 4x6 CANVAS LOGIC (1200x1800)
+                        finalCanvas.width = 1200;  
+                        finalCanvas.height = 1800; 
+                        finalCtx.fillStyle = "white";
+                        finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+                        const marginX = (finalCanvas.width - drawWidth) / 2; 
+                        const gapBetweenCards = 130; 
+                        const topPadding = (finalCanvas.height - (drawHeight * 2) - gapBetweenCards) / 2;
+
+                        drawRoundedCard(finalCtx, tempCanvas, leftCropX, cropY, cropWidth, cropHeight, marginX, topPadding, drawWidth, drawHeight, cornerRadius);
+                        drawRoundedCard(finalCtx, tempCanvas, rightCropX, cropY, cropWidth, cropHeight, marginX, topPadding + drawHeight + gapBetweenCards, drawWidth, drawHeight, cornerRadius);
+                    
+                    } else if (currentSize === 'A4') {
+                        // A4 CANVAS LOGIC (2480x3508)
+                        finalCanvas.width = 2480;  
+                        finalCanvas.height = 3508; 
+                        finalCtx.fillStyle = "white";
+                        finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+                        const gapBetweenCards = 140; 
+                        const startX = (finalCanvas.width - (drawWidth * 2 + gapBetweenCards)) / 2; 
+                        const gapY = 38; 
+
+                        drawRoundedCard(finalCtx, tempCanvas, leftCropX, cropY, cropWidth, cropHeight, startX, gapY, drawWidth, drawHeight, cornerRadius);
+                        drawRoundedCard(finalCtx, tempCanvas, rightCropX, cropY, cropWidth, cropHeight, startX + drawWidth + gapBetweenCards, gapY, drawWidth, drawHeight, cornerRadius);
+
+                        // Cut Line
+                        finalCtx.lineWidth = 3; 
+                        finalCtx.strokeStyle = "#aaaaaa"; 
+                        finalCtx.setLineDash([20, 15]); 
+                        let cutLineY = gapY + drawHeight + (gapY / 2); 
+                        finalCtx.beginPath();
+                        finalCtx.moveTo(80, cutLineY); 
+                        finalCtx.lineTo(finalCanvas.width - 80, cutLineY); 
+                        finalCtx.stroke();
+                        finalCtx.setLineDash([]);
+                    }
+
+                    previewArea.style.display = 'block';
+                    btnDownload.style.display = 'block';
+
+                } catch (error) {
+                    errorMsg.innerText = error.name === 'PasswordException' ? "चुकीचा पासवर्ड!" : "PDF प्रोसेस करण्यात अडचण आली.";
+                    errorMsg.style.display = 'block';
+                }
+            };
+            fileReader.readAsArrayBuffer(fileInput);
+        }
+
+        // --- TOKEN DEDUCTION & HD PDF EXPORT ---
+        function deductTokenAndDownload() {
+            // युजरनेम localStorage मधून घेणे (तुमच्या home.html प्रमाणे)
+            let loggedInUser = localStorage.getItem("loggedInUser");
+            if(!loggedInUser) return alert("कृपया प्रथम लॉगिन करा!");
+
+            let select = document.getElementById('cardType');
+            let cardName = select.value;
+            let price = select.options[select.selectedIndex].getAttribute('data-price');
+            
+            let btn = document.getElementById('btnDownload');
+            let originalText = btn.innerHTML;
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
+            btn.disabled = true;
+
+            let formData = new FormData();
+            formData.append('action', 'printIdCard');
+            formData.append('username', loggedInUser);
+            formData.append('cardType', cardName);
+            formData.append('remark', currentSize + ' Size Export');
+
+            fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // टोकन यशस्वीरीत्या कट झाले, आता HD PDF डाऊनलोड सुरू करा
+                    exportToPDF();
+                } else {
+                    alert(data.message); // "पुरेसे टोकन नाहीत" एरर दाखवेल
+                }
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                alert("नेटवर्क एरर! पुन्हा प्रयत्न करा.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        // --- CONVERT CANVAS TO HD PDF ---
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const canvas = document.getElementById('idCanvas');
+            const imgData = canvas.toDataURL('image/jpeg', 1.0); // 100% Quality
+            
+            let pdf;
+            if (currentSize === '4x6') {
+                pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
+                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6);
+            } else {
+                pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                // A4 is 210x297 mm
+                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+            }
+            
+            let cardName = document.getElementById('cardType').value;
+            pdf.save(cardName + '_' + currentSize + '.pdf');
+            alert("✅ तुमची HD PDF यशस्वीरीत्या डाऊनलोड झाली!");
+        }
+    </script>
+</body>
+</html>
