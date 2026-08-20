@@ -160,9 +160,6 @@
     </div>
 
     <script>
-        // ---------------------------------------------------------
-        // 🟢 तुमच्या PNG फाईल्सची नावे (येथे बदल केला आहे) 🟢
-        // ---------------------------------------------------------
         const FRONT_TEMPLATE_URL = 'front_bg.png'; 
         const BACK_TEMPLATE_URL = 'back_bg.png';   
         
@@ -263,29 +260,50 @@
                     }
                 });
 
-                document.getElementById('qrCodeContainer').innerHTML = "";
+                // QR Code
+                const qrContainer = document.getElementById('qrCodeContainer');
+                qrContainer.innerHTML = "";
                 const qrText = `Name:${data.engName}, Mob:${data.mobile}, Aadhaar:${data.aadhar}`;
-                new QRCode(document.getElementById("qrCodeContainer"), { 
+                
+                new QRCode(qrContainer, { 
                     text: qrText, 
                     width: 200, 
-                    height: 200 
+                    height: 200,
+                    correctLevel: QRCode.CorrectLevel.H
                 });
 
+                // Wait for QR to generate properly
                 setTimeout(async () => {
-                    const qrImgUrl = document.querySelector('#qrCodeContainer img').src;
+                    try {
+                        let qrImgUrl = "";
+                        const qrCanvas = document.querySelector('#qrCodeContainer canvas');
+                        
+                        if(qrCanvas) {
+                            qrImgUrl = qrCanvas.toDataURL('image/png');
+                        } else {
+                            const qrImg = document.querySelector('#qrCodeContainer img');
+                            if(qrImg) qrImgUrl = qrImg.src;
+                        }
 
-                    await drawFrontCard(data, photoUrl, qrImgUrl);
-                    await drawBackCard(data);
+                        await drawFrontCard(data, photoUrl, qrImgUrl);
+                        await drawBackCard(data);
 
-                    document.getElementById('dataForm').style.display = 'none';
-                    document.getElementById('previewArea').style.display = 'block';
-                    document.getElementById('successMsg').style.display = 'block';
-                    document.getElementById('btnDownload').style.display = 'block';
-                }, 500);
+                        document.getElementById('dataForm').style.display = 'none';
+                        document.getElementById('previewArea').style.display = 'block';
+                        document.getElementById('successMsg').style.display = 'block';
+                        document.getElementById('btnDownload').style.display = 'block';
+
+                    } catch (drawErr) {
+                        console.error(drawErr);
+                        alert("कार्ड रेखाटताना त्रुटी आली. कृपया GitHub वर टेस्ट करा.");
+                        btnProcess.disabled = false;
+                        btnProcess.innerHTML = "<i class='fas fa-magic'></i> ओळखपत्र तयार करा";
+                    }
+                }, 800); 
 
             } catch (err) {
                 console.error(err);
-                alert("कार्ड बनवण्यात अडचण आली. फोटोचे नाव बरोबर असल्याची खात्री करा.");
+                alert("तांत्रिक त्रुटी: " + err.message);
                 btnProcess.disabled = false;
                 btnProcess.innerHTML = "<i class='fas fa-magic'></i> ओळखपत्र तयार करा";
             }
