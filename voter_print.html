@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
-    <!-- 🟢 CONFIG फाईल ॲक्टिव्ह केली 🟢 -->
+    <!-- 🟢 CONFIG फाईल लिंक केली (टोकन कट करण्यासाठी आवश्यक) 🟢 -->
     <script src="config.js"></script> 
 
     <style>
@@ -358,29 +358,31 @@
             }
         }
 
-        // 🟢 टोकन कट करण्याची मुख्य पद्धत 🟢
+        // 🟢 टोकन कट करण्याची मुख्य पद्धत (आधार कार्डच्या पॅटर्ननुसार) 🟢
         function deductTokenAndDownload() {
-            // १. युजरचा आयडी शोधणे
-            let loggedInUser = localStorage.getItem("loggedInUser") || localStorage.getItem("userMobile") || localStorage.getItem("loginId") || localStorage.getItem("userFullName") || localStorage.getItem("username");
-
-            // २. लॉगिन नसेल तर मोबाईल नंबर विचारणे
-            if(!loggedInUser) {
-                loggedInUser = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर किंवा युजरनेम टाका:");
-                if(!loggedInUser || loggedInUser.trim() === "") {
-                    return alert("टोकन कट करण्यासाठी मोबाईल नंबर आवश्यक आहे!");
-                }
-                localStorage.setItem("loggedInUser", loggedInUser);
-            }
-
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
             btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
             btn.disabled = true;
 
+            // १. युजरचा आयडी शोधणे
+            let username = localStorage.getItem('username') || localStorage.getItem("loggedInUser") || "9876543210";
+
+            // २. लॉगिन नसेल तर मोबाईल नंबर विचारणे
+            if(!username || username === "9876543210") {
+                username = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर किंवा युजरनेम टाका:");
+                if(!username || username.trim() === "") {
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return alert("टोकन कट करण्यासाठी आयडी आवश्यक आहे!");
+                }
+                localStorage.setItem("username", username);
+            }
+
             // ३. डेटा तयार करणे
             let formData = new FormData();
             formData.append('action', 'printIdCard');
-            formData.append('username', loggedInUser);
+            formData.append('username', username);
             formData.append('cardType', 'मतदान कार्ड');
             formData.append('remark', currentSize + ' Size Export');
 
@@ -391,7 +393,7 @@
                 if(data.status === 'success') {
                     // ५. लोकल स्टोरेजमधील टोकन कमी करणे
                     let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
-                    if(currentTokens >= 5) {
+                    if(currentTokens > 0) {
                         localStorage.setItem('remainingTokens', currentTokens - 5);
                     }
 
@@ -400,10 +402,12 @@
                     exportToPDF();
 
                     // ७. UI अपडेट करणे
-                    document.getElementById('successMsg').style.display = 'none';
-                    document.getElementById('editPanel').style.display = 'none';
-                    btn.style.display = 'none';
-                    document.getElementById('btnGoHome').style.display = 'flex';
+                    setTimeout(() => {
+                        document.getElementById('successMsg').style.display = 'none';
+                        document.getElementById('editPanel').style.display = 'none';
+                        btn.style.display = 'none';
+                        document.getElementById('btnGoHome').style.display = 'flex';
+                    }, 500);
                 } else {
                     alert("त्रुटी: " + data.message); // जर बॅलन्स नसेल तर मेसेज दाखवणे
                     btn.innerHTML = originalHtml;
