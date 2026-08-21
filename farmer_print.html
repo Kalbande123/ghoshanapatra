@@ -35,13 +35,14 @@
         td input { width: 100%; border: 1px solid #e2e8f0; padding: 5px; border-radius: 4px; text-align: center; outline: none; font-size: 14px; }
         .btn-remove { background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
 
-        .btn-add-row { background: #eab308; color: #854d0e; border: none; padding: 10px 15px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-bottom: 20px; display: inline-block; }
+        .btn-add-row { background: #eab308; color: #854d0e; border: none; padding: 10px 15px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-bottom: 20px; display: inline-block; transition: 0.3s; }
         .btn-add-row:hover { background: #ca8a04; color: white; }
 
         .btn-process { background-color: #16a34a; color: white; border: none; padding: 14px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         .btn-process:hover { background-color: #15803d; }
         
         .btn-download { background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); color: white; border: none; padding: 14px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; display: none; transition: 0.3s; }
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4); }
         
         #previewArea { margin-top: 20px; display: none; }
         canvas { max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -77,11 +78,11 @@
 
                 <div class="form-group">
                     <label>इंग्रजी नाव (Name):</label>
-                    <input type="text" id="engName" placeholder="उदा. John Doe" required>
+                    <input type="text" id="engName" placeholder="उदा. RAGHUNATH TUKARAM PATIL" required>
                 </div>
                 <div class="form-group">
                     <label>मराठी नाव:</label>
-                    <input type="text" id="marName" placeholder="उदा. जॉन डो" required>
+                    <input type="text" id="marName" placeholder="उदा. रघुनाथ तुकाराम पाटील" required>
                 </div>
                 <div class="form-group">
                     <label>जन्मतारीख (DOB):</label>
@@ -96,11 +97,11 @@
                 </div>
                 <div class="form-group">
                     <label>मोबाईल नं:</label>
-                    <input type="text" id="mobile" placeholder="१० अंकी मोबाईल नंबर" required>
+                    <input type="text" id="mobile" placeholder="१० अंकी मोबाईल नंबर" maxlength="10" pattern="\d{10}" required>
                 </div>
                 <div class="form-group">
                     <label>आधार नं:</label>
-                    <input type="text" id="aadhar" placeholder="उदा. XXXX XXXX XXXX" required>
+                    <input type="text" id="aadhar" placeholder="उदा. XXXX XXXX XXXX" maxlength="14" required>
                 </div>
                 <div class="form-group full-width">
                     <label>शेतकऱ्याचा फोटो निवडा:</label>
@@ -228,8 +229,14 @@
         }
 
         async function generateCard() {
+            const mobileInput = document.getElementById('mobile').value;
+            if(mobileInput && mobileInput.length < 10) {
+                alert("कृपया १० अंकी योग्य मोबाईल नंबर टाका.");
+                return;
+            }
+
             const btnProcess = document.getElementById('btnProcess');
-            btnProcess.innerHTML = "<i class='fas fa-spinner fa-spin'></i> कार्ड बनत approach आहे...";
+            btnProcess.innerHTML = "<i class='fas fa-spinner fa-spin'></i> कार्ड बनत आहे...";
             btnProcess.disabled = true;
 
             try {
@@ -243,7 +250,7 @@
                 const photoUrl = await readFileAsDataURL(photoFile);
 
                 const data = {
-                    farmerId: document.getElementById('farmerId').value, 
+                    farmerId: document.getElementById('farmerId').value || "N/A", 
                     engName: document.getElementById('engName').value.toUpperCase(),
                     marName: document.getElementById('marName').value,
                     dob: formatDate(document.getElementById('dob').value),
@@ -266,7 +273,6 @@
                     }
                 });
 
-                // QR Code
                 const qrContainer = document.getElementById('qrCodeContainer');
                 qrContainer.innerHTML = "";
                 const qrText = `F-ID:${data.farmerId}, Name:${data.engName}, Mob:${data.mobile}`;
@@ -300,7 +306,7 @@
 
                     } catch (drawErr) {
                         console.error(drawErr);
-                        alert("कार्ड रेखाटताना त्रुटी आली. कृपया GitHub वर टेस्ट करा.");
+                        alert("कार्ड रेखाटताना त्रुटी आली. कृपया इमेजेस आणि डेटा तपासा.");
                         btnProcess.disabled = false;
                         btnProcess.innerHTML = "<i class='fas fa-magic'></i> ओळखपत्र तयार करा";
                     }
@@ -327,23 +333,8 @@
                 ctx.strokeStyle = "#16a34a"; ctx.lineWidth = 10; ctx.strokeRect(0, 0, canvas.width, canvas.height);
             }
 
-            // =======================================================
-            // 🛠️ येथे तुम्ही दिलेल्या नवीन व्हॅल्यूज अपडेट केल्या आहेत 🛠️
-            // =======================================================
-            
-            // १. फोटोची जागा (तुम्ही Y=110 दिले होते, पण Y वाढवला की फोटो 'खाली' येतो, म्हणून मी 130 केले आहे.)
             const photoX = 50;  const photoY = 130;  const photoW = 220; const photoH = 270;
-            
-            // २. QR Code ची जागा (तुमचे आकडे)
             const qrX = 830;    const qrY = 280;     const qrW = 180;    const qrH = 180;
-            
-            const textX = 390;        
-            let startY = 160;         // अक्षरे रेषेवर आणण्यासाठी हा आकडा बदला
-            const gapY = 60;          
-            
-            const fIdX = 420;         
-            const fIdY = 560;         
-            // =======================================================
 
             const userPhoto = await loadImage(photoUrl);
             ctx.drawImage(userPhoto, photoX, photoY, photoW, photoH); 
@@ -353,21 +344,65 @@
                 ctx.drawImage(qrCodeImg, qrX, qrY, qrW, qrH); 
             } catch(e) { console.log("QR Error"); }
 
-            // नवीन डिझाईननुसार हेडिंग आणि डेटा एकत्र प्रिंट करणे 
+            // =========================================================
+            // 🛠️ नवीन अलाईनमेंट लॉजिक (Colons ':' in a straight line) 🛠️
+            // =========================================================
             ctx.fillStyle = "#000000";
             ctx.textAlign = "left";
-            ctx.font = "bold 28px Mukta, sans-serif";
+            ctx.font = "bold 26px Mukta, sans-serif";
             
-            ctx.fillText("Name: " + data.engName, textX, startY);
-            ctx.fillText("नाव: " + data.marName, textX, startY + gapY);
-            ctx.fillText("DOB: " + data.dob, textX, startY + (gapY*2));
-            ctx.fillText("Gender: " + data.gender, textX, startY + (gapY*3));
-            ctx.fillText("मोबाईल नं: " + data.mobile, textX, startY + (gapY*4));
-            ctx.fillText("आधार नं: " + data.aadhar, textX, startY + (gapY*5)); 
+            // X-Coordinates (समान रेषेसाठी 3 रकाने केले आहेत)
+            const labelX = 330;   // हेडिंगची जागा (उदा. Name, DOB)
+            const colonX = 490;   // कॉलन (:) ची जागा
+            const valueX = 510;   // मूळ माहितीची जागा
+            
+            let startY = 160;     // पहिली ओळ कुठून सुरु होईल
+            const gapY = 55;      // दोन ओळींमधले अंतर
 
-            ctx.font = "bold 32px Mukta, sans-serif";
-            ctx.fillStyle = "#ffffff"; // Farmer ID च्या हिरव्या पट्टीवर पांढरा रंग छान दिसेल
-            ctx.fillText(data.farmerId, fIdX, fIdY);
+            // 1. Name
+            ctx.fillText("Name", labelX, startY);
+            ctx.fillText(":", colonX, startY);
+            ctx.fillText(data.engName, valueX, startY);
+            
+            // 2. नाव
+            startY += gapY;
+            ctx.fillText("नाव", labelX, startY);
+            ctx.fillText(":", colonX, startY);
+            ctx.fillText(data.marName, valueX, startY);
+            
+            // 3. DOB
+            startY += gapY;
+            ctx.fillText("DOB", labelX, startY);
+            ctx.fillText(":", colonX, startY);
+            ctx.fillText(data.dob, valueX, startY);
+            
+            // 4. Gender
+            startY += gapY;
+            ctx.fillText("Gender", labelX, startY);
+            ctx.fillText(":", colonX, startY);
+            ctx.fillText(data.gender, valueX, startY);
+            
+            // 5. Mobile
+            startY += gapY;
+            ctx.fillText("मोबाईल नं.", labelX, startY);
+            ctx.fillText(":", colonX, startY);
+            ctx.fillText(data.mobile, valueX, startY);
+            
+            // 6. Aadhar
+            startY += gapY;
+            ctx.fillText("आधार नं.", labelX, startY);
+            ctx.fillText(":", colonX, startY);
+            ctx.fillText(data.aadhar, valueX, startY);
+            
+            // =========================================================
+            // 🛠️ मोठा आणि ठळक Farmer ID (Large Prominent ID) 🛠️
+            // =========================================================
+            ctx.textAlign = "center";
+            ctx.font = "bold 38px Mukta, sans-serif";
+            ctx.fillStyle = "#075d2c"; // Dark Green Color
+            
+            // कार्डच्या बरोबर मध्यभागी, खाली सेट केला आहे
+            ctx.fillText(data.farmerId, 520, 580); 
 
             finalFrontImgData = canvas.toDataURL('image/jpeg', 1.0);
         }
@@ -389,10 +424,8 @@
             ctx.font = "bold 28px Mukta, sans-serif";
             ctx.textAlign = "left";
 
-            // 🟢 पत्ता वर घेतला (Y आधी 222 होता, आता 190 केला आहे) 🟢
             ctx.fillText("पत्ता: " + data.address, 100, 190);
 
-            // 🟢 टेबल थोडा वर घेतला (Y आधी 280 होता, आता 250 केला आहे) 🟢
             let startX = 60;
             let startY = 250;
             let tableWidth = 920;
@@ -463,9 +496,6 @@
             finalBackImgData = canvas.toDataURL('image/jpeg', 1.0);
         }
 
-        // ========================================================
-        // 🟢 सेम आधार कार्डसारखी PDF बनवण्याचे नवीन लॉजिक 🟢
-        // ========================================================
         function generateFinalCanvas() {
             const finalCanvas = document.createElement('canvas');
             const finalCtx = finalCanvas.getContext('2d');
@@ -537,7 +567,6 @@
             return finalCanvas.toDataURL('image/jpeg', 1.0);
         }
 
-        // 🟢 PDF डाऊनलोड आणि टोकन कट 🟢
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
@@ -553,6 +582,14 @@
                     return alert("टोकन कट करण्यासाठी आयडी आवश्यक आहे!");
                 }
                 localStorage.setItem("username", username);
+            }
+
+            if (typeof CONFIG === 'undefined' || !CONFIG.SCRIPT_URL) {
+                console.warn("CONFIG object not found. Skipping API call.");
+                exportToPDF();
+                btn.innerHTML = originalHtml; 
+                btn.disabled = false;
+                return;
             }
 
             let formData = new FormData();
