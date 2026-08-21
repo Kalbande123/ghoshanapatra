@@ -64,13 +64,12 @@
             <div class="form-group" style="text-align: left; margin-bottom: 15px;">
                 <label>पेपरची साईझ निवडा:</label>
                 <select id="printSize" style="width: 50%;">
-                    <option value="4x6">4x6 Photo Paper</option>
+                    <option value="4x6">4x6 Photo Paper (HD)</option>
                     <option value="A4">A4 Full Size Paper</option>
                 </select>
             </div>
 
             <div class="form-grid">
-                <!-- 🟢 नवीन: शेतकरी आयडी 🟢 -->
                 <div class="form-group full-width" style="background: #fef3c7; padding: 10px; border-radius: 6px; border: 1px solid #f59e0b;">
                     <label style="color: #b45309;"><i class="fas fa-id-badge"></i> शेतकरी आयडी (Farmer ID):</label>
                     <input type="text" id="farmerId" placeholder="उदा. MH-12345678" style="border: 1px solid #f59e0b;" required>
@@ -244,7 +243,7 @@
                 const photoUrl = await readFileAsDataURL(photoFile);
 
                 const data = {
-                    farmerId: document.getElementById('farmerId').value, // 🟢 नवीन जोडले
+                    farmerId: document.getElementById('farmerId').value, 
                     engName: document.getElementById('engName').value.toUpperCase(),
                     marName: document.getElementById('marName').value,
                     dob: formatDate(document.getElementById('dob').value),
@@ -267,7 +266,7 @@
                     }
                 });
 
-                // QR Code (Farmer ID सुद्धा ऍड केला)
+                // QR Code
                 const qrContainer = document.getElementById('qrCodeContainer');
                 qrContainer.innerHTML = "";
                 const qrText = `F-ID:${data.farmerId}, Name:${data.engName}, Mob:${data.mobile}`;
@@ -330,27 +329,18 @@
 
             // =======================================================
             // 🛠️ येथे तुम्ही X आणि Y ॲक्सिस (जागा) ऍडजस्ट करू शकता 🛠️
-            // (टीप: X वाढवला की मजकूर उजवीकडे जाईल, Y वाढवला की खाली येईल)
             // =======================================================
-
-            // १. फोटोची जागा
             const photoX = 50;  const photoY = 115;  const photoW = 220; const photoH = 270;
-            
-            // २. QR Code ची जागा
             const qrX = 780;    const qrY = 130;     const qrW = 180;    const qrH = 180;
             
-            // ३. मुख्य माहितीची जागा (नाव, जन्मतारीख इत्यादी)
-            const textX = 390;        // मजकूर डावीकडून किती पुढे असावा?
-            let startY = 160;         // 🔴 (येथे बदल केला आहे) पहिल्या ओळीची उंची. जर अक्षर रेषेच्या वर असेल तर हा आकडा वाढवा (उदा. 165, 170 करा)
-            const gapY = 60;          // दोन ओळींमधील अंतर
+            const textX = 390;        
+            let startY = 160;         // अक्षरे रेषेवर आणण्यासाठी हा आकडा बदला
+            const gapY = 60;          
             
-            // ४. 🟢 नवीन: Farmer ID ची जागा 🟢
-            const fIdX = 420;         // Farmer ID डावीकडून किती पुढे असावा?
-            const fIdY = 560;         // Farmer ID वरून किती खाली असावा? (तुमच्या काळ्या रेषेनुसार)
-
+            const fIdX = 420;         
+            const fIdY = 560;         
             // =======================================================
 
-            // ड्रॉईंग सुरू
             const userPhoto = await loadImage(photoUrl);
             ctx.drawImage(userPhoto, photoX, photoY, photoW, photoH); 
             
@@ -359,7 +349,6 @@
                 ctx.drawImage(qrCodeImg, qrX, qrY, qrW, qrH); 
             } catch(e) { console.log("QR Error"); }
 
-            // माहिती ड्रॉ करणे
             ctx.fillStyle = "#000000";
             ctx.textAlign = "left";
             ctx.font = "bold 28px Mukta, sans-serif";
@@ -369,11 +358,10 @@
             ctx.fillText(data.dob, textX, startY + (gapY*2));
             ctx.fillText(data.gender, textX, startY + (gapY*3));
             ctx.fillText(data.mobile, textX, startY + (gapY*4));
-            ctx.fillText(data.aadhar, textX, startY + (gapY*5)); // आधारची रेष ऍडजस्ट केली
+            ctx.fillText(data.aadhar, textX, startY + (gapY*5)); 
 
-            // 🟢 Farmer ID ड्रॉ करणे (मोठ्या आणि ठळक अक्षरात) 🟢
             ctx.font = "bold 32px Mukta, sans-serif";
-            ctx.fillStyle = "#15803d"; // हिरवा रंग (तुम्हाला हवा तर "#000000" करून काळा करू शकता)
+            ctx.fillStyle = "#15803d"; 
             ctx.fillText(data.farmerId, fIdX, fIdY);
 
             finalFrontImgData = canvas.toDataURL('image/jpeg', 1.0);
@@ -468,6 +456,81 @@
             finalBackImgData = canvas.toDataURL('image/jpeg', 1.0);
         }
 
+        // ========================================================
+        // 🟢 सेम आधार कार्डसारखी PDF बनवण्याचे नवीन लॉजिक 🟢
+        // ========================================================
+        function generateFinalCanvas() {
+            const finalCanvas = document.createElement('canvas');
+            const finalCtx = finalCanvas.getContext('2d');
+            const printSize = document.getElementById('printSize').value;
+
+            const frontCanvas = document.getElementById('frontCanvas');
+            const backCanvas = document.getElementById('backCanvas');
+
+            if (printSize === '4x6') {
+                finalCanvas.width = 1200; finalCanvas.height = 1800; 
+            } else {
+                finalCanvas.width = 2480; finalCanvas.height = 3508; 
+            }
+            finalCtx.fillStyle = "white";
+            finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+            const drawWidth = 1040; 
+            const drawHeight = 655; 
+            const cornerRadius = 32; 
+
+            function drawRounded(ctx, sourceCanvas, dx, dy, dw, dh, radius) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(dx + radius, dy);
+                ctx.lineTo(dx + dw - radius, dy);
+                ctx.quadraticCurveTo(dx + dw, dy, dx + dw, dy + radius);
+                ctx.lineTo(dx + dw, dy + dh - radius);
+                ctx.quadraticCurveTo(dx + dw, dy + dh, dx + dw - radius, dy + dh);
+                ctx.lineTo(dx + radius, dy + dh);
+                ctx.quadraticCurveTo(dx, dy + dh, dx, dy + dh - radius);
+                ctx.lineTo(dx, dy + radius);
+                ctx.quadraticCurveTo(dx, dy, dx + radius, dy);
+                ctx.closePath();
+                ctx.clip(); 
+                ctx.drawImage(sourceCanvas, 0, 0, sourceCanvas.width, sourceCanvas.height, dx, dy, dw, dh);
+                ctx.lineWidth = 6; 
+                ctx.strokeStyle = "#000000"; 
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            if (printSize === '4x6') {
+                const marginX = (finalCanvas.width - drawWidth) / 2; 
+                const gapBetweenCards = 130; 
+                const topPadding = (finalCanvas.height - (drawHeight * 2) - gapBetweenCards) / 2;
+
+                drawRounded(finalCtx, frontCanvas, marginX, topPadding, drawWidth, drawHeight, cornerRadius);
+                drawRounded(finalCtx, backCanvas, marginX, topPadding + drawHeight + gapBetweenCards, drawWidth, drawHeight, cornerRadius);
+            
+            } else if (printSize === 'A4') {
+                const gapBetweenCards = 140; 
+                const startX = (finalCanvas.width - (drawWidth * 2 + gapBetweenCards)) / 2; 
+                const gapY = 38; 
+
+                drawRounded(finalCtx, frontCanvas, startX, gapY, drawWidth, drawHeight, cornerRadius);
+                drawRounded(finalCtx, backCanvas, startX + drawWidth + gapBetweenCards, gapY, drawWidth, drawHeight, cornerRadius);
+
+                finalCtx.lineWidth = 3; 
+                finalCtx.strokeStyle = "#aaaaaa"; 
+                finalCtx.setLineDash([20, 15]); 
+                let cutLineY = gapY + drawHeight + (gapY / 2); 
+                finalCtx.beginPath();
+                finalCtx.moveTo(80, cutLineY); 
+                finalCtx.lineTo(finalCanvas.width - 80, cutLineY); 
+                finalCtx.stroke();
+                finalCtx.setLineDash([]);
+            }
+
+            return finalCanvas.toDataURL('image/jpeg', 1.0);
+        }
+
+        // 🟢 PDF डाऊनलोड आणि टोकन कट 🟢
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
@@ -517,26 +580,15 @@
         function exportToPDF() {
             const { jsPDF } = window.jspdf;
             const printSize = document.getElementById('printSize').value;
+            const finalImgData = generateFinalCanvas(); 
             let pdf;
 
-            function drawRoundedCard(pdfDoc, imgData, x, y, w, h, radius) {
-                pdfDoc.setDrawColor(0, 0, 0);
-                pdfDoc.setLineWidth(0.5);
-                pdfDoc.roundedRect(x, y, w, h, radius, radius, 'S');
-                pdfDoc.addImage(imgData, 'JPEG', x, y, w, h);
-            }
-
             if (printSize === '4x6') {
-                pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [101.6, 152.4] }); 
-                drawRoundedCard(pdf, finalFrontImgData, 8, 10, 85.6, 54, 3);
-                drawRoundedCard(pdf, finalBackImgData, 8, 80, 85.6, 54, 3);
+                pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
+                pdf.addImage(finalImgData, 'JPEG', 0, 0, 4, 6, undefined, 'FAST');
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                drawRoundedCard(pdf, finalFrontImgData, 15, 15, 85.6, 54, 3);
-                drawRoundedCard(pdf, finalBackImgData, 105, 15, 85.6, 54, 3);
-                pdf.setDrawColor(170, 170, 170);
-                pdf.setLineDashPattern([5, 5], 0);
-                pdf.line(15, 75, 195, 75); 
+                pdf.addImage(finalImgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
             }
             
             pdf.save(`Smart_Farmer_ID_${new Date().getTime()}.pdf`);
