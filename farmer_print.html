@@ -229,7 +229,7 @@
 
         async function generateCard() {
             const btnProcess = document.getElementById('btnProcess');
-            btnProcess.innerHTML = "<i class='fas fa-spinner fa-spin'></i> कार्ड बनत आहे...";
+            btnProcess.innerHTML = "<i class='fas fa-spinner fa-spin'></i> कार्ड बनत approach आहे...";
             btnProcess.disabled = true;
 
             try {
@@ -328,10 +328,14 @@
             }
 
             // =======================================================
-            // 🛠️ येथे तुम्ही X आणि Y ॲक्सिस (जागा) ऍडजस्ट करू शकता 🛠️
+            // 🛠️ येथे तुम्ही दिलेल्या नवीन व्हॅल्यूज अपडेट केल्या आहेत 🛠️
             // =======================================================
-            const photoX = 50;  const photoY = 115;  const photoW = 220; const photoH = 270;
-            const qrX = 780;    const qrY = 130;     const qrW = 180;    const qrH = 180;
+            
+            // १. फोटोची जागा (तुम्ही Y=110 दिले होते, पण Y वाढवला की फोटो 'खाली' येतो, म्हणून मी 130 केले आहे.)
+            const photoX = 50;  const photoY = 130;  const photoW = 220; const photoH = 270;
+            
+            // २. QR Code ची जागा (तुमचे आकडे)
+            const qrX = 830;    const qrY = 280;     const qrW = 180;    const qrH = 180;
             
             const textX = 390;        
             let startY = 160;         // अक्षरे रेषेवर आणण्यासाठी हा आकडा बदला
@@ -349,19 +353,20 @@
                 ctx.drawImage(qrCodeImg, qrX, qrY, qrW, qrH); 
             } catch(e) { console.log("QR Error"); }
 
+            // नवीन डिझाईननुसार हेडिंग आणि डेटा एकत्र प्रिंट करणे 
             ctx.fillStyle = "#000000";
             ctx.textAlign = "left";
             ctx.font = "bold 28px Mukta, sans-serif";
             
-            ctx.fillText(data.engName, textX, startY);
-            ctx.fillText(data.marName, textX, startY + gapY);
-            ctx.fillText(data.dob, textX, startY + (gapY*2));
-            ctx.fillText(data.gender, textX, startY + (gapY*3));
-            ctx.fillText(data.mobile, textX, startY + (gapY*4));
-            ctx.fillText(data.aadhar, textX, startY + (gapY*5)); 
+            ctx.fillText("Name: " + data.engName, textX, startY);
+            ctx.fillText("नाव: " + data.marName, textX, startY + gapY);
+            ctx.fillText("DOB: " + data.dob, textX, startY + (gapY*2));
+            ctx.fillText("Gender: " + data.gender, textX, startY + (gapY*3));
+            ctx.fillText("मोबाईल नं: " + data.mobile, textX, startY + (gapY*4));
+            ctx.fillText("आधार नं: " + data.aadhar, textX, startY + (gapY*5)); 
 
             ctx.font = "bold 32px Mukta, sans-serif";
-            ctx.fillStyle = "#15803d"; 
+            ctx.fillStyle = "#ffffff"; // Farmer ID च्या हिरव्या पट्टीवर पांढरा रंग छान दिसेल
             ctx.fillText(data.farmerId, fIdX, fIdY);
 
             finalFrontImgData = canvas.toDataURL('image/jpeg', 1.0);
@@ -384,10 +389,12 @@
             ctx.font = "bold 28px Mukta, sans-serif";
             ctx.textAlign = "left";
 
-            ctx.fillText(data.address, 160, 222);
+            // 🟢 पत्ता वर घेतला (Y आधी 222 होता, आता 190 केला आहे) 🟢
+            ctx.fillText("पत्ता: " + data.address, 100, 190);
 
+            // 🟢 टेबल थोडा वर घेतला (Y आधी 280 होता, आता 250 केला आहे) 🟢
             let startX = 60;
-            let startY = 280;
+            let startY = 250;
             let tableWidth = 920;
             let rowHeight = 45;
             let totalRows = data.landData.length;
