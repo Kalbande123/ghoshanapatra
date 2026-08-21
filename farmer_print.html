@@ -70,6 +70,12 @@
             </div>
 
             <div class="form-grid">
+                <!-- 🟢 नवीन: शेतकरी आयडी 🟢 -->
+                <div class="form-group full-width" style="background: #fef3c7; padding: 10px; border-radius: 6px; border: 1px solid #f59e0b;">
+                    <label style="color: #b45309;"><i class="fas fa-id-badge"></i> शेतकरी आयडी (Farmer ID):</label>
+                    <input type="text" id="farmerId" placeholder="उदा. MH-12345678" style="border: 1px solid #f59e0b;" required>
+                </div>
+
                 <div class="form-group">
                     <label>इंग्रजी नाव (Name):</label>
                     <input type="text" id="engName" placeholder="उदा. John Doe" required>
@@ -238,6 +244,7 @@
                 const photoUrl = await readFileAsDataURL(photoFile);
 
                 const data = {
+                    farmerId: document.getElementById('farmerId').value, // 🟢 नवीन जोडले
                     engName: document.getElementById('engName').value.toUpperCase(),
                     marName: document.getElementById('marName').value,
                     dob: formatDate(document.getElementById('dob').value),
@@ -260,10 +267,10 @@
                     }
                 });
 
-                // QR Code
+                // QR Code (Farmer ID सुद्धा ऍड केला)
                 const qrContainer = document.getElementById('qrCodeContainer');
                 qrContainer.innerHTML = "";
-                const qrText = `Name:${data.engName}, Mob:${data.mobile}, Aadhaar:${data.aadhar}`;
+                const qrText = `F-ID:${data.farmerId}, Name:${data.engName}, Mob:${data.mobile}`;
                 
                 new QRCode(qrContainer, { 
                     text: qrText, 
@@ -272,7 +279,6 @@
                     correctLevel: QRCode.CorrectLevel.H
                 });
 
-                // Wait for QR to generate properly
                 setTimeout(async () => {
                     try {
                         let qrImgUrl = "";
@@ -322,28 +328,53 @@
                 ctx.strokeStyle = "#16a34a"; ctx.lineWidth = 10; ctx.strokeRect(0, 0, canvas.width, canvas.height);
             }
 
+            // =======================================================
+            // 🛠️ येथे तुम्ही X आणि Y ॲक्सिस (जागा) ऍडजस्ट करू शकता 🛠️
+            // (टीप: X वाढवला की मजकूर उजवीकडे जाईल, Y वाढवला की खाली येईल)
+            // =======================================================
+
+            // १. फोटोची जागा
+            const photoX = 50;  const photoY = 115;  const photoW = 220; const photoH = 270;
+            
+            // २. QR Code ची जागा
+            const qrX = 780;    const qrY = 130;     const qrW = 180;    const qrH = 180;
+            
+            // ३. मुख्य माहितीची जागा (नाव, जन्मतारीख इत्यादी)
+            const textX = 390;        // मजकूर डावीकडून किती पुढे असावा?
+            let startY = 160;         // 🔴 (येथे बदल केला आहे) पहिल्या ओळीची उंची. जर अक्षर रेषेच्या वर असेल तर हा आकडा वाढवा (उदा. 165, 170 करा)
+            const gapY = 60;          // दोन ओळींमधील अंतर
+            
+            // ४. 🟢 नवीन: Farmer ID ची जागा 🟢
+            const fIdX = 420;         // Farmer ID डावीकडून किती पुढे असावा?
+            const fIdY = 560;         // Farmer ID वरून किती खाली असावा? (तुमच्या काळ्या रेषेनुसार)
+
+            // =======================================================
+
+            // ड्रॉईंग सुरू
             const userPhoto = await loadImage(photoUrl);
-            ctx.drawImage(userPhoto, 50, 115, 220, 270); 
+            ctx.drawImage(userPhoto, photoX, photoY, photoW, photoH); 
             
             try {
                 const qrCodeImg = await loadImage(qrImgUrl);
-                ctx.drawImage(qrCodeImg, 780, 130, 180, 180); 
+                ctx.drawImage(qrCodeImg, qrX, qrY, qrW, qrH); 
             } catch(e) { console.log("QR Error"); }
 
+            // माहिती ड्रॉ करणे
             ctx.fillStyle = "#000000";
             ctx.textAlign = "left";
-            
-            let textX = 390; 
-            let startY = 145; 
-            let gapY = 60;
-
             ctx.font = "bold 28px Mukta, sans-serif";
+            
             ctx.fillText(data.engName, textX, startY);
             ctx.fillText(data.marName, textX, startY + gapY);
             ctx.fillText(data.dob, textX, startY + (gapY*2));
             ctx.fillText(data.gender, textX, startY + (gapY*3));
             ctx.fillText(data.mobile, textX, startY + (gapY*4));
-            ctx.fillText(data.aadhar, textX, startY + (gapY*5) + 5);
+            ctx.fillText(data.aadhar, textX, startY + (gapY*5)); // आधारची रेष ऍडजस्ट केली
+
+            // 🟢 Farmer ID ड्रॉ करणे (मोठ्या आणि ठळक अक्षरात) 🟢
+            ctx.font = "bold 32px Mukta, sans-serif";
+            ctx.fillStyle = "#15803d"; // हिरवा रंग (तुम्हाला हवा तर "#000000" करून काळा करू शकता)
+            ctx.fillText(data.farmerId, fIdX, fIdY);
 
             finalFrontImgData = canvas.toDataURL('image/jpeg', 1.0);
         }
