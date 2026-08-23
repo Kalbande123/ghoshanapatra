@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <title>नॅशनलिटी स्वयं घोषणापत्र - SevaSpot Center</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
+
+    .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    .form-section { margin-bottom: 15px; }
+    .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
+    .form-section input, .form-section select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; box-sizing: border-box; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    .upload-box { border: 2px dashed #cbd5e1; padding: 15px; border-radius: 8px; text-align: center; background: #f8fafc; margin-top: 15px; }
+    .print-btn { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+
+    /* वेबकॅम मोडल */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 90%; }
+    video { width: 100%; border-radius: 6px; background: #000; }
+
+    /* प्रिंट सेक्शन */
+    .print-section { display: none; font-size: 16px; line-height: 1.8; color: #000; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .form-container, .print-btn { display: none !important; }
+      .print-section { display: block !important; }
+    }
+
+    .photo-wrapper { text-align: right; margin-bottom: 10px; }
+    #photo { width: 100px; height: 120px; object-fit: cover; border: 1px solid #000; background-color: #fff; }
+    .heading { text-align: center; font-weight: bold; font-size: 24px; margin-bottom: 30px; }
+    .paragraph { margin-bottom: 20px; text-indent: 30px; text-align: justify; }
+    
+    .footer-section {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .left-side { text-align: left; }
+    .right-side { text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <div style="text-align: right; margin-bottom: 15px;">
+      <a href="home.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-arrow-left"></i> डॅशबोर्डवर जा</a>
+  </div>
+
+  <h2 style="color: #ea580c; text-align: center; margin-bottom: 20px;">नॅशनलिटी स्वयं घोषणापत्र (तपासणी आवृत्ती)</h2>
+
+  <form id="affidavitForm">
+    <div class="grid-2">
+      <div class="form-section">
+        <label>अर्जदाराचे पूर्ण नाव:</label>
+        <input type="text" id="name" placeholder="अर्जदाराचे नाव" required>
+      </div>
+      <div class="form-section">
+        <label>पालकांचे नाते (श्री. चे पुढे):</label>
+        <select id="parentRelation" required>
+          <option value="यांचा मुलगा">यांचा मुलगा</option>
+          <option value="यांची मुलगी">यांची मुलगी</option>
+          <option value="यांची पत्नी">यांची पत्नी</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-section">
+        <label>वडिलांचे/पतीचे नाव:</label>
+        <input type="text" id="father" required>
+      </div>
+      <div class="form-section">
+        <label>वय:</label>
+        <input type="number" id="age" required>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-section">
+        <label>प्रमाणपत्र कोणाचे काढायचे आहे?:</label>
+        <select id="targetPersonType" required>
+          <option value="स्वतःचे">स्वतःचे</option>
+          <option value="माझ्या मुलीचे">माझ्या मुलीचे</option>
+          <option value="माझ्या मुलाचे">माझ्या मुलाचे</option>
+        </select>
+      </div>
+      <div class="form-section">
+        <label>ज्याचे काढायचे त्याचे नाव:</label>
+        <input type="text" id="childName" placeholder="स्वतःचे किंवा मुला/मुलीचे नाव" required>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label>पत्ता:</label>
+      <input type="text" id="address" placeholder="गल्ली/गाव, तालुका, जिल्हा" required>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-section">
+        <label>दिनांक:</label>
+        <input type="date" id="date" required>
+      </div>
+      <div class="form-section">
+        <label>ठिकाण:</label>
+        <input type="text" id="location" value="हदगाव" required>
+      </div>
+    </div>
+
+    <div class="upload-box">
+      <label style="font-weight: bold; margin-bottom: 10px; display: block;"><i class="fas fa-camera"></i> फोटो निवडा किंवा काढा</label>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="loadPhoto(event)">
+        <label for="imageInput" style="background: #2563eb; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">फाईल निवडा</label>
+        <button type="button" onclick="openCamModal()" style="background: #16a34a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">वेबकॅम फोटो</button>
+      </div>
+      <!-- निवडलेला फोटो दाखवण्यासाठी (Preview) -->
+      <img id="formPreviewImg" src="" style="display: none; width: 80px; height: 100px; object-fit: cover; margin: 15px auto 0; border: 2px solid #cbd5e1; border-radius: 8px;" alt="Preview">
+    </div>
+
+    <button type="submit" class="print-btn" id="submitBtn"><i class="fas fa-print"></i> प्रिंट काढा</button>
+  </form>
+</div>
+
+<!-- वेबकॅम मोडल -->
+<div class="modal" id="camModal">
+  <div class="modal-content">
+      <h3 style="margin-top: 0; margin-bottom: 10px;">थेट कॅमेरा</h3>
+      <video id="webcamVideo" autoplay playsinline></video>
+      <canvas id="canvas" style="display:none;"></canvas>
+      <div style="margin-top: 15px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <button type="button" onclick="capturePhoto()" style="flex: 1; background: #16a34a; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">फोटो घ्या</button>
+          <button type="button" onclick="switchCamera()" style="flex: 1; background: #f59e0b; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;"><i class="fas fa-sync-alt"></i> बदला</button>
+          <button type="button" onclick="closeCamModal()" style="flex: 1; background: #dc2626; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">बंद करा</button>
+      </div>
+  </div>
+</div>
+
+<!-- प्रिंट आऊटपुट सेक्शन -->
+<div class="print-section" id="output">
+  <div class="photo-wrapper">
+    <img id="photo" src="">
+  </div>
+  
+  <div class="heading">नॅशनलिटी स्वयं घोषणापत्र</div>
+  
+  <p class="paragraph">
+    मी, श्री/श्रीमती/कु. <span id="out_name"></span>, श्री. <span id="out_father"></span> <span id="out_parentRelation"></span>, वय <span id="out_age"></span> वर्ष, रा. <span id="out_address"></span> ता. हदगाव जि. नांदेड, येथील रहिवासी असून, मला <span id="out_targetPersonType"></span> <span id="out_childName"></span> चे नॅशनलिटी प्रमाणपत्र काढावयाचे आहे.
+  </p>
+
+  <p class="paragraph">
+    घोषणापत्राद्वारे घोषित करतो / करते की, वरील सर्व माहिती माझ्या व्यक्तिगत माहिती व समजुतीनुसार खरी आहे. सदर माहिती खोटी आढळून आल्यास, भारतीय दंड संहिता अन्वये आणि / किंवा संबंधित कायद्यानुसार माझ्यावर खटला भरला जाईल व त्यानुसार मी शिक्षेस पात्र राहीन. तसेच सदर स्वयंघोषणापत्राद्वारे मला मिळालेले सर्व लाभ सर्वकषरित्या काढून घेण्यात येतील, याची मला पूर्ण जाणीव आहे.
+  </p>
+
+  <p class="paragraph">
+    करिता स्वःघोषणा पत्र लिहून देत आहे.
+  </p>
+
+  <div class="footer-section">
+    <div class="left-side">
+        दिनांक: <span id="out_date"></span><br>
+        ठिकाण: <span id="out_location">हदगाव</span> जि. नांदेड.
+    </div>
+    <div class="right-side">
+        अर्जदार<br><br><br>
+        <span id="out_name2"></span><br>
+        रा. <span id="out_address2"></span>, ता. हदगाव, जि. नांदेड.
+    </div>
+  </div>
+</div>
+
+<script>
+  let mediaStream = null;
+  let currentFacingMode = 'environment';
+
+  window.onload = function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').value = today;
+  };
+
+  function loadPhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      document.getElementById('photo').src = url;
+      const preview = document.getElementById('formPreviewImg');
+      preview.src = url;
+      preview.style.display = 'block';
+    }
+  }
+
+  function openCamModal() {
+      document.getElementById('camModal').style.display = 'flex';
+      startCamera();
+  }
+
+  function startCamera() {
+      if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+      const video = document.getElementById('webcamVideo');
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false })
+      .then(stream => { mediaStream = stream; video.srcObject = stream; })
+      .catch(err => { alert("कॅमेरा सुरू होऊ शकला नाही."); document.getElementById('camModal').style.display = 'none'; });
+  }
+
+  function switchCamera() {
+      currentFacingMode = (currentFacingMode === 'user') ? 'environment' : 'user';
+      startCamera();
+  }
+
+  function capturePhoto() {
+      const video = document.getElementById('webcamVideo');
+      const canvas = document.getElementById('canvas');
+      canvas.width = video.videoWidth || 320; 
+      canvas.height = video.videoHeight || 240;
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/png');
+      document.getElementById('photo').src = dataUrl;
+      const preview = document.getElementById('formPreviewImg');
+      preview.src = dataUrl;
+      preview.style.display = 'block';
+      closeCamModal();
+  }
+
+  function closeCamModal() {
+      document.getElementById('camModal').style.display = 'none';
+      if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+  }
+
+  document.getElementById('affidavitForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const applicantName = document.getElementById('name').value;
+    const address = document.getElementById('address').value;
+    const targetType = document.getElementById('targetPersonType').value;
+    const parentRel = document.getElementById('parentRelation').value;
+    
+    document.getElementById('out_name').innerText = applicantName;
+    document.getElementById('out_father').innerText = document.getElementById('father').value;
+    document.getElementById('out_parentRelation').innerText = parentRel;
+    document.getElementById('out_age').innerText = document.getElementById('age').value;
+    document.getElementById('out_childName').innerText = document.getElementById('childName').value;
+    document.getElementById('out_targetPersonType').innerText = targetType;
+    document.getElementById('out_address').innerText = address;
+    document.getElementById('out_address2').innerText = address;
+    document.getElementById('out_location').innerText = document.getElementById('location').value;
+
+    const rawDate = document.getElementById('date').value;
+    if(rawDate) {
+        const parts = rawDate.split('-');
+        document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+
+    document.getElementById('out_name2').innerText = applicantName;
+
+    // थेट प्रिंट विंडो उघडेल
+    window.print();
+  });
+</script>
+
+</body>
+</html>
