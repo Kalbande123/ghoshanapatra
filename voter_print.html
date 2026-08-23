@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
-    <!-- 🟢 CONFIG फाईल लिंक केली (टोकन कट करण्यासाठी आवश्यक) 🟢 -->
+    <!-- 🟢 CONFIG फाईल लिंक केली (टोकन कट करण्यासाठी आवश्यक) -->
     <script src="config.js"></script> 
 
     <style>
@@ -24,6 +24,7 @@
         .back-link:hover { text-decoration: underline; }
 
         .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 30px; }
+        .notice-box a { color: #15803d; text-decoration: none; border-bottom: 1px dashed #15803d; }
         
         h2 { color: #0284c7; margin-bottom: 20px; border-bottom: 2px solid #0284c7; padding-bottom: 10px; display: inline-block; font-size: 24px; }
         
@@ -68,9 +69,10 @@
     <div class="container">
         <a href="home.html" class="back-link"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
 
+        <!-- 🟢 नवीन: अपडेटेड मोबाईल नंबर आणि ऑटो-मेसेज WhatsApp लिंक -->
         <div class="notice-box">
             <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
-            <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919999999999" target="_blank">9999999999</a> वर संपर्क साधा.</span>
+            <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
         </div>
 
         <h2><i class="fas fa-id-card"></i> स्मार्ट व्होटर कार्ड प्रिंट</h2>
@@ -97,7 +99,7 @@
             
             <div id="previewArea">
                 <canvas id="previewCanvas"></canvas>
-                <p class="preview-note"><i class="fas fa-info-circle"></i> आता बदल फक्त 'फोटो' वरच लागू होतील, मजकूर सुरक्षित राहील.</p>
+                <p class="preview-note"><i class="fas fa-info-circle"></i> बदल फक्त 'फोटो' वरच लागू होतील, मजकूर सुरक्षित राहील.</p>
             </div>
 
             <div class="edit-control">
@@ -130,7 +132,7 @@
                 <i class="fas fa-check-circle"></i> एडिटिंग पूर्ण झाल्यावर खालील बटणावरून फाईल डाऊनलोड करा.
             </div>
             
-            <!-- 🟢 टोकन कट करणारे बटन 🟢 -->
+            <!-- 🟢 ५ टोकन कट करणारे बटन -->
             <button id="btnDownload" class="btn-download" onclick="deductTokenAndDownload()">
                 <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (5 टोकन)
             </button>
@@ -358,17 +360,15 @@
             }
         }
 
-        // 🟢 टोकन कट करण्याची मुख्य पद्धत (आधार कार्डच्या पॅटर्ननुसार) 🟢
+        // 🟢 टोकन कट करण्याची मुख्य पद्धत 🟢
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
             btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
             btn.disabled = true;
 
-            // १. युजरचा आयडी शोधणे
             let username = localStorage.getItem('username') || localStorage.getItem("loggedInUser") || "9876543210";
 
-            // २. लॉगिन नसेल तर मोबाईल नंबर विचारणे
             if(!username || username === "9876543210") {
                 username = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर किंवा युजरनेम टाका:");
                 if(!username || username.trim() === "") {
@@ -379,29 +379,24 @@
                 localStorage.setItem("username", username);
             }
 
-            // ३. डेटा तयार करणे
             let formData = new FormData();
             formData.append('action', 'printIdCard');
             formData.append('username', username);
             formData.append('cardType', 'मतदान कार्ड');
             formData.append('remark', currentSize + ' Size Export');
 
-            // ४. बॅकएंडला रिक्वेस्ट पाठवणे
             fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    // ५. लोकल स्टोरेजमधील टोकन कमी करणे
                     let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
                     if(currentTokens > 0) {
                         localStorage.setItem('remainingTokens', currentTokens - 5);
                     }
 
-                    // ६. फाईल जनरेट आणि डाऊनलोड करणे
                     generateFinalCanvas();
                     exportToPDF();
 
-                    // ७. UI अपडेट करणे
                     setTimeout(() => {
                         document.getElementById('successMsg').style.display = 'none';
                         document.getElementById('editPanel').style.display = 'none';
@@ -409,13 +404,13 @@
                         document.getElementById('btnGoHome').style.display = 'flex';
                     }, 500);
                 } else {
-                    alert("त्रुटी: " + data.message); // जर बॅलन्स नसेल तर मेसेज दाखवणे
+                    alert("त्रुटी: " + data.message); // जर बॅलन्स नसेल तर मेसेज
                     btn.innerHTML = originalHtml;
                     btn.disabled = false;
                 }
             })
             .catch(err => {
-                alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
+                alert("नेटवर्क एरर! कृपया इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.");
                 btn.innerHTML = originalHtml;
                 btn.disabled = false;
             });
