@@ -21,18 +21,23 @@
         .back-link { position: absolute; top: 20px; right: 20px; color: #16a34a; text-decoration: none; font-weight: 600; font-size: 15px; }
         .back-link:hover { text-decoration: underline; }
 
+        .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 30px; }
+        .notice-box a { color: #15803d; text-decoration: none; border-bottom: 1px dashed #15803d; }
+
         h2 { color: #16a34a; margin-bottom: 20px; border-bottom: 2px solid #16a34a; padding-bottom: 10px; display: inline-block; font-size: 24px; }
         
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left; margin-bottom: 20px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #334155; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; font-size: 15px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; font-size: 15px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; transition: 0.3s; }
+        .form-group input:invalid { border-color: #ef4444; } /* 🟢 रिकाम्या रकान्यांना लाल बॉर्डर */
+        .form-group input:valid { border-color: #22c55e; }
         .full-width { grid-column: span 2; }
 
         .table-responsive { overflow-x: auto; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; min-width: 600px; }
         th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
         th { background-color: #dcfce7; color: #166534; }
-        td input { width: 100%; border: 1px solid #e2e8f0; padding: 5px; border-radius: 4px; text-align: center; outline: none; font-size: 14px; }
+        td input { width: 100%; border: 1px solid #e2e8f0; padding: 5px; border-radius: 4px; text-align: center; outline: none; font-size: 14px; transition: 0.3s; }
         .btn-remove { background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
 
         .btn-add-row { background: #eab308; color: #854d0e; border: none; padding: 10px 15px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-bottom: 20px; display: inline-block; transition: 0.3s; }
@@ -57,9 +62,15 @@
     <div class="container">
         <a href="home.html" class="back-link"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
 
+        <div class="notice-box">
+            <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
+            <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
+        </div>
+
         <h2><i class="fas fa-tractor"></i> स्मार्ट शेतकरी ओळखपत्र</h2>
         
-        <div id="dataForm">
+        <!-- 🟢 नवीन: फॉर्म टॅग जोडला जेणेकरून टूलटीप (Tooltip) अलर्ट दाखवता येईल -->
+        <form id="farmerForm" onsubmit="return false;">
             <h3 style="text-align: left; color: #15803d; margin-bottom: 10px;">१. वैयक्तिक माहिती (Front Side)</h3>
             
             <div class="form-group" style="text-align: left; margin-bottom: 15px;">
@@ -73,7 +84,7 @@
             <div class="form-grid">
                 <div class="form-group full-width" style="background: #fef3c7; padding: 10px; border-radius: 6px; border: 1px solid #f59e0b;">
                     <label style="color: #b45309;"><i class="fas fa-id-badge"></i> शेतकरी आयडी (Farmer ID):</label>
-                    <input type="text" id="farmerId" placeholder="उदा. MH-12345678" style="border: 1px solid #f59e0b;" required>
+                    <input type="text" id="farmerId" placeholder="उदा. MH-12345678 (११ अक्षरे/अंक आवश्यक)" maxlength="11" style="border: 1px solid #f59e0b;" required>
                 </div>
 
                 <div class="form-group">
@@ -97,11 +108,11 @@
                 </div>
                 <div class="form-group">
                     <label>मोबाईल नं:</label>
-                    <input type="text" id="mobile" placeholder="१० अंकी मोबाईल नंबर" maxlength="10" pattern="\d{10}" required>
+                    <input type="text" id="mobile" placeholder="१० अंकी मोबाईल नंबर" maxlength="10" required>
                 </div>
                 <div class="form-group">
                     <label>आधार नं:</label>
-                    <input type="text" id="aadhar" placeholder="उदा. XXXX XXXX XXXX" maxlength="14" required>
+                    <input type="text" id="aadhar" placeholder="१२ अंकी आधार नंबर (स्पेस देऊ नका)" maxlength="12" required>
                 </div>
                 <div class="form-group full-width">
                     <label>शेतकऱ्याचा फोटो निवडा:</label>
@@ -112,7 +123,7 @@
             <h3 style="text-align: left; color: #15803d; margin-bottom: 10px; margin-top: 20px;">२. पत्ता आणि जमिनीचा तपशील (Back Side)</h3>
             <div class="form-group" style="text-align: left; margin-bottom: 15px;">
                 <label>संपूर्ण पत्ता:</label>
-                <input type="text" id="address" placeholder="उदा. मु. पो. हदगाव, ता. हदगाव, जि. नांदेड" style="width: 100%;">
+                <input type="text" id="address" placeholder="उदा. मु. पो. हदगाव, ता. हदगाव, जि. नांदेड" style="width: 100%;" required>
             </div>
 
             <div class="table-responsive">
@@ -131,11 +142,11 @@
                     <tbody id="landTbody">
                         <tr>
                             <td class="row-index">1</td>
-                            <td><input type="text" class="l-dist"></td>
-                            <td><input type="text" class="l-tal"></td>
-                            <td><input type="text" class="l-vil"></td>
-                            <td><input type="text" class="l-gat"></td>
-                            <td><input type="text" class="l-area"></td>
+                            <td><input type="text" class="l-dist" placeholder="आवश्यक"></td>
+                            <td><input type="text" class="l-tal" placeholder="आवश्यक"></td>
+                            <td><input type="text" class="l-vil" placeholder="आवश्यक"></td>
+                            <td><input type="text" class="l-gat" placeholder="आवश्यक"></td>
+                            <td><input type="text" class="l-area" placeholder="आवश्यक"></td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -146,14 +157,15 @@
                 <button type="button" class="btn-add-row" onclick="addLandRow()"><i class="fas fa-plus-circle"></i> नवीन जमीन ऍड करा</button>
             </div>
 
-            <button id="btnProcess" class="btn-process" onclick="generateCard()"><i class="fas fa-magic"></i> ओळखपत्र तयार करा</button>
-        </div>
+            <!-- 🟢 बटनवर आता 'validateAndGenerate' फंक्शन लावले आहे -->
+            <button id="btnProcess" type="button" class="btn-process" onclick="validateAndGenerate()"><i class="fas fa-magic"></i> ओळखपत्र तयार करा</button>
+        </form>
 
         <div id="qrCodeContainer"></div>
 
         <div id="previewArea">
             <div id="successMsg" class="success-strip">
-                <i class="fas fa-check-circle"></i> तुमचे ओळखपत्र प्रिंटसाठी रेडी आहे!
+                <i class="fas fa-check-circle"></i> तुमचे ओळखपत्र तयार आहे! फायनल PDF साठी खाली क्लिक करा.
             </div>
             
             <canvas id="frontCanvas"></canvas>
@@ -171,6 +183,10 @@
         
         let finalFrontImgData = null;
         let finalBackImgData = null;
+        
+        let cleanFrontCanvas = document.createElement('canvas');
+        let cleanBackCanvas = document.createElement('canvas');
+
         let maxRows = 5;
 
         function updateRowIndexes() {
@@ -228,47 +244,99 @@
             });
         }
 
-        async function generateCard() {
-            const mobileInput = document.getElementById('mobile').value;
-            if(mobileInput && mobileInput.length < 10) {
-                alert("कृपया १० अंकी योग्य मोबाईल नंबर टाका.");
+        // 🟢 नवीन स्मार्ट व्हॅलिडेशन (Smart Validation) फंक्शन
+        function validateAndGenerate() {
+            const form = document.getElementById('farmerForm');
+            
+            // १. बेसिक HTML5 व्हॅलिडेशन (रिकाम्या रकान्यांवर थेट 'टूलटीप' दाखवेल)
+            if (!form.checkValidity()) {
+                form.reportValidity();
                 return;
             }
 
+            // २. कस्टम लांबी तपासणी (चुकीची माहिती असल्यास तिथेच टूलटीप दाखवेल)
+            const farmerId = document.getElementById('farmerId');
+            if (farmerId.value.trim().length !== 11) {
+                farmerId.setCustomValidity("शेतकरी आयडी बरोबर ११ अक्षरांचा/अंकांचा असावा.");
+                farmerId.reportValidity();
+                farmerId.addEventListener('input', function() { this.setCustomValidity(''); }, {once:true});
+                return;
+            }
+
+            const mobile = document.getElementById('mobile');
+            if (mobile.value.trim().length !== 10 || isNaN(mobile.value.trim())) {
+                mobile.setCustomValidity("मोबाईल नंबर बरोबर १० अंकांचा असावा.");
+                mobile.reportValidity();
+                mobile.addEventListener('input', function() { this.setCustomValidity(''); }, {once:true});
+                return;
+            }
+
+            const aadhar = document.getElementById('aadhar');
+            if (aadhar.value.trim().length !== 12 || isNaN(aadhar.value.trim())) {
+                aadhar.setCustomValidity("आधार क्रमांक बरोबर १२ अंकांचा असावा (स्पेस न देता).");
+                aadhar.reportValidity();
+                aadhar.addEventListener('input', function() { this.setCustomValidity(''); }, {once:true});
+                return;
+            }
+
+            // ३. शेती विषयक माहिती सक्तीची करणे
+            let hasValidLandData = false;
+            const rows = document.querySelectorAll('#landTbody tr');
+            rows.forEach(row => {
+                let d = row.querySelector('.l-dist').value.trim();
+                let t = row.querySelector('.l-tal').value.trim();
+                let v = row.querySelector('.l-vil').value.trim();
+                let g = row.querySelector('.l-gat').value.trim();
+                let a = row.querySelector('.l-area').value.trim();
+                
+                // जर एका ओळीतील सर्व ५ रकाने भरले असतील, तरच 'True'
+                if (d && t && v && g && a) {
+                    hasValidLandData = true;
+                }
+            });
+
+            if (!hasValidLandData) {
+                alert("⚠️ शेती विषयक माहिती भरणे आवश्यक आहे!\nकृपया किमान एका जमिनीचा संपूर्ण तपशील (जिल्हा, तालुका, गाव, गट नंबर आणि क्षेत्र) भरा.");
+                const firstDistInput = document.querySelector('.l-dist');
+                firstDistInput.focus();
+                firstDistInput.style.border = "2px solid #dc2626"; // लाल बॉर्डर दाखवणे
+                setTimeout(() => firstDistInput.style.border = "1px solid #e2e8f0", 3000);
+                return;
+            }
+
+            // सर्व माहिती बरोबर असल्यास प्रोसेस सुरु करा
+            generateCard();
+        }
+
+        async function generateCard() {
             const btnProcess = document.getElementById('btnProcess');
             btnProcess.innerHTML = "<i class='fas fa-spinner fa-spin'></i> कार्ड बनत आहे...";
             btnProcess.disabled = true;
 
             try {
                 const photoFile = document.getElementById('farmerPhoto').files[0];
-                if (!photoFile) { 
-                    alert("कृपया शेतकऱ्याचा फोटो अपलोड करा!"); 
-                    btnProcess.disabled=false; 
-                    btnProcess.innerHTML="<i class='fas fa-magic'></i> ओळखपत्र तयार करा"; 
-                    return; 
-                }
                 const photoUrl = await readFileAsDataURL(photoFile);
 
                 const data = {
-                    farmerId: document.getElementById('farmerId').value || "N/A", 
-                    engName: document.getElementById('engName').value.toUpperCase(),
-                    marName: document.getElementById('marName').value,
+                    farmerId: document.getElementById('farmerId').value.trim(), 
+                    engName: document.getElementById('engName').value.trim().toUpperCase(),
+                    marName: document.getElementById('marName').value.trim(),
                     dob: formatDate(document.getElementById('dob').value),
                     gender: document.getElementById('gender').value,
-                    mobile: document.getElementById('mobile').value,
-                    aadhar: document.getElementById('aadhar').value,
-                    address: document.getElementById('address').value,
+                    mobile: document.getElementById('mobile').value.trim(),
+                    aadhar: document.getElementById('aadhar').value.trim(),
+                    address: document.getElementById('address').value.trim(),
                     landData: []
                 };
 
                 const rows = document.querySelectorAll('#landTbody tr');
                 rows.forEach(row => {
-                    let d = row.querySelector('.l-dist').value;
-                    let t = row.querySelector('.l-tal').value;
-                    let v = row.querySelector('.l-vil').value;
-                    let g = row.querySelector('.l-gat').value;
-                    let a = row.querySelector('.l-area').value;
-                    if(d || t || v || g || a) {
+                    let d = row.querySelector('.l-dist').value.trim();
+                    let t = row.querySelector('.l-tal').value.trim();
+                    let v = row.querySelector('.l-vil').value.trim();
+                    let g = row.querySelector('.l-gat').value.trim();
+                    let a = row.querySelector('.l-area').value.trim();
+                    if(d && t && v && g && a) {
                         data.landData.push({ dist: d, tal: t, vil: v, gat: g, area: a });
                     }
                 });
@@ -299,7 +367,7 @@
                         await drawFrontCard(data, photoUrl, qrImgUrl);
                         await drawBackCard(data);
 
-                        document.getElementById('dataForm').style.display = 'none';
+                        document.getElementById('farmerForm').style.display = 'none';
                         document.getElementById('previewArea').style.display = 'block';
                         document.getElementById('successMsg').style.display = 'block';
                         document.getElementById('btnDownload').style.display = 'block';
@@ -355,49 +423,35 @@
             let startY = 160;     
             const gapY = 55;      
 
-            // 1. Name
-            ctx.fillText("Name", labelX, startY);
-            ctx.fillText(":", colonX, startY);
-            ctx.fillText(data.engName, valueX, startY);
+            ctx.fillText("Name", labelX, startY); ctx.fillText(":", colonX, startY); ctx.fillText(data.engName, valueX, startY);
+            startY += gapY; ctx.fillText("नाव", labelX, startY); ctx.fillText(":", colonX, startY); ctx.fillText(data.marName, valueX, startY);
+            startY += gapY; ctx.fillText("DOB", labelX, startY); ctx.fillText(":", colonX, startY); ctx.fillText(data.dob, valueX, startY);
+            startY += gapY; ctx.fillText("Gender", labelX, startY); ctx.fillText(":", colonX, startY); ctx.fillText(data.gender, valueX, startY);
+            startY += gapY; ctx.fillText("मोबाईल नं.", labelX, startY); ctx.fillText(":", colonX, startY); ctx.fillText(data.mobile, valueX, startY);
+            startY += gapY; ctx.fillText("आधार नं.", labelX, startY); ctx.fillText(":", colonX, startY); ctx.fillText(data.aadhar, valueX, startY);
             
-            // 2. नाव
-            startY += gapY;
-            ctx.fillText("नाव", labelX, startY);
-            ctx.fillText(":", colonX, startY);
-            ctx.fillText(data.marName, valueX, startY);
-            
-            // 3. DOB
-            startY += gapY;
-            ctx.fillText("DOB", labelX, startY);
-            ctx.fillText(":", colonX, startY);
-            ctx.fillText(data.dob, valueX, startY);
-            
-            // 4. Gender
-            startY += gapY;
-            ctx.fillText("Gender", labelX, startY);
-            ctx.fillText(":", colonX, startY);
-            ctx.fillText(data.gender, valueX, startY);
-            
-            // 5. Mobile
-            startY += gapY;
-            ctx.fillText("मोबाईल नं.", labelX, startY);
-            ctx.fillText(":", colonX, startY);
-            ctx.fillText(data.mobile, valueX, startY);
-            
-            // 6. Aadhar
-            startY += gapY;
-            ctx.fillText("आधार नं.", labelX, startY);
-            ctx.fillText(":", colonX, startY);
-            ctx.fillText(data.aadhar, valueX, startY);
-            
-            // 🛠️ मोठा आणि ठळक Farmer ID - Y 580 वरून 530 वर घेतला 🛠️
             ctx.textAlign = "center";
             ctx.font = "bold 38px Mukta, sans-serif";
             ctx.fillStyle = "#075d2c"; 
-            
             ctx.fillText(data.farmerId, 520, 530); 
 
-            finalFrontImgData = canvas.toDataURL('image/jpeg', 1.0);
+            cleanFrontCanvas.width = canvas.width;
+            cleanFrontCanvas.height = canvas.height;
+            cleanFrontCanvas.getContext('2d').drawImage(canvas, 0, 0);
+            finalFrontImgData = cleanFrontCanvas.toDataURL('image/jpeg', 1.0);
+
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(-Math.PI / 6); 
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.font = "bold 130px Mukta, sans-serif";
+            ctx.fillStyle = "rgba(220, 38, 38, 0.15)"; 
+            ctx.fillText("NOT FOR PRINT", 0, -20);
+            ctx.font = "bold 45px Mukta, sans-serif";
+            ctx.fillStyle = "rgba(220, 38, 38, 0.25)";
+            ctx.fillText("(Download PDF for Clear Card)", 0, 70);
+            ctx.restore();
         }
 
         async function drawBackCard(data) {
@@ -417,10 +471,8 @@
             ctx.font = "bold 28px Mukta, sans-serif";
             ctx.textAlign = "left";
 
-            // 🛠️ पत्ता वर घेतला (190 वरून 160) 🛠️
             ctx.fillText("पत्ता: " + data.address, 100, 160);
 
-            // 🛠️ टेबल वर घेतला (250 वरून 210) 🛠️
             let startX = 60;
             let startY = 210;
             let tableWidth = 920;
@@ -488,7 +540,23 @@
                 });
             }
 
-            finalBackImgData = canvas.toDataURL('image/jpeg', 1.0);
+            cleanBackCanvas.width = canvas.width;
+            cleanBackCanvas.height = canvas.height;
+            cleanBackCanvas.getContext('2d').drawImage(canvas, 0, 0);
+            finalBackImgData = cleanBackCanvas.toDataURL('image/jpeg', 1.0);
+
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(-Math.PI / 6); 
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.font = "bold 130px Mukta, sans-serif";
+            ctx.fillStyle = "rgba(220, 38, 38, 0.15)"; 
+            ctx.fillText("NOT FOR PRINT", 0, -20);
+            ctx.font = "bold 45px Mukta, sans-serif";
+            ctx.fillStyle = "rgba(220, 38, 38, 0.25)";
+            ctx.fillText("(Download PDF for Clear Card)", 0, 70);
+            ctx.restore();
         }
 
         function generateFinalCanvas() {
@@ -496,8 +564,8 @@
             const finalCtx = finalCanvas.getContext('2d');
             const printSize = document.getElementById('printSize').value;
 
-            const frontCanvas = document.getElementById('frontCanvas');
-            const backCanvas = document.getElementById('backCanvas');
+            const frontCanvas = cleanFrontCanvas;
+            const backCanvas = cleanBackCanvas;
 
             if (printSize === '4x6') {
                 finalCanvas.width = 1200; finalCanvas.height = 1800; 
