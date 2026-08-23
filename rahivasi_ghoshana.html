@@ -108,7 +108,6 @@
         </div>
     </div>
 
-    <!-- 🟢 फॉर्ममध्ये 'ठिकाण' साठी व्हॅल्यू ठेवलेली आहे जेणेकरून JavaScript ला एरर येणार नाही -->
     <div class="form-section" style="display:none;">
         <label>ठिकाण:</label>
         <input type="text" id="location" value="हदगाव" required>
@@ -165,10 +164,7 @@
   <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px;">
     <div>
       <p style="margin: 5px 0; font-weight: bold;">दिनांक: <span id="out_date"></span></p>
-      
-      <!-- 🟢 प्रिंट सेक्शनमध्ये 'ठिकाण' साठी आयडी ऍड केला आहे 🟢 -->
       <p style="margin: 5px 0; font-weight: bold;">ठिकाण: <span id="out_location"></span></p>
-      
     </div>
     <div class="signature-block">
       <p style="margin-bottom: 50px; font-weight: bold;">अर्जदार</p> 
@@ -248,7 +244,19 @@
     submitBtn.innerText = "प्रक्रिया चालू आहे...";
     submitBtn.disabled = true;
 
-    const username = localStorage.getItem('username') || "9876543210";
+    // 🟢 इथे बदल केला आहे: लोकल स्टोरेजमधून अचूक युजरनेम किंवा मोबाईल नंबर घेतला जाईल
+    let username = localStorage.getItem('username') || localStorage.getItem('loggedInUser');
+    
+    if(!username) {
+        username = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. कृपया तुमचा रजिस्टर मोबाईल नंबर टाका:");
+        if(!username) {
+            submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
+            submitBtn.disabled = false;
+            return alert("टोकन कट करण्यासाठी आयडी आवश्यक आहे!");
+        }
+        localStorage.setItem("username", username);
+    }
+
     const applicantName = document.getElementById('name').value; 
 
     const formData = new FormData();
@@ -275,8 +283,6 @@
             document.getElementById('out_address2').innerText = address;
             document.getElementById('out_address3').innerText = address;
             document.getElementById('out_since').innerText = document.getElementById('since').value;
-            
-            // 🟢 लोकेशन आता अचूक सेट होईल 🟢
             document.getElementById('out_location').innerText = document.getElementById('location').value;
             
             document.getElementById('out_name2').innerText = applicantName;
@@ -325,13 +331,15 @@
             });
 
         } else {
+            // 🟢 इथे खरा एरर मेसेज दाखवला जाईल (उदा. 'User not found' किंवा 'पुरेसे टोकन नाहीत')
             alert("त्रुटी: " + data.message);
             submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
             submitBtn.disabled = false;
         }
     })
     .catch(err => {
-        alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
+        console.error(err);
+        alert("सिस्टीममध्ये काहीतरी चूक झाली. कृपया पेज रिफ्रेश करून पुन्हा प्रयत्न करा.");
         submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
         submitBtn.disabled = false;
     });
