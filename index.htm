@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>सेवास्पॉट सेंटर - ऑनलाईन घोषणापत्र सेवा</title>
+    <title>सेवास्पॉट सेंटर - ऑनलाईन घोषणापत्र व आयडी सेवा</title>
     
     <!-- सुंदर मराठी फॉन्ट -->
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -75,38 +75,41 @@
         .hero-image { max-width: 45%; text-align: center; }
         .hero-image i { font-size: 150px; color: var(--primary-blue); opacity: 0.9; }
 
-        /* ----- नवीन: टोकन अलर्ट बॉक्स (Decorative Token Notice) ----- */
+        /* ----- 🔵 नवीन: आकर्षक Blue WhatsApp अलर्ट बॉक्स ----- */
         .token-alert-container { padding: 40px 5% 10px; }
-        .token-alert-box { 
+        .whatsapp-alert-box { 
             max-width: 800px; 
             margin: 0 auto; 
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); 
-            border: 2px dashed #f59e0b; 
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); 
+            border: 2px dashed #3b82f6; 
             border-radius: 12px; 
             padding: 20px; 
             text-align: center; 
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15); 
-            animation: pulse-border 2s infinite; 
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15); 
+            animation: pulse-border-blue 2s infinite; 
         }
-        .token-alert-box h3 { color: #b45309; font-size: 24px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
-        .token-alert-box p { color: #92400e; font-size: 18px; font-weight: 600; margin: 0; }
-        .token-cost-highlight { 
-            background: #f59e0b; 
+        .whatsapp-alert-box h3 { color: #1e3a8a; font-size: 24px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+        .whatsapp-alert-box p { color: #1d4ed8; font-size: 18px; font-weight: 600; margin-bottom: 15px; }
+        .whatsapp-btn { 
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); 
             color: white; 
-            padding: 4px 15px; 
-            border-radius: 20px; 
+            padding: 10px 25px; 
+            border-radius: 30px; 
             font-weight: 800; 
-            font-size: 22px; 
-            margin: 0 5px; 
-            display: inline-block;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 20px; 
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            transition: 0.3s;
         }
+        .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); color: white; }
 
-        /* पल्स ॲनिमेशन */
-        @keyframes pulse-border {
-            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        @keyframes pulse-border-blue {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
 
         /* ----- Section Titles ----- */
@@ -151,10 +154,9 @@
         .social-icon { width: 40px; height: 40px; background: var(--white); color: var(--primary-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; transition: transform 0.3s; }
         .social-icon:hover { transform: scale(1.1); }
         .social-icon.whatsapp { color: #25D366; }
-        .social-icon.telegram { color: #0088cc; }
         .footer-bottom { text-align: center; font-size: 14px; }
 
-        /* ----- Responsive Design (मोबाईलसाठी) ----- */
+        /* ----- Responsive Design ----- */
         @media (max-width: 900px) {
             .hero { flex-direction: column; text-align: center; }
             .hero-content, .hero-image { max-width: 100%; }
@@ -168,8 +170,8 @@
             .hero-content h1 { font-size: 32px; }
             .step-box { width: 100%; }
             .notice-list li { width: 100%; }
-            .token-alert-box h3 { font-size: 20px; }
-            .token-cost-highlight { font-size: 18px; padding: 3px 10px; }
+            .whatsapp-alert-box h3 { font-size: 20px; }
+            .whatsapp-btn { font-size: 16px; padding: 8px 20px; }
         }
     </style>
 </head>
@@ -178,7 +180,7 @@
     <!-- ----- Header ----- -->
     <header>
         <div class="logo-section">
-            <img src="logo.png" alt="Sevaspot Logo">
+            <img src="logo.png" alt="Sevaspot Logo" onerror="this.style.display='none'">
             <div class="logo-text">
                 <h1>सेवास्पॉट सेंटर</h1>
                 <p>ऑनलाईन सेवा आपल्या सेवेत</p>
@@ -186,7 +188,7 @@
         </div>
         <div class="header-buttons">
             <a href="login.html" class="btn btn-primary"><i class="fas fa-user"></i> <span>Login</span></a>
-            <a href="https://wa.me/919999999999" target="_blank" class="btn btn-outline"><i class="fas fa-phone-alt"></i> <span>सम्पर्क</span></a>
+            <a href="https://wa.me/919403901395" target="_blank" class="btn btn-outline"><i class="fas fa-phone-alt"></i> <span>सम्पर्क</span></a>
         </div>
     </header>
 
@@ -194,54 +196,88 @@
     <section class="hero">
         <div class="hero-content">
             <h2>ऑनलाईन</h2>
-            <h1>घोषणापत्र सेवा पोर्टल</h1>
-            <p>काही मिनिटांत अचूक माहिती भरून तयार करा आणि प्रिंटसाठी तयार घोषणापत्र मिळवा.</p>
+            <h1>घोषणापत्र आणि आयडी सेवा पोर्टल</h1>
+            <p>काही मिनिटांत अचूक माहिती भरून तयार करा आणि प्रिंटसाठी तयार आयडी कार्ड व घोषणापत्र मिळवा.</p>
             <div class="hero-badges">
                 <div class="badge"><i class="fas fa-shield-alt"></i> सुरक्षित आणि<br>विश्वासार्ह सेवा</div>
                 <div class="badge"><i class="fas fa-clock"></i> वेळेची बचत<br>सोपे आणि जलद</div>
             </div>
         </div>
         <div class="hero-image">
-            <i class="fas fa-file-signature"></i>
+            <i class="fas fa-id-card"></i>
         </div>
     </section>
 
-    <!-- ----- नवीन: Token Alert Box ----- -->
+    <!-- ----- 🔵 नवीन: आकर्षक Blue WhatsApp अलर्ट बॉक्स ----- -->
     <div class="token-alert-container">
-        <div class="token-alert-box">
-            <h3><i class="fas fa-coins"></i> महत्त्वाची सूचना</h3>
-            <p>या पोर्टलवरील प्रत्येक घोषणापत्र सेवेसाठी <span class="token-cost-highlight"><span class="dynamic-token-cost">2</span> टोकन</span> वजा केले जातील.</p>
+        <div class="whatsapp-alert-box">
+            <h3><i class="fas fa-bullhorn"></i> महत्त्वाची सूचना</h3>
+            <p>आमच्या सेवांचा त्वरित लाभ घेण्यासाठी आणि अधिक माहितीसाठी आजच आमच्याशी संपर्क साधा!</p>
+            <a href="https://wa.me/919403901395?text=नमस्कार! मी तुमच्या 'सेवास्पॉट' वेबसाईटला भेट दिली. मला या ऑनलाईन पोर्टल आणि सेवांबद्दल अधिक माहिती हवी आहे." target="_blank" class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i> 9403901395
+            </a>
         </div>
     </div>
 
-    <!-- ----- Services Section ----- -->
+    <!-- ----- स्मार्ट आयडी कार्ड प्रिंटिंग (ID Cards) ----- -->
+    <div class="section-title">
+        <h2>स्मार्ट आयडी कार्ड प्रिंटिंग</h2>
+    </div>
+    <section class="services-container">
+        <div class="service-card">
+            <div class="service-icon" style="background-color: #f97316;"><i class="fas fa-fingerprint"></i></div>
+            <h3>आधार कार्ड प्रिंट</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon" style="background-color: #3b82f6;"><i class="fas fa-address-card"></i></div>
+            <h3>मतदान कार्ड प्रिंट</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon" style="background-color: #ef4444;"><i class="fas fa-id-badge"></i></div>
+            <h3>पॅन कार्ड प्रिंट</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon" style="background-color: #22c55e;"><i class="fas fa-tractor"></i></div>
+            <h3>शेतकरी ओळखपत्र</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon" style="background-color: #8b5cf6;"><i class="fas fa-heartbeat"></i></div>
+            <h3>आयुष्मान कार्ड</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon" style="background-color: #14b8a6;"><i class="fas fa-address-book"></i></div>
+            <h3>महा आयडी प्रिंट</h3>
+        </div>
+    </section>
+
+    <!-- ----- Services Grid (घोषणापत्र सेवा) ----- -->
     <div class="section-title">
         <h2>उपलब्ध घोषणापत्र सेवा</h2>
     </div>
     <section class="services-container">
         <div class="service-card">
-            <div class="service-icon" style="background-color: #4ade80;"><i class="fas fa-chart-line"></i></div>
+            <div class="service-icon" style="background-color: #3b82f6;"><i class="fas fa-file-invoice-dollar"></i></div>
             <h3>उत्पन्न घोषणापत्र</h3>
         </div>
         <div class="service-card">
-            <div class="service-icon" style="background-color: #60a5fa;"><i class="fas fa-calendar-alt"></i></div>
+            <div class="service-icon" style="background-color: #22c55e;"><i class="fas fa-file-contract"></i></div>
             <h3>३ वर्षांचे उत्पन्न घोषणापत्र</h3>
         </div>
         <div class="service-card">
-            <div class="service-icon" style="background-color: #fb923c;"><i class="fas fa-home"></i></div>
+            <div class="service-icon" style="background-color: #f97316;"><i class="fas fa-home"></i></div>
             <h3>रहिवासी घोषणापत्र</h3>
         </div>
         <div class="service-card">
-            <div class="service-icon" style="background-color: #a78bfa;"><i class="fas fa-globe"></i></div>
+            <div class="service-icon" style="background-color: #8b5cf6;"><i class="fas fa-flag"></i></div>
             <h3>राष्ट्रीयत्व घोषणापत्र</h3>
         </div>
         <div class="service-card">
-            <div class="service-icon" style="background-color: #f87171;"><i class="fas fa-user-shield"></i></div>
-            <h3>नॉन-क्रिमीनल घोषणापत्र</h3>
+            <div class="service-icon" style="background-color: #ef4444;"><i class="fas fa-users"></i></div>
+            <h3>जातीचे घोषणापत्र</h3>
         </div>
         <div class="service-card">
-            <div class="service-icon" style="background-color: #84cc16;"><i class="fas fa-seedling"></i></div>
-            <h3>अल्पभूधारक घोषणापत्र</h3>
+            <div class="service-icon" style="background-color: #14b8a6;"><i class="fas fa-file-signature"></i></div>
+            <h3>नॉन-क्रीमीलेअर घोषणापत्र</h3>
         </div>
     </section>
 
@@ -250,7 +286,7 @@
         <h2>हे पोर्टल का वापरावे?</h2>
     </div>
     <section class="features-container">
-        <div class="feature-box"><i class="fas fa-bullseye"></i><p>अचूक आणि योग्य फॉरमॅटमध्ये घोषणापत्र</p></div>
+        <div class="feature-box"><i class="fas fa-bullseye"></i><p>अचूक आणि योग्य फॉरमॅटमध्ये सेवा</p></div>
         <div class="feature-box"><i class="fas fa-stopwatch"></i><p>वेळेची बचत आणि सोपी प्रक्रिया</p></div>
         <div class="feature-box"><i class="fas fa-lock"></i><p>सुरक्षित लॉगिन आणि डेटा सुरक्षा</p></div>
         <div class="feature-box"><i class="fas fa-print"></i><p>पूर्वावलोकन आणि प्रिंटसाठी तयार</p></div>
@@ -262,10 +298,10 @@
     </div>
     <section class="steps-container">
         <div class="step-box"><div class="step-number">1</div><i class="fas fa-user-check"></i><h4>Login करा</h4><p>आपले युजर आयडी आणि पासवर्ड टाका.</p></div>
-        <div class="step-box"><div class="step-number">2</div><i class="fas fa-list-ul"></i><h4>सेवा निवडा</h4><p>आवश्यक घोषणापत्र निवडा.</p></div>
+        <div class="step-box"><div class="step-number">2</div><i class="fas fa-list-ul"></i><h4>सेवा निवडा</h4><p>आवश्यक आयडी किंवा घोषणापत्र निवडा.</p></div>
         <div class="step-box"><div class="step-number">3</div><i class="fas fa-pen-alt"></i><h4>माहिती भरा</h4><p>मागितलेली सर्व माहिती योग्यरित्या भरा.</p></div>
         <div class="step-box"><div class="step-number">4</div><i class="fas fa-eye"></i><h4>पूर्वावलोकन करा</h4><p>भरलेली माहिती तपासा आणि पहा.</p></div>
-        <div class="step-box"><div class="step-number">5</div><i class="fas fa-print"></i><h4>प्रिंट करा</h4><p>घोषणापत्र प्रिंट करून वापरासाठी तयार ठेवा.</p></div>
+        <div class="step-box"><div class="step-number">5</div><i class="fas fa-print"></i><h4>प्रिंट करा</h4><p>फाईल प्रिंट करून वापरासाठी तयार ठेवा.</p></div>
     </section>
 
     <!-- ----- Notice Section ----- -->
@@ -282,17 +318,18 @@
     <!-- ----- Footer ----- -->
     <footer>
         <div class="footer-content">
+            <!-- 🟢 संपर्क माहिती (अपडेटेड मोबाईल नंबर) -->
             <div class="footer-col">
                 <h3>सम्पर्क माहिती</h3>
-                <p><i class="fas fa-phone-alt"></i> +91 99999 99999</p>
-                <p><i class="fas fa-envelope"></i> support@sevaspot.in</p>
-                <p><i class="fas fa-map-marker-alt"></i> तुमचा पत्ता, जिल्हा, महाराष्ट्र.</p>
+                <p><i class="fas fa-phone-alt"></i> +91 9403901395</p>
             </div>
+
+            <!-- 🟢 WhatsApp लिंक आणि ऑटो-मेसेज -->
             <div class="footer-col">
                 <h3>आमच्याशी जोडून राहा</h3>
+                <p style="font-size: 14px; margin-bottom: 10px; color: #cbd5e1;">त्वरित प्रतिसादासाठी खालील आयकॉनवर क्लिक करा.</p>
                 <div class="footer-social">
-                    <a href="#" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" class="social-icon telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://wa.me/919403901395?text=नमस्कार! मला 'सेवास्पॉट सेंटर'च्या सेवांबद्दल जाणून घ्यायचे आहे." target="_blank" class="social-icon whatsapp" title="WhatsApp वर मेसेज करा"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
@@ -300,19 +337,6 @@
             &copy; 2026 सेवास्पॉट सेंटर. सर्व हक्क राखीव. | व्हर्जन 1.0.0
         </div>
     </footer>
-
-    <!-- ----- JavaScript (टोकन ऑटोमॅटिक अपडेट करण्यासाठी) ----- -->
-    <script>
-        window.onload = function() {
-            // config.js मधून टोकन कॉस्ट घेऊन अपडेट करणे
-            if (typeof CONFIG !== 'undefined' && CONFIG.GHOSHANA_TOKEN_COST) {
-                const costSpans = document.querySelectorAll('.dynamic-token-cost');
-                costSpans.forEach(span => {
-                    span.innerText = CONFIG.GHOSHANA_TOKEN_COST;
-                });
-            }
-        };
-    </script>
 
 </body>
 </html>
