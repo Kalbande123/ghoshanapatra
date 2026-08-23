@@ -37,6 +37,9 @@
         .btn-download:hover { opacity: 0.9; box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3); }
 
         .btn-success { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 14px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; display: none; text-decoration: none; align-items: center; justify-content: center; gap: 10px; }
+
+        .btn-reset { background-color: #64748b; color: white; border: none; padding: 10px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-reset:hover { background-color: #475569; }
         
         #editPanel { background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-top: 20px; display: none; text-align: left; }
         #editPanel h3 { font-size: 18px; color: #334155; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -65,7 +68,7 @@
 
         <div class="notice-box">
             <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
-            <span>टोकन संपल्यास रिचार्जसाठी संपर्क साधा.</span>
+            <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395" target="_blank">9403901395</a> वर संपर्क साधा.</span>
         </div>
 
         <h2><i class="fas fa-fingerprint"></i> स्मार्ट आधार प्रिंट</h2>
@@ -96,7 +99,7 @@
             
             <div id="previewArea">
                 <canvas id="previewCanvas"></canvas>
-                <p class="preview-note"><i class="fas fa-info-circle"></i> आता बदल फक्त 'फोटो' वरच लागू होतील, मजकूर सुरक्षित राहील.</p>
+                <p class="preview-note"><i class="fas fa-info-circle"></i> बदल फक्त 'फोटो' वरच लागू होतील, मजकूर सुरक्षित राहील.</p>
             </div>
 
             <div class="edit-control">
@@ -109,12 +112,6 @@
                 <input type="range" id="rangeContrast" min="50" max="150" value="100" oninput="applyEdits()">
             </div>
 
-            <!-- 🔴 नवीन: शार्पनेस (Sharpen) स्लाइडर 🔴 -->
-            <div class="edit-control">
-                <label>ठळकपणा (Sharpen HD): <span id="valSharpen">0%</span></label>
-                <input type="range" id="rangeSharpen" min="0" max="100" value="0" oninput="applyEdits()">
-            </div>
-
             <div class="edit-control">
                 <label>रंग (Saturation): <span id="valSaturation">100%</span></label>
                 <input type="range" id="rangeSaturation" min="0" max="200" value="100" oninput="applyEdits()">
@@ -124,6 +121,8 @@
                 <label>ब्लॅक अँड व्हाईट (B & W): <span id="valGray">0%</span></label>
                 <input type="range" id="rangeGray" min="0" max="100" value="0" oninput="applyEdits()">
             </div>
+
+            <button class="btn-reset" onclick="resetEdits()"><i class="fas fa-undo"></i> रिसेट करा (मूळ स्वरूपात आणा)</button>
         </div>
 
         <canvas id="idCanvas"></canvas>
@@ -181,39 +180,6 @@
             ctx.restore();
         }
 
-        // 🔴 नवीन: शार्पनेस ॲप्लाय करणारे गणित (Convolution Matrix) 🔴
-        function applySharpen(ctx, x, y, w, h, strength) {
-            if (strength <= 0) return;
-            // % नुसार मिक्स व्हॅल्यू (० ते १)
-            let mix = strength / 100;
-            
-            // फोटोचा डेटा (Pixels) मिळवणे
-            let imgData = ctx.getImageData(x, y, w, h);
-            let data = imgData.data;
-            let w4 = w * 4;
-            let src = new Uint8ClampedArray(data);
-
-            let center = 1 + 4 * mix;
-            let edge = -mix;
-
-            // प्रत्येक पिक्सेलवर शार्पनेस इफेक्ट लावणे
-            for (let i = 1; i < h - 1; i++) {
-                for (let j = 1; j < w - 1; j++) {
-                    let off = i * w4 + j * 4;
-                    let up = off - w4;
-                    let down = off + w4;
-                    let left = off - 4;
-                    let right = off + 4;
-
-                    data[off] = src[off] * center + (src[up] + src[down] + src[left] + src[right]) * edge;
-                    data[off+1] = src[off+1] * center + (src[up+1] + src[down+1] + src[left+1] + src[right+1]) * edge;
-                    data[off+2] = src[off+2] * center + (src[up+2] + src[down+2] + src[left+2] + src[right+2]) * edge;
-                }
-            }
-            // अपडेट केलेला डेटा परत कॅनव्हासवर टाकणे
-            ctx.putImageData(imgData, x, y);
-        }
-
         async function processCard() {
             const fileInput = document.getElementById('pdfFile').files[0];
             const password = document.getElementById('pdfPassword').value;
@@ -267,7 +233,7 @@
                     const frontCtx = frontCropCanvas.getContext('2d');
                     frontCtx.drawImage(rawCanvas, cropParams.sLeftX, cropParams.sy, cropParams.sw, cropParams.sh, 0, 0, cropParams.sw, cropParams.sh);
 
-                    applyEdits(); 
+                    resetEdits(); 
 
                     successMsg.style.display = 'block';
                     btnDownload.style.display = 'block';
@@ -285,6 +251,14 @@
             fileReader.readAsArrayBuffer(fileInput);
         }
 
+        function resetEdits() {
+            document.getElementById('rangeBrightness').value = 100;
+            document.getElementById('rangeContrast').value = 100;
+            document.getElementById('rangeSaturation').value = 100;
+            document.getElementById('rangeGray').value = 0;
+            applyEdits();
+        }
+
         function applyEdits() {
             if(!frontCropCanvas) return;
 
@@ -292,13 +266,11 @@
             const contrast = document.getElementById('rangeContrast').value;
             const saturation = document.getElementById('rangeSaturation').value;
             const grayscale = document.getElementById('rangeGray').value;
-            const sharpen = document.getElementById('rangeSharpen').value; // शार्पनेस व्हॅल्यू
             
             document.getElementById('valBright').innerText = brightness + "%";
             document.getElementById('valContrast').innerText = contrast + "%";
             document.getElementById('valSaturation').innerText = saturation + "%";
             document.getElementById('valGray').innerText = grayscale + "%";
-            document.getElementById('valSharpen').innerText = sharpen + "%";
 
             const previewCanvas = document.getElementById('previewCanvas');
             const pCtx = previewCanvas.getContext('2d');
@@ -313,14 +285,8 @@
             const pW = frontCropCanvas.width * PHOTO_W_PERCENT;
             const pH = frontCropCanvas.height * PHOTO_H_PERCENT;
 
-            // १. आधी ब्राइटनेस आणि कॉन्ट्रास्ट लावणे
             pCtx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) grayscale(${grayscale}%)`;
             pCtx.drawImage(frontCropCanvas, pX, pY, pW, pH, pX, pY, pW, pH);
-
-            // २. त्यानंतर शार्पनेस (Pixel Manipulation) लावणे
-            if (sharpen > 0) {
-                applySharpen(pCtx, pX, pY, pW, pH, sharpen);
-            }
         }
 
         function generateFinalCanvas() {
@@ -331,7 +297,6 @@
             const contrast = document.getElementById('rangeContrast').value;
             const saturation = document.getElementById('rangeSaturation').value;
             const grayscale = document.getElementById('rangeGray').value;
-            const sharpen = document.getElementById('rangeSharpen').value;
 
             if (currentSize === '4x6') {
                 finalCanvas.width = 1200; finalCanvas.height = 1800; 
@@ -354,14 +319,8 @@
             const pW = cropParams.sw * PHOTO_W_PERCENT;
             const pH = cropParams.sh * PHOTO_H_PERCENT;
 
-            // १. फायनल कॅनव्हासवर ब्राइटनेस आणि कॉन्ट्रास्ट
             tempCtx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) grayscale(${grayscale}%)`;
             tempCtx.drawImage(rawCanvas, absPX, absPY, pW, pH, absPX, absPY, pW, pH);
-
-            // २. फायनल कॅनव्हासवर शार्पनेस लावणे
-            if (sharpen > 0) {
-                applySharpen(tempCtx, absPX, absPY, pW, pH, sharpen);
-            }
 
             const CARD_ASPECT_RATIO = 1.586;
             const drawWidth = 1040; 
