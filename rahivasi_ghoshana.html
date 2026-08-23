@@ -45,7 +45,6 @@
         .heading { text-align: center; font-weight: bold; font-size: 24px; margin-top: 20px; margin-bottom: 30px; text-decoration: underline; }
         .paragraph { margin-bottom: 20px; text-indent: 40px; }
         
-        /* 🔴 इथे असलेली Dotted Underline काढून टाकली आहे, फक्त शब्द बोल्ड ठेवले आहेत 🔴 */
         .bold-text { font-weight: bold; } 
         
         .signature-block { text-align: center; min-width: 200px; }
@@ -109,6 +108,7 @@
         </div>
     </div>
 
+    <!-- 🟢 फॉर्ममध्ये 'ठिकाण' साठी व्हॅल्यू ठेवलेली आहे जेणेकरून JavaScript ला एरर येणार नाही -->
     <div class="form-section" style="display:none;">
         <label>ठिकाण:</label>
         <input type="text" id="location" value="हदगाव" required>
@@ -165,7 +165,10 @@
   <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px;">
     <div>
       <p style="margin: 5px 0; font-weight: bold;">दिनांक: <span id="out_date"></span></p>
-      <p style="margin: 5px 0; font-weight: bold;">ठिकाण: <span id="out_location">हदगाव</span></p>
+      
+      <!-- 🟢 प्रिंट सेक्शनमध्ये 'ठिकाण' साठी आयडी ऍड केला आहे 🟢 -->
+      <p style="margin: 5px 0; font-weight: bold;">ठिकाण: <span id="out_location"></span></p>
+      
     </div>
     <div class="signature-block">
       <p style="margin-bottom: 50px; font-weight: bold;">अर्जदार</p> 
@@ -272,6 +275,8 @@
             document.getElementById('out_address2').innerText = address;
             document.getElementById('out_address3').innerText = address;
             document.getElementById('out_since').innerText = document.getElementById('since').value;
+            
+            // 🟢 लोकेशन आता अचूक सेट होईल 🟢
             document.getElementById('out_location').innerText = document.getElementById('location').value;
             
             document.getElementById('out_name2').innerText = applicantName;
