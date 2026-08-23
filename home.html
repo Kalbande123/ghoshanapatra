@@ -24,8 +24,6 @@
         .nav-right { display: flex; align-items: center; gap: 20px; }
         
         .token-badge { background: #fef08a; color: #ca8a04; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .notification { position: relative; font-size: 20px; color: #64748b; cursor: pointer; }
-        .notification .badge { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; }
 
         .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
         .user-profile .avatar { font-size: 35px; color: #2563eb; }
@@ -57,6 +55,17 @@
         .section-title { text-align: center; margin-bottom: 20px; position: relative; }
         .section-title span { background: #1e3a8a; color: white; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; }
         
+        /* 🟢 नवीन: टोकन दरांची यादी (Pricing List) */
+        .pricing-list { background: white; padding: 25px; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 12px; border: 1px solid #e2e8f0; }
+        .price-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: #f8fafc; border-radius: 8px; border-left: 5px solid #1e3a8a; transition: 0.3s; }
+        .price-item:hover { background: #f1f5f9; transform: translateX(5px); }
+        .price-item:nth-child(2) { border-left-color: #22c55e; }
+        .price-item:nth-child(3) { border-left-color: #ea580c; }
+        .service-name { font-weight: 600; color: #334155; display: flex; align-items: center; gap: 12px; font-size: 16px; }
+        .service-name i { color: #64748b; font-size: 20px; width: 25px; text-align: center; }
+        .service-price { background: #fef08a; color: #b45309; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* Quick Access */
         .quick-access-box { background: white; padding: 25px; border-radius: 12px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .qa-item { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; }
         .qa-item:hover { transform: translateY(-3px); }
@@ -75,7 +84,6 @@
         
         .card-number { position: absolute; top: 15px; left: 15px; width: 28px; height: 28px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
         
-        /* सर्व्हिस कार्डवरील टोकन बॅज */
         .service-cost-badge { position: absolute; top: 15px; right: 15px; background: #fef08a; color: #b45309; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #fde047; }
 
         .service-icon { width: 70px; height: 70px; margin: 0 auto 20px; background: #f8fafc; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
@@ -107,7 +115,7 @@
             <div class="token-badge" title="तुमचे शिल्लक टोकन्स">
                 <i class="fas fa-coins"></i> <span id="displayTokens">0</span>
             </div>
-            <div class="notification"><i class="far fa-bell"></i><span class="badge">3</span></div>
+            <!-- Notification Icon Removed -->
             <div class="user-profile" onclick="toggleDropdown()">
                 <i class="fas fa-user-circle avatar"></i>
                 <div class="user-info">
@@ -131,10 +139,10 @@
             <p>आपल्या सर्व सेवा एका क्लिकवर उपलब्ध</p>
         </div>
 
-        <!-- 🎯 WhatsApp रिचार्ज सूचना -->
+        <!-- 🎯 WhatsApp रिचार्ज सूचना (Updated Mobile Number) -->
         <div class="whatsapp-banner">
             <i class="fab fa-whatsapp"></i> 
-            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919999999999" target="_blank">9999999999</a> या नंबरवर WhatsApp करा.</div>
+            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा.</div>
         </div>
 
         <div class="notice-banner">
@@ -142,6 +150,26 @@
             <div><strong>घोषणापत्र सूचना:</strong> प्रत्येक घोषणापत्र सेवेसाठी <strong style="font-size: 18px; color: #ea580c;"><span class="dynamic-token-cost">२</span> टोकन</strong> वजा केले जातील.</div>
         </div>
 
+        <!-- ========================================== -->
+        <!-- 🟢 नवीन: सेवांच्या दरांची यादी (Token Pricing List) -->
+        <!-- ========================================== -->
+        <div class="section-title"><span><i class="fas fa-list-alt"></i> सेवांचे दर (Token Pricing)</span></div>
+        <div class="pricing-list">
+            <div class="price-item">
+                <span class="service-name"><i class="fas fa-id-card"></i> सर्व स्मार्ट आयडी कार्ड्स (आधार, पॅन, मतदान, आयुष्मान, महा आयडी)</span>
+                <span class="service-price">5 टोकन / कार्ड</span>
+            </div>
+            <div class="price-item">
+                <span class="service-name"><i class="fas fa-tractor"></i> शेतकरी ओळखपत्र प्रिंटिंग</span>
+                <span class="service-price">10 टोकन / कार्ड</span>
+            </div>
+            <div class="price-item">
+                <span class="service-name"><i class="fas fa-file-signature"></i> सर्व प्रकारची मराठी घोषणापत्रे</span>
+                <span class="service-price"><span class="dynamic-token-cost">2</span> टोकन / अर्ज</span>
+            </div>
+        </div>
+
+        <!-- 🟢 त्वरित सुविधा -->
         <div class="section-title"><span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span></div>
         <div class="quick-access-box">
             <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
@@ -151,11 +179,12 @@
                 <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div><span>माझे अर्ज</span>
             </div>
             <div class="qa-item"><div class="qa-icon icon-green"><i class="fas fa-cloud-download-alt"></i></div><span>डाउनलोड</span></div>
-            <div class="qa-item"><div class="qa-icon icon-purple"><i class="far fa-bell"></i></div><span>सूचना</span></div>
+            <!-- Notification Quick Access Removed (Replaced with Transaction History for future use) -->
+            <div class="qa-item" onclick="alert('ट्रान्झॅक्शन पेज लवकरच येत आहे!')"><div class="qa-icon icon-purple"><i class="fas fa-history"></i></div><span>ट्रान्झॅक्शन्स</span></div>
         </div>
 
         <!-- ========================================== -->
-        <!-- १. स्मार्ट आयडी कार्ड प्रिंटिंग (NEW SECTION) -->
+        <!-- स्मार्ट आयडी कार्ड प्रिंटिंग (ID Cards) -->
         <!-- ========================================== -->
         <div class="section-title"><span><i class="fas fa-id-card"></i> स्मार्ट आयडी कार्ड प्रिंटिंग</span></div>
         
@@ -204,7 +233,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- २. घोषणापत्र सेवा पोर्टल (EXISTING SECTION) -->
+        <!-- घोषणापत्र सेवा पोर्टल (Ghoshnapatra) -->
         <!-- ========================================== -->
         <div class="section-title"><span><i class="fas fa-file-signature"></i> घोषणापत्र सेवा (Ghoshnapatra)</span></div>
 
@@ -223,40 +252,39 @@
                 <a href="utpanna3.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- 🟢 खालील सर्व घोषणापत्रांच्या लिंक्स ऍक्टिव्ह केल्या आहेत 🟢 -->
             <div class="service-card c-orange">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-home"></i></div>
                 <h3>रहिवासी घोषणा पत्र</h3>
-                <a href="rahivasi_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
             
             <div class="service-card c-red">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-users"></i></div>
                 <h3>जातीचे घोषणा पत्र</h3>
-                <a href="jati_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="service-card c-purple">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-flag"></i></div>
                 <h3>राष्ट्रीयत्व घोषणा पत्र</h3>
-                <a href="rashtriyatva_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="service-card c-teal">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-signature"></i></div>
                 <h3>नॉन-क्रीमीलेअर घोषणा पत्र</h3>
-                <a href="non_creamy_layer_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="service-card c-indigo">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
                 <h3>अल्पभूधारक घोषणा पत्र</h3>
-                <a href="alpabhudharak_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </div>
