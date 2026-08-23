@@ -1,50 +1,55 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-  <meta charset="UTF-8" />
-  <title>रहिवासी घोषणापत्र - SevaSpot Center</title>
-  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <script src="config.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>रहिवासी घोषणापत्र - SevaSpot Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="config.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  <style>
-    body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
+    <style>
+        body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
 
-    .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-    .form-section { margin-bottom: 15px; }
-    .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
-    .form-section input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .form-section { margin-bottom: 15px; }
+        .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
+        .form-section input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-    /* 🟢 पिवळा सूचना बॉक्स */
-    .notice-box { background: #fef9c3; border: 1px solid #facc15; color: #854d0e; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 25px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; text-align: left; }
-    .notice-box i { font-size: 24px; color: #ca8a04; }
+        /* 🟢 पिवळा सूचना बॉक्स */
+        .notice-box { background: #fef9c3; border: 1px solid #facc15; color: #854d0e; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 25px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; text-align: left; }
+        .notice-box i { font-size: 24px; color: #ca8a04; }
 
-    .upload-box { border: 2px dashed #cbd5e1; padding: 15px; border-radius: 8px; text-align: center; background: #f8fafc; margin-top: 15px; }
-    .print-btn { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .upload-box { border: 2px dashed #cbd5e1; padding: 15px; border-radius: 8px; text-align: center; background: #f8fafc; margin-top: 15px; }
+        .print-btn { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
 
-    /* वेबकॅम मोडल */
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
-    .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 90%; }
-    video { width: 100%; border-radius: 6px; background: #000; }
+        /* वेबकॅम मोडल */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 90%; }
+        video { width: 100%; border-radius: 6px; background: #000; }
 
-    /* प्रिंट सेक्शन */
-    .print-section { display: none; font-size: 17px; line-height: 2.2; color: #000; text-align: justify; }
+        /* प्रिंट सेक्शन */
+        .print-section { display: none; font-size: 17px; line-height: 2.2; color: #000; text-align: justify; padding: 40px; background: white; border: 1px solid #ccc; width: 800px; margin: 20px auto; }
 
-    @media print {
-      body { background: white; padding: 0; }
-      .form-container, .print-btn { display: none !important; }
-      .print-section { display: block !important; }
-    }
+        @media print {
+            body { background: white; padding: 0; }
+            .form-container, .print-btn { display: none !important; }
+            .print-section { display: block !important; border: none; width: 100%; padding: 20px; }
+        }
 
-    .photo-wrapper { text-align: right; margin-bottom: 10px; }
-    #out_photo { width: 120px; height: 150px; object-fit: cover; border: 1px solid #000; background-color: #fff; }
-    .heading { text-align: center; font-weight: bold; font-size: 24px; margin-top: 20px; margin-bottom: 30px; text-decoration: underline; }
-    .paragraph { margin-bottom: 20px; text-indent: 40px; }
-    .bold-text { font-weight: bold; border-bottom: 1px dotted #000; padding: 0 5px; }
-    .signature-block { text-align: center; min-width: 200px; }
-  </style>
+        .photo-wrapper { text-align: right; margin-bottom: 10px; }
+        #out_photo { width: 120px; height: 150px; object-fit: cover; border: 1px solid #000; background-color: #fff; }
+        .heading { text-align: center; font-weight: bold; font-size: 24px; margin-top: 20px; margin-bottom: 30px; text-decoration: underline; }
+        .paragraph { margin-bottom: 20px; text-indent: 40px; }
+        
+        /* 🔴 इथे असलेली Dotted Underline काढून टाकली आहे, फक्त शब्द बोल्ड ठेवले आहेत 🔴 */
+        .bold-text { font-weight: bold; } 
+        
+        .signature-block { text-align: center; min-width: 200px; }
+    </style>
 </head>
 <body>
 
@@ -53,7 +58,6 @@
       <a href="home.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-arrow-left"></i> डॅशबोर्डवर जा</a>
   </div>
 
-  <!-- 🟢 पिवळा सूचना बॉक्स -->
   <div class="notice-box">
       <i class="fas fa-info-circle"></i> 
       <span><b>सूचना:</b> घोषणापत्र प्रिंटसाठी २ टोकन कट होतील. टोकन संपल्यास <a href="https://wa.me/919999999999" target="_blank" style="color:#b45309; text-decoration:underline;">9999999999</a> वर संपर्क करा.</span>
@@ -232,7 +236,6 @@
   document.getElementById('ghoshanaForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // फोटो अपलोड केला आहे का ते तपासणे
     if(!document.getElementById('out_photo').getAttribute('src')) {
         alert("कृपया अर्जदाराचा फोटो अपलोड करा किंवा वेबकॅमने फोटो काढा!");
         return;
@@ -256,11 +259,9 @@
     .then(data => {
         if(data.status === 'success') {
             
-            // टोकन कट करणे
             let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
             if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - CONFIG.GHOSHANA_TOKEN_COST); }
 
-            // डेटा प्रिंट सेक्शनमध्ये भरणे
             const address = document.getElementById('address').value;
             document.getElementById('out_name').innerText = applicantName;
             document.getElementById('out_father').innerText = document.getElementById('father').value;
@@ -275,19 +276,28 @@
             
             document.getElementById('out_name2').innerText = applicantName;
 
-            // तारीख फॉरमॅट करणे (DD/MM/YYYY)
             const rawDate = document.getElementById('date').value;
             if(rawDate) {
                 const parts = rawDate.split('-');
                 document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            // थोडा वेळ थांबून प्रिंट डायलॉग उघडणे
-            setTimeout(() => {
-                window.print();
+            const printSection = document.getElementById('print-section');
+            printSection.style.display = 'block';
+
+            const opt = {
+                margin:       10,
+                filename:     `Rahivasi_Ghoshana_${applicantName}.pdf`,
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(printSection).save().then(() => {
+                printSection.style.display = 'none';
+                
                 submitBtn.style.display = 'none';
                 
-                // प्रिंट झाल्यानंतर 'डॅशबोर्डवर परत जा' चे हिरवे बटण तयार करणे
                 if (!document.getElementById('btnGoHome')) {
                     const successBtn = document.createElement('a');
                     successBtn.id = "btnGoHome";
@@ -301,10 +311,16 @@
                     
                     submitBtn.parentNode.appendChild(successBtn);
                 }
-            }, 500);
+            }).catch(err => {
+                console.log(err);
+                alert("PDF जनरेट करताना त्रुटी आली.");
+                printSection.style.display = 'none';
+                submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
+                submitBtn.disabled = false;
+            });
 
         } else {
-            alert("त्रुटी: " + data.message); // उदा. 'पुरेसे टोकन नाहीत'
+            alert("त्रुटी: " + data.message);
             submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
             submitBtn.disabled = false;
         }
