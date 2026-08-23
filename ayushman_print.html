@@ -24,6 +24,7 @@
         .back-link:hover { text-decoration: underline; }
 
         .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 30px; text-align: left; }
+        .notice-box a { color: #15803d; text-decoration: none; border-bottom: 1px dashed #15803d; }
         
         h2 { color: #ea580c; margin-bottom: 20px; border-bottom: 2px solid #ea580c; padding-bottom: 10px; display: inline-block; font-size: 24px; }
         
@@ -68,10 +69,10 @@
     <div class="container">
         <a href="home.html" class="back-link"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
 
-        <!-- 🟢 WhatsApp नोटीस -->
+        <!-- 🟢 नवीन: WhatsApp सूचना बॉक्स -->
         <div class="notice-box">
             <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
-            <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919999999999" target="_blank">9999999999</a> वर संपर्क साधा.</span>
+            <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
         </div>
 
         <h2><i class="fas fa-heartbeat"></i> स्मार्ट आयुष्मान कार्ड प्रिंट</h2>
@@ -120,7 +121,6 @@
                 <input type="range" id="rangeSaturation" min="0" max="200" value="100" oninput="applyEdits()">
             </div>
 
-            <!-- 🟢 ब्लॅक अँड व्हाईट फीचर -->
             <div class="edit-control">
                 <label>ब्लॅक अँड व्हाईट (B & W): <span id="valGray">0%</span></label>
                 <input type="range" id="rangeGray" min="0" max="100" value="0" oninput="applyEdits()">
@@ -132,7 +132,6 @@
         <canvas id="idCanvas"></canvas>
 
         <div id="actionArea">
-            <!-- 🟢 एडिटिंग पूर्ण झाल्यावर दिसणारा हिरवा मेसेज -->
             <div id="successMsg" class="success-strip">
                 <i class="fas fa-check-circle"></i> एडिटिंग पूर्ण झाल्यावर खालील बटणावरून फाईल डाऊनलोड करा.
             </div>
@@ -142,7 +141,7 @@
                 <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (5 टोकन)
             </button>
 
-            <!-- 🟢 डाऊनलोड झाल्यावर डॅशबोर्डवर जाण्याचे बटण -->
+            <!-- डाऊनलोड झाल्यावर डॅशबोर्डवर जाण्याचे बटण -->
             <a href="home.html" id="btnGoHome" class="btn-success">
                 <i class="fas fa-arrow-left"></i> डॅशबोर्डवर परत जा
             </a>
@@ -158,7 +157,6 @@
         let cropParams = {}; 
 
         // =========================================================================
-        // 🟢 आयुष्मान कार्ड झूम कटिंगचे आकडे (तुमच्या मूळ सेटिंगनुसार सुरक्षित ठेवले)
         const CARD_TOP_Y = 0.310;    
         const CARD_HEIGHT = 0.520;   
         const CARD_WIDTH = 0.410;    
@@ -221,7 +219,8 @@
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
 
-                    const scale = 4.0; 
+                    // 🟢 क्वालिटी फिक्स: स्केल ५.० (Ultra HD Rendering)
+                    const scale = 5.0; 
                     const viewport = page.getViewport({ scale: scale });
 
                     rawCanvas = document.createElement('canvas');
@@ -291,7 +290,6 @@
             previewCanvas.height = frontCropCanvas.width / CARD_ASPECT_RATIO;
             
             pCtx.filter = 'none';
-            // प्रिव्ह्यू झूम करून (फिक्स आधार रेशो मध्ये) दाखवणे
             pCtx.drawImage(frontCropCanvas, 0, 0, frontCropCanvas.width, frontCropCanvas.height, 0, 0, previewCanvas.width, previewCanvas.height);
 
             const pX = frontCropCanvas.width * PHOTO_X_PERCENT;
@@ -376,7 +374,6 @@
             }
         }
 
-        // 🟢 ५ टोकन कट करण्याची मुख्य सिस्टीम (Voter Card प्रमाणे अलर्ट) 🟢
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
@@ -405,17 +402,14 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    // टोकन कट करणे
                     let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
                     if(currentTokens >= 5) { 
                         localStorage.setItem('remainingTokens', currentTokens - 5); 
                     }
 
-                    // PDF फाईल तयार आणि डाऊनलोड करणे
                     generateFinalCanvas();
                     exportToPDF();
 
-                    // UI बदलणे आणि 'डॅशबोर्डवर परत जा' बटण दाखवणे
                     setTimeout(() => {
                         document.getElementById('successMsg').style.display = 'none';
                         document.getElementById('editPanel').style.display = 'none';
@@ -424,14 +418,12 @@
                     }, 500);
 
                 } else {
-                    // 🟢 व्होटर कार्ड प्रमाणे अलर्ट बॉक्स 🟢
                     alert("त्रुटी: " + data.message); 
                     btn.innerHTML = originalHtml; 
                     btn.disabled = false;
                 }
             })
             .catch(err => {
-                // 🟢 व्होटर कार्ड प्रमाणे अलर्ट बॉक्स 🟢
                 alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
                 btn.innerHTML = originalHtml; 
                 btn.disabled = false;
@@ -447,10 +439,12 @@
             let pdf;
             if (currentSize === '4x6') {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6, undefined, 'FAST');
+                // 🟢 क्वालिटी फिक्स: 'FAST' कॉम्प्रेशन पॅरामीटर काढून टाकले आहे
+                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6);
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+                // 🟢 क्वालिटी फिक्स: 'FAST' कॉम्प्रेशन पॅरामीटर काढून टाकले आहे
+                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
             }
             
             const ts = new Date().getTime();
