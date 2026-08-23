@@ -10,7 +10,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="config.js"></script> <!-- 🟢 CONFIG फाईल जोडली -->
+    <script src="config.js"></script> 
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
@@ -21,6 +21,10 @@
         .back-link { position: absolute; top: 20px; right: 20px; color: #4338ca; text-decoration: none; font-weight: 600; font-size: 15px; }
         .back-link:hover { text-decoration: underline; }
 
+        /* 🟢 नवीन: WhatsApp सूचना बॉक्स */
+        .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 30px; }
+        .notice-box a { color: #15803d; text-decoration: none; border-bottom: 1px dashed #15803d; }
+
         h2 { color: #4338ca; margin-bottom: 20px; border-bottom: 2px solid #4338ca; padding-bottom: 10px; display: inline-block; font-size: 24px; }
         
         .form-group { margin-bottom: 15px; text-align: left; }
@@ -29,9 +33,12 @@
         
         .btn-process { background-color: #4338ca; color: white; border: none; padding: 14px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: 0.3s;}
         .btn-process:hover { background-color: #3730a3; }
+        .btn-process:disabled { background-color: #94a3b8; cursor: not-allowed; }
         
         .btn-download { background-color: #16a34a; color: white; border: none; padding: 14px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; display: none; transition: 0.3s;}
         .btn-download:hover { background-color: #15803d; }
+
+        .btn-success { background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%); color: white; padding: 14px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; display: none; text-decoration: none; align-items: center; justify-content: center; gap: 10px; }
 
         .btn-reset { background-color: #64748b; color: white; border: none; padding: 10px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-reset:hover { background-color: #475569; }
@@ -51,6 +58,9 @@
         .edit-control input[type=range] { width: 100%; cursor: pointer; height: 8px; -webkit-appearance: none; background: #cbd5e1; border-radius: 5px; outline: none; }
         .edit-control input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: #4338ca; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         
+        .error { color: #dc2626; font-weight: bold; display: none; margin-top: 15px; background: #fee2e2; padding: 10px; border-radius: 6px; border: 1px solid #fecaca; }
+        .success-strip { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; margin-top: 20px; display: none; }
+
         canvas#finalCanvas { display: none; } 
     </style>
 </head>
@@ -58,6 +68,12 @@
 
     <div class="container">
         <a href="home.html" class="back-link"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
+
+        <!-- 🟢 नवीन: WhatsApp सूचना बॉक्स -->
+        <div class="notice-box">
+            <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
+            <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
+        </div>
 
         <h2><i class="fas fa-id-card"></i> स्मार्ट पॅन कार्ड प्रिंट व एडिट</h2>
         
@@ -80,7 +96,7 @@
         </div>
         
         <button id="btnProcess" class="btn-process" onclick="processCard()"><i class="fas fa-cogs"></i> फाईल प्रोसेस करा</button>
-        <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-weight:bold;"></p>
+        <p id="errorMsg" class="error"></p>
         
         <!-- 📷 फोटो एडिटिंग पॅनेल -->
         <div id="editPanel">
@@ -88,7 +104,7 @@
             
             <div id="previewArea">
                 <canvas id="previewCanvas"></canvas>
-                <p class="preview-note"><i class="fas fa-info-circle"></i> आता बदल फक्त 'फोटो' वरच लागू होतील, पॅन कार्डचा मजकूर सुरक्षित राहील.</p>
+                <p class="preview-note"><i class="fas fa-info-circle"></i> बदल फक्त 'फोटो' वरच लागू होतील, पॅन कार्डचा मजकूर सुरक्षित राहील.</p>
             </div>
 
             <div class="edit-control">
@@ -114,9 +130,20 @@
             <button class="btn-reset" onclick="resetEdits()"><i class="fas fa-undo"></i> रिसेट करा (मूळ स्वरूपात आणा)</button>
         </div>
 
-        <button id="btnDownload" class="btn-download" onclick="deductTokenAndDownload()">
-            <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (10 टोकन)
-        </button>
+        <!-- 🟢 ॲक्शन एरिया -->
+        <div id="actionArea">
+            <div id="successMsg" class="success-strip">
+                <i class="fas fa-check-circle"></i> एडिटिंग पूर्ण झाल्यावर खालील बटणावरून फाईल डाऊनलोड करा.
+            </div>
+
+            <button id="btnDownload" class="btn-download" onclick="deductTokenAndDownload()">
+                <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (10 टोकन)
+            </button>
+
+            <a href="home.html" id="btnGoHome" class="btn-success">
+                <i class="fas fa-arrow-left"></i> डॅशबोर्डवर परत जा
+            </a>
+        </div>
 
         <canvas id="finalCanvas"></canvas>
     </div>
@@ -166,6 +193,7 @@
             const fileInput = document.getElementById('pdfFile').files[0];
             const password = document.getElementById('pdfPassword').value;
             const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
             const editPanel = document.getElementById('editPanel');
             const btnDownload = document.getElementById('btnDownload');
             const btnProcess = document.getElementById('btnProcess');
@@ -175,6 +203,7 @@
             if (!fileInput) { alert("कृपया PDF फाईल निवडा."); return; }
 
             errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
             editPanel.style.display = 'none';
             btnDownload.style.display = 'none';
             btnProcess.innerHTML = "<i class='fas fa-spinner fa-spin'></i> लोड होत आहे...";
@@ -189,7 +218,8 @@
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
 
-                    const scale = 4.0; 
+                    // 🟢 क्वालिटी फिक्स: स्केल ४.० वरून ५.० केला (Ultra HD Rendering)
+                    const scale = 5.0; 
                     const viewport = page.getViewport({ scale: scale });
 
                     rawCanvas = document.createElement('canvas');
@@ -214,10 +244,10 @@
 
                     resetEdits(); 
                     
+                    successMsg.style.display = 'block';
                     editPanel.style.display = 'block';
                     btnDownload.style.display = 'block';
-                    btnProcess.innerHTML = "<i class='fas fa-cogs'></i> फाईल प्रोसेस करा";
-                    btnProcess.disabled = false;
+                    btnProcess.style.display = 'none';
 
                 } catch (error) {
                     if (error.name === 'PasswordException') {
@@ -337,7 +367,6 @@
             }
         }
 
-        // 🟢 १० टोकन कट करण्याची मुख्य API सिस्टीम 🟢
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
@@ -359,27 +388,27 @@
             let formData = new FormData();
             formData.append('action', 'printIdCard');
             formData.append('username', username);
-            formData.append('cardType', 'पॅन कार्ड (PAN)'); // 🟢 अचूक सर्व्हिसचे नाव
+            formData.append('cardType', 'पॅन कार्ड (PAN)'); 
             formData.append('remark', document.getElementById('printSize').value + ' Size Export');
 
-            // API Call
             fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    // लोकल बॅलन्स अपडेट करणे
                     let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
                     if(currentTokens >= 10) { localStorage.setItem('remainingTokens', currentTokens - 10); }
 
-                    // फायनल कॅनव्हास बनवून पीडीएफ डाऊनलोड करणे
                     generateFinalCanvas();
                     exportToPDF();
 
                     setTimeout(() => {
-                        window.location.href = "home.html"; // डॅशबोर्डवर परत जा
-                    }, 1500);
+                        document.getElementById('successMsg').style.display = 'none';
+                        document.getElementById('editPanel').style.display = 'none';
+                        btn.style.display = 'none';
+                        document.getElementById('btnGoHome').style.display = 'flex';
+                    }, 500);
                 } else {
-                    alert("त्रुटी: " + data.message); // बॅलन्स नसेल तर एरर
+                    alert("त्रुटी: " + data.message); 
                     btn.innerHTML = originalHtml; 
                     btn.disabled = false;
                 }
@@ -400,10 +429,12 @@
             let pdf;
             if (printSize === '4x6') {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6, undefined, 'FAST');
+                // 🟢 क्वालिटी फिक्स: 'FAST' कॉम्प्रेशन पॅरामीटर काढून टाकले आहे
+                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6); 
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+                // 🟢 क्वालिटी फिक्स: 'FAST' कॉम्प्रेशन पॅरामीटर काढून टाकले आहे
+                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297); 
             }
             
             const ts = new Date().getTime();
