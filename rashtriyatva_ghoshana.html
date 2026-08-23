@@ -5,11 +5,28 @@
   <title>नॅशनलिटी स्वयं घोषणापत्र - SevaSpot Center</title>
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- कॉन्फिगरेशन फाईल -->
+  <script src="config.js"></script>
 
   <style>
     body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
 
     .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    
+    /* सूचना पट्टी (Notice Box) */
+    .notice-box {
+        background-color: #fef08a; /* लाईट येलो बॅकग्राउंड */
+        border: 1px solid #eab308;
+        color: #713f12;
+        padding: 12px 15px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
     .form-section { margin-bottom: 15px; }
     .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
     .form-section input, .form-section select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; box-sizing: border-box; }
@@ -28,7 +45,7 @@
 
     @media print {
       body { background: white; padding: 0; }
-      .form-container, .print-btn { display: none !important; }
+      .form-container, .print-btn, .notice-box { display: none !important; }
       .print-section { display: block !important; }
     }
 
@@ -37,6 +54,12 @@
     .heading { text-align: center; font-weight: bold; font-size: 24px; margin-bottom: 30px; }
     .paragraph { margin-bottom: 20px; text-indent: 30px; text-align: justify; }
     
+    .subject-line {
+        margin: 25px 0;
+        font-weight: bold;
+        text-align: center;
+    }
+
     .footer-section {
         margin-top: 40px;
         display: flex;
@@ -53,12 +76,13 @@
   <div style="text-align: right; margin-bottom: 15px;">
       <a href="home.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-arrow-left"></i> डॅशबोर्डवर जा</a>
   </div>
+
   <!-- लाईट येलो बॅकग्राउंडची सूचना पट्टी -->
   <div class="notice-box">
-      <i class="fab fa-whatsapp" style="color: #16a34a; font-size: 20px; vertical-align: middle;"></i> टोकन संपल्यास रिचार्जासाठी <a href="https://wa.me/919403901395" target="_blank" style="color: #1d4ed8; text-decoration: underline;">9403901395</a> वर संपर्क साधा.
+      <i class="fab fa-whatsapp" style="color: #16a34a; font-size: 20px; vertical-align: middle;"></i> टोकन संपल्यास रिचार्जासाठी <a href="https://wa.me/919999999999" target="_blank" style="color: #1d4ed8; text-decoration: underline;">9999999999</a> वर संपर्क साधा.
   </div>
 
-  <h2 style="color: #ea580c; text-align: center; margin-bottom: 20px;">नॅशनलिटी स्वयं घोषणापत्र (तपासणी आवृत्ती)</h2>
+  <h2 style="color: #ea580c; text-align: center; margin-bottom: 20px;">नॅशनलिटी स्वयं घोषणापत्र</h2>
 
   <form id="affidavitForm">
     <div class="grid-2">
@@ -167,10 +191,14 @@
     करिता स्वःघोषणा पत्र लिहून देत आहे.
   </p>
 
+  <div class="subject-line">
+    विषय : नॅशनलिटी (भारतीयत्व) प्रमाणपत्र मिळणे बाबत ...
+  </div>
+
   <div class="footer-section">
     <div class="left-side">
         दिनांक: <span id="out_date"></span><br>
-        ठिकाण: <span id="out_location">हदगाव</span>
+        ठिकाण: <span id="out_location">हदगाव</span> जि. नांदेड.
     </div>
     <div class="right-side">
         अर्जदार<br><br><br>
@@ -187,6 +215,7 @@
   window.onload = function() {
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('date').value = today;
+      document.getElementById('submitBtn').innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
   };
 
   function loadPhoto(event) {
@@ -240,31 +269,76 @@
   document.getElementById('affidavitForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerText = "प्रक्रिया चालू आहे...";
+    submitBtn.disabled = true;
+
+    const username = localStorage.getItem('username') || "9876543210";
     const applicantName = document.getElementById('name').value;
-    const address = document.getElementById('address').value;
-    const targetType = document.getElementById('targetPersonType').value;
-    const parentRel = document.getElementById('parentRelation').value;
-    
-    document.getElementById('out_name').innerText = applicantName;
-    document.getElementById('out_father').innerText = document.getElementById('father').value;
-    document.getElementById('out_parentRelation').innerText = parentRel;
-    document.getElementById('out_age').innerText = document.getElementById('age').value;
-    document.getElementById('out_childName').innerText = document.getElementById('childName').value;
-    document.getElementById('out_targetPersonType').innerText = targetType;
-    document.getElementById('out_address').innerText = address;
-    document.getElementById('out_address2').innerText = address;
-    document.getElementById('out_location').innerText = document.getElementById('location').value;
 
-    const rawDate = document.getElementById('date').value;
-    if(rawDate) {
-        const parts = rawDate.split('-');
-        document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
-    }
+    const formData = new FormData();
+    formData.append('action', 'submitForm');
+    formData.append('username', username);
+    formData.append('ghoshnaType', 'नॅशनलिटी घोषणापत्र');
+    formData.append('applicantName', applicantName);
 
-    document.getElementById('out_name2').innerText = applicantName;
+    fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'success') {
+            
+            let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+            if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - CONFIG.GHOSHANA_TOKEN_COST); }
 
-    // थेट प्रिंट विंडो उघडेल
-    window.print();
+            const address = document.getElementById('address').value;
+            const targetType = document.getElementById('targetPersonType').value;
+            const parentRel = document.getElementById('parentRelation').value;
+            
+            document.getElementById('out_name').innerText = applicantName;
+            document.getElementById('out_father').innerText = document.getElementById('father').value;
+            document.getElementById('out_parentRelation').innerText = parentRel;
+            document.getElementById('out_age').innerText = document.getElementById('age').value;
+            document.getElementById('out_childName').innerText = document.getElementById('childName').value;
+            document.getElementById('out_targetPersonType').innerText = targetType;
+            document.getElementById('out_address').innerText = address;
+            document.getElementById('out_address2').innerText = address;
+            document.getElementById('out_location').innerText = document.getElementById('location').value;
+
+            const rawDate = document.getElementById('date').value;
+            if(rawDate) {
+                const parts = rawDate.split('-');
+                document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+
+            document.getElementById('out_name2').innerText = applicantName;
+
+            setTimeout(() => {
+                window.print();
+                submitBtn.style.display = 'none';
+                
+                const successBtn = document.createElement('a');
+                successBtn.href = "home.html";
+                successBtn.className = "print-btn";
+                successBtn.style.display = "block";
+                successBtn.style.textAlign = "center";
+                successBtn.style.textDecoration = "none";
+                successBtn.style.background = "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)";
+                successBtn.innerHTML = "<i class='fas fa-check-circle'></i> यशस्वी! डॅशबोर्डवर परत जा";
+                
+                submitBtn.parentNode.appendChild(successBtn);
+            }, 500);
+
+        } else {
+            alert("त्रुटी: " + data.message);
+            submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
+            submitBtn.disabled = false;
+        }
+    })
+    .catch(err => {
+        alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
+        submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
+        submitBtn.disabled = false;
+    });
   });
 </script>
 
