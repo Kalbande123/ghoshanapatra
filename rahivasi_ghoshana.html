@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <title>रहिवासी घोषणापत्र - SevaSpot Center</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script src="config.js"></script>
+
+  <style>
+    body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
+
+    .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    .form-section { margin-bottom: 15px; }
+    .form-section label { display: block; font-weight: 600; margin-bottom: 5px; color: #334155; }
+    .form-section input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    /* 🟢 पिवळा सूचना बॉक्स */
+    .notice-box { background: #fef9c3; border: 1px solid #facc15; color: #854d0e; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 25px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; text-align: left; }
+    .notice-box i { font-size: 24px; color: #ca8a04; }
+
+    .upload-box { border: 2px dashed #cbd5e1; padding: 15px; border-radius: 8px; text-align: center; background: #f8fafc; margin-top: 15px; }
+    .print-btn { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+
+    /* वेबकॅम मोडल */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 90%; }
+    video { width: 100%; border-radius: 6px; background: #000; }
+
+    /* प्रिंट सेक्शन */
+    .print-section { display: none; font-size: 17px; line-height: 2.2; color: #000; text-align: justify; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .form-container, .print-btn { display: none !important; }
+      .print-section { display: block !important; }
+    }
+
+    .photo-wrapper { text-align: right; margin-bottom: 10px; }
+    #out_photo { width: 120px; height: 150px; object-fit: cover; border: 1px solid #000; background-color: #fff; }
+    .heading { text-align: center; font-weight: bold; font-size: 24px; margin-top: 20px; margin-bottom: 30px; text-decoration: underline; }
+    .paragraph { margin-bottom: 20px; text-indent: 40px; }
+    .bold-text { font-weight: bold; border-bottom: 1px dotted #000; padding: 0 5px; }
+    .signature-block { text-align: center; min-width: 200px; }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <div style="text-align: right; margin-bottom: 15px;">
+      <a href="home.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-arrow-left"></i> डॅशबोर्डवर जा</a>
+  </div>
+
+  <!-- 🟢 पिवळा सूचना बॉक्स -->
+  <div class="notice-box">
+      <i class="fas fa-info-circle"></i> 
+      <span><b>सूचना:</b> घोषणापत्र प्रिंटसाठी २ टोकन कट होतील. टोकन संपल्यास <a href="https://wa.me/919999999999" target="_blank" style="color:#b45309; text-decoration:underline;">9999999999</a> वर संपर्क करा.</span>
+  </div>
+
+  <h2 style="color: #ea580c; text-align: center; margin-bottom: 20px;">रहिवासी घोषणापत्र अर्ज</h2>
+
+  <form id="ghoshanaForm">
+    <div class="form-section">
+      <label>अर्जदाराचे पूर्ण नाव:</label>
+      <input type="text" id="name" placeholder="उदा. रमेश तुकाराम पाटील" required>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-section">
+        <label>वडिलांचे/पतीचे नाव:</label>
+        <input type="text" id="father" required>
+      </div>
+      <div class="form-section">
+        <label>वय:</label>
+        <input type="number" id="age" required>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-section">
+        <label>आधार कार्ड क्रमांक (नसल्यास रिकामा सोडा):</label>
+        <input type="text" id="adharnumber">
+      </div>
+      <div class="form-section">
+        <label>व्यवसाय:</label>
+        <input type="text" id="occupation" required>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label>पत्ता:</label>
+      <input type="text" id="address" placeholder="गल्ली/गाव, तालुका, जिल्हा" required>
+    </div>
+
+    <div class="grid-2">
+        <div class="form-section">
+          <label>किती वर्षांपासून राहत आहात:</label>
+          <input type="number" id="since" required>
+        </div>
+        <div class="form-section">
+          <label>दिनांक:</label>
+          <input type="date" id="date" required>
+        </div>
+    </div>
+
+    <div class="form-section" style="display:none;">
+        <label>ठिकाण:</label>
+        <input type="text" id="location" value="हदगाव" required>
+    </div>
+
+    <div class="upload-box">
+      <label style="font-weight: bold; margin-bottom: 10px; display: block;"><i class="fas fa-camera"></i> फोटो निवडा किंवा काढा</label>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="loadPhoto(event)">
+        <label for="imageInput" style="background: #2563eb; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">फाईल निवडा</label>
+        <button type="button" onclick="openCamModal()" style="background: #16a34a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">वेबकॅम फोटो</button>
+      </div>
+      <img id="formPreviewImg" src="" style="display: none; width: 80px; height: 100px; object-fit: cover; margin: 15px auto 0; border: 2px solid #cbd5e1; border-radius: 8px;" alt="Preview">
+    </div>
+
+    <button type="submit" class="print-btn" id="submitBtn"><i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा</button>
+  </form>
+</div>
+
+<!-- वेबकॅम मोडल -->
+<div class="modal" id="camModal">
+  <div class="modal-content">
+      <h3 style="margin-top: 0; margin-bottom: 10px;">थेट कॅमेरा</h3>
+      <video id="webcamVideo" autoplay playsinline></video>
+      <canvas id="canvas" style="display:none;"></canvas>
+      <div style="margin-top: 15px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <button type="button" onclick="capturePhoto()" style="flex: 1; background: #16a34a; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">फोटो घ्या</button>
+          <button type="button" onclick="switchCamera()" style="flex: 1; background: #f59e0b; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;"><i class="fas fa-sync-alt"></i> बदला</button>
+          <button type="button" onclick="closeCamModal()" style="flex: 1; background: #dc2626; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">बंद करा</button>
+      </div>
+  </div>
+</div>
+
+<!-- प्रिंट आऊटपुट सेक्शन -->
+<div class="print-section" id="output">
+  <div class="photo-wrapper">
+    <img id="out_photo" src="">
+  </div>
+  
+  <div class="heading">रहिवासी घोषणापत्र</div>
+  
+  <p class="paragraph">
+      मी, श्री/श्रीमती/कु. <span class="bold-text" id="out_name"></span>, श्री. <span class="bold-text" id="out_father"></span> यांचा मुलगा/मुलगी/पत्नी, वय <span class="bold-text" id="out_age"></span> वर्ष, आधार कार्ड क्रमांक (असल्यास) <span class="bold-text" id="out_adharnumber"></span>, व्यवसाय <span class="bold-text" id="out_occupation"></span>, रा. <span class="bold-text" id="out_address"></span> ता. हदगाव जि. नांदेड येथील रहिवासी असून याद्वारे घोषित करतो/करते की, मी रा. <span class="bold-text" id="out_address2"></span> ता. हदगाव जि. नांदेड या ठिकाणी मागील <span class="bold-text" id="out_since"></span> वर्षांपासून राहत/वास्तव्यास आहे.
+  </p>
+  
+  <p class="paragraph">
+      घोषणापत्राद्वारे घोषित करतो/करते की, वरील सर्व माहिती माझ्या व्यक्तिगत माहिती व समजुतीनुसार खरी आहे. सदर माहिती खोटी आढळून आल्यास, भारतीय दंड संहिता अन्वये आणि/किंवा संबंधित कायद्यानुसार माझ्यावर खटला भरला जाईल व त्यानुसार मी शिक्षेस पात्र राहीन. तसेच सदर स्वयंघोषणापत्राद्वारे मला मिळालेले सर्व लाभ सर्वकषरित्या काढून घेण्यात येतील, याची मला पूर्ण जाणीव आहे.
+  </p>
+
+  <p class="paragraph">
+      करिता स्वःघोषणा पत्र लिहून देत आहे.
+  </p>
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px;">
+    <div>
+      <p style="margin: 5px 0; font-weight: bold;">दिनांक: <span id="out_date"></span></p>
+      <p style="margin: 5px 0; font-weight: bold;">ठिकाण: <span id="out_location">हदगाव</span></p>
+    </div>
+    <div class="signature-block">
+      <p style="margin-bottom: 50px; font-weight: bold;">अर्जदार</p> 
+      <p style="margin: 5px 0; font-weight: bold;"><span id="out_name2"></span></p>
+      <p style="margin: 5px 0; font-weight: bold;">रा. <span id="out_address3"></span><br>ता. हदगाव जि. नांदेड</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  let mediaStream = null;
+  let currentFacingMode = 'environment';
+
+  window.onload = function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').value = today;
+      document.getElementById('submitBtn').innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
+  };
+
+  function loadPhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      document.getElementById('out_photo').src = url;
+      const preview = document.getElementById('formPreviewImg');
+      preview.src = url;
+      preview.style.display = 'block';
+    }
+  }
+
+  function openCamModal() {
+      document.getElementById('camModal').style.display = 'flex';
+      startCamera();
+  }
+
+  function startCamera() {
+      if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+      const video = document.getElementById('webcamVideo');
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false })
+      .then(stream => { mediaStream = stream; video.srcObject = stream; })
+      .catch(err => { alert("कॅमेरा सुरू होऊ शकला नाही."); document.getElementById('camModal').style.display = 'none'; });
+  }
+
+  function switchCamera() {
+      currentFacingMode = (currentFacingMode === 'user') ? 'environment' : 'user';
+      startCamera();
+  }
+
+  function capturePhoto() {
+      const video = document.getElementById('webcamVideo');
+      const canvas = document.getElementById('canvas');
+      canvas.width = video.videoWidth || 320; 
+      canvas.height = video.videoHeight || 240;
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/png');
+      document.getElementById('out_photo').src = dataUrl;
+      const preview = document.getElementById('formPreviewImg');
+      preview.src = dataUrl;
+      preview.style.display = 'block';
+      closeCamModal();
+  }
+
+  function closeCamModal() {
+      document.getElementById('camModal').style.display = 'none';
+      if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+  }
+
+  document.getElementById('ghoshanaForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // फोटो अपलोड केला आहे का ते तपासणे
+    if(!document.getElementById('out_photo').getAttribute('src')) {
+        alert("कृपया अर्जदाराचा फोटो अपलोड करा किंवा वेबकॅमने फोटो काढा!");
+        return;
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerText = "प्रक्रिया चालू आहे...";
+    submitBtn.disabled = true;
+
+    const username = localStorage.getItem('username') || "9876543210";
+    const applicantName = document.getElementById('name').value; 
+
+    const formData = new FormData();
+    formData.append('action', 'submitForm');
+    formData.append('username', username);
+    formData.append('ghoshnaType', 'रहिवासी घोषणापत्र');
+    formData.append('applicantName', applicantName); 
+
+    fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'success') {
+            
+            // टोकन कट करणे
+            let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+            if(currentTokens > 0) { localStorage.setItem('remainingTokens', currentTokens - CONFIG.GHOSHANA_TOKEN_COST); }
+
+            // डेटा प्रिंट सेक्शनमध्ये भरणे
+            const address = document.getElementById('address').value;
+            document.getElementById('out_name').innerText = applicantName;
+            document.getElementById('out_father').innerText = document.getElementById('father').value;
+            document.getElementById('out_age').innerText = document.getElementById('age').value;
+            document.getElementById('out_adharnumber').innerText = document.getElementById('adharnumber').value || '---';
+            document.getElementById('out_occupation').innerText = document.getElementById('occupation').value;
+            document.getElementById('out_address').innerText = address;
+            document.getElementById('out_address2').innerText = address;
+            document.getElementById('out_address3').innerText = address;
+            document.getElementById('out_since').innerText = document.getElementById('since').value;
+            document.getElementById('out_location').innerText = document.getElementById('location').value;
+            
+            document.getElementById('out_name2').innerText = applicantName;
+
+            // तारीख फॉरमॅट करणे (DD/MM/YYYY)
+            const rawDate = document.getElementById('date').value;
+            if(rawDate) {
+                const parts = rawDate.split('-');
+                document.getElementById('out_date').innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+
+            // थोडा वेळ थांबून प्रिंट डायलॉग उघडणे
+            setTimeout(() => {
+                window.print();
+                submitBtn.style.display = 'none';
+                
+                // प्रिंट झाल्यानंतर 'डॅशबोर्डवर परत जा' चे हिरवे बटण तयार करणे
+                if (!document.getElementById('btnGoHome')) {
+                    const successBtn = document.createElement('a');
+                    successBtn.id = "btnGoHome";
+                    successBtn.href = "home.html";
+                    successBtn.className = "print-btn";
+                    successBtn.style.display = "block";
+                    successBtn.style.textAlign = "center";
+                    successBtn.style.textDecoration = "none";
+                    successBtn.style.background = "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)";
+                    successBtn.innerHTML = "<i class='fas fa-check-circle'></i> यशस्वी! डॅशबोर्डवर परत जा";
+                    
+                    submitBtn.parentNode.appendChild(successBtn);
+                }
+            }, 500);
+
+        } else {
+            alert("त्रुटी: " + data.message); // उदा. 'पुरेसे टोकन नाहीत'
+            submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
+            submitBtn.disabled = false;
+        }
+    })
+    .catch(err => {
+        alert("नेटवर्क एरर! कृपया पुन्हा प्रयत्न करा.");
+        submitBtn.innerHTML = `<i class="fas fa-print"></i> घोषणापत्र सबमिट करा व प्रिंट काढा (${CONFIG.GHOSHANA_TOKEN_COST} टोकन)`;
+        submitBtn.disabled = false;
+    });
+  });
+</script>
+
+</body>
+</html>
