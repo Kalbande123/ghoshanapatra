@@ -27,11 +27,9 @@
         .upload-box { border: 2px dashed #cbd5e1; padding: 15px; border-radius: 8px; text-align: center; background: #f8fafc; margin-top: 15px; }
         .upload-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
-        /* 🟢 नवीन WhatsApp नोटीस */
         .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 25px; margin-top: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .notice-box a { color: #15803d; text-decoration: none; border-bottom: 1px dashed #15803d; }
 
-        /* 🟢 दोन बटणांचे डिझाईन */
         .action-buttons { display: flex; gap: 15px; margin-top: 25px; }
         .btn-print, .btn-download { flex: 1; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; border: none; color: white; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-print { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
@@ -43,7 +41,6 @@
         .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 90%; }
         video { width: 100%; border-radius: 6px; background: #000; }
 
-        /* 🟢 फॉर्म ओव्हरलॅप फिक्स (मोबाईलसाठी) */
         @media (max-width: 768px) {
             body { padding: 10px; }
             .form-container { padding: 15px !important; }
@@ -75,7 +72,6 @@
         <a href="home.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-arrow-left"></i> डॅशबोर्डवर जा</a>
     </div>
 
-    <!-- 🟢 WhatsApp नोटीस -->
     <div class="notice-box">
         <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
         <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
@@ -153,7 +149,6 @@
             <img id="formPreviewImg" src="" style="display: none; width: 80px; height: 100px; object-fit: cover; margin: 15px auto 0; border: 2px solid #cbd5e1; border-radius: 8px;" alt="Preview">
         </div>
 
-        <!-- 🟢 2 बटणे (Print आणि Download) -->
         <div class="action-buttons">
             <button type="button" class="btn-print" id="btnPrint" onclick="processForm('print')">
                 <i class="fas fa-print"></i> प्रिंट करा (<span class="token-cost">2</span> टोकन)
@@ -188,10 +183,9 @@
     <div class="heading">उत्पन्न घोषणापत्र</div>
     
     <p class="paragraph">
-        मा. श्री / श्रीमती <strong id="out_name"></strong> श्री <strong id="out_father"></strong> यांचा मुलगा/मुलगी/पत्नी वय <strong id="out_age"></strong> व्यवसाय <strong id="out_occupation"></strong> रा. <strong id="out_address"></strong> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2023-2024 मध्ये <strong><span id="out_inc1"></span></strong>, 2024-2025 मध्ये <strong><span id="out_inc2"></span></strong>, आणि 2025-2026 मध्ये <strong><span id="out_inc3"></span> हजार</strong> आहे आणि मला <strong id="out_purpose"></strong> या करिता स्वयघोषणा आधारे करतो / करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
+        मा. श्री / श्रीमती <strong id="out_name"></strong> श्री <strong id="out_father"></strong> यांचा मुलगा/मुलगी/पत्नी वय <strong id="out_age"></strong> व्यवसाय <strong id="out_occupation"></strong> रा. <strong id="out_address"></strong> ता. हदगाव जि. नांदेड येथील रहिवासी आहे व माझे उत्पन्न 2023-2024 मध्ये <strong>पावती/रक्कम <span id="out_inc1"></span> हजार</strong>, 2024-2025 मध्ये <strong><span id="out_inc2"></span> हजार</strong>, आणि 2025-2026 मध्ये <strong><span id="out_inc3"></span> हजार</strong> आहे आणि मला <strong id="out_purpose"></strong> या करिता स्वयघोषणा आधारे घोषित करतो / करते की मी स्वयं साक्षांकित उत्पन्न केलेल्या प्रती माझ्या या मूळ कागदपत्राच्या सत्यप्रति सह ही स्वयंघोषणापत्र देत आहे.
     </p>
 
-    <!-- 🟢 अपडेट केलेला दुसरा परिच्छेद -->
     <p class="paragraph">
         घोषणापत्राद्वारे घोषित करतो / करते की, वरील सर्व माहिती माझ्या व्यक्तिगत माहिती व समजूतीनुसार खरी आहे. सदर माहिती खोटी आढळून आल्यास, भारतीय दंड संहिता अन्वये आणि / किंवा संबंधित कायद्यानुसार माझ्यावर खटला भरला जाईल व त्यानुसार मी शिक्षेस पात्र राहीन. तसेच सदर स्वयंघोषणापत्राद्वारे मला मिळालेले सर्व लाभ काढून घेण्यात येतील, याची मला पूर्ण जाणीव आहे.<br><br>
         करिता स्वःघोषणा पत्र लिहून देत आहे.
@@ -273,6 +267,7 @@
         if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
     }
 
+    // 🟢 ॲडमिन स्टेटमेंट फिक्स केलेले प्रोसेस फंक्शन 
     function processForm(actionType) {
         const form = document.getElementById('income3Form');
         
@@ -296,10 +291,12 @@
         const applicantName = document.getElementById('name').value;
 
         const formData = new FormData();
-        formData.append('action', 'printIdCard'); // टोकन कपातीसाठी सेम API ऍक्शन
+        formData.append('action', 'submitForm'); 
         formData.append('username', username);
-        formData.append('cardType', '३ वर्षाचे उत्पन्न घोषणापत्र');
-        formData.append('remark', actionType + ' Action');
+        
+        let actionLabel = actionType === 'print' ? 'Print' : 'Download';
+        formData.append('ghoshnaType', '३ वर्षाचे उत्पन्न घोषणापत्र (' + actionLabel + ')');
+        formData.append('applicantName', applicantName);
 
         fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
         .then(res => res.json())
@@ -342,7 +339,6 @@
                         executeDownload();
                     }
 
-                    // 🟢 ऑटो-क्लिअर फॉर्म
                     setTimeout(() => {
                         form.reset();
                         document.getElementById('printPhoto').src = "";
@@ -368,7 +364,6 @@
         });
     }
 
-    // 🟢 100% परफेक्ट 'डायरेक्ट प्रिंट' सारखी PDF बनवणारे लॉजिक
     function executeDownload() {
         const printArea = document.getElementById('output');
         
@@ -383,7 +378,7 @@
 
         document.fonts.ready.then(() => {
             html2canvas(printArea, { 
-                scale: 4, // 🟢 अल्ट्रा HD क्वालिटी
+                scale: 4, 
                 useCORS: true,
                 letterRendering: true,
                 scrollY: 0
