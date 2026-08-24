@@ -2,7 +2,7 @@
 <html lang="mr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 🟢 मोबाईल व्ह्यूसाठी आवश्यक -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <title>उत्पन्न घोषणापत्र - SevaSpot Center</title>
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,7 +12,7 @@
   <script src="config.js"></script>
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; } /* 🟢 सर्व रकाने अचूक सेट करण्यासाठी */
+    * { box-sizing: border-box; margin: 0; padding: 0; } 
     body { font-family: 'Mukta', sans-serif; background-color: #f1f5f9; padding: 20px; color: #1e293b; }
 
     .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
@@ -37,11 +37,11 @@
     .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 400px; width: 90%; }
     video { width: 100%; border-radius: 6px; background: #000; }
 
-    /* 🟢 100% परफेक्ट ओव्हरलॅप फिक्स (मोबाईल आणि टॅब्लेटसाठी) */
+    /* फॉर्म ओव्हरलॅप फिक्स (मोबाईलसाठी) */
     @media (max-width: 768px) {
         body { padding: 10px; }
         .form-container { padding: 15px !important; }
-        .grid-2 { grid-template-columns: 1fr !important; gap: 10px !important; } /* सक्तीने १ कॉलम */
+        .grid-2 { grid-template-columns: 1fr !important; gap: 10px !important; } 
         .action-buttons { flex-direction: column !important; gap: 10px !important; }
         .upload-buttons { flex-direction: column !important; }
         .upload-buttons label, .upload-buttons button { width: 100% !important; margin: 0 !important; }
@@ -270,10 +270,9 @@
     const applicantName = document.getElementById('name').value; 
 
     const formData = new FormData();
-    formData.append('action', 'submitForm');
+    formData.append('action', 'printIdCard'); // टोकन कपातीसाठी सेम ऍक्शन
     formData.append('username', username);
-    formData.append('ghoshnaType', 'उत्पन्न घोषणापत्र');
-    formData.append('applicantName', applicantName);
+    formData.append('cardType', 'उत्पन्न घोषणापत्र');
     formData.append('remark', actionType + ' Action');
 
     fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: formData })
@@ -338,27 +337,46 @@
     });
   }
 
+  // 🟢 100% परफेक्ट 'डायरेक्ट प्रिंट' सारखी PDF बनवणारे नवीन लॉजिक
   function executeDownload() {
       const printArea = document.getElementById('output');
+      
+      // 🟢 CSS सेटिंग जेणेकरून A4 पेज पूर्ण मोकळे आणि परफेक्ट दिसेल
       printArea.style.display = 'block'; 
-      printArea.style.width = '794px'; 
-      printArea.style.padding = '40px';
+      printArea.style.width = '950px';  // रुंदी वाढवली जेणेकरून मजकूर दाटणार नाही
+      printArea.style.padding = '60px 50px'; // मार्जिन वाढवली
       printArea.style.background = 'white';
       printArea.style.color = 'black';
+      printArea.style.position = 'absolute'; // स्क्रीनवर दिसू नये म्हणून
+      printArea.style.left = '-9999px';
+      printArea.style.top = '0';
 
-      html2canvas(printArea, { scale: 2 }).then(canvas => {
-          const imgData = canvas.toDataURL('image/jpeg', 1.0);
-          const { jsPDF } = window.jspdf;
-          const pdf = new jsPDF('p', 'mm', 'a4');
-          const imgWidth = 210;
-          const imgHeight = canvas.height * imgWidth / canvas.width;
-          
-          pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-          pdf.save(`Utpanna_Ghoshnapatra_${new Date().getTime()}.pdf`);
-          
-          printArea.style.display = ''; 
-          printArea.style.width = '';
-          printArea.style.padding = '';
+      // 🟢 फॉन्ट पूर्ण लोड झाल्याशिवाय PDF बनणार नाही
+      document.fonts.ready.then(() => {
+          html2canvas(printArea, { 
+              scale: 4, // 🟢 अल्ट्रा HD क्वालिटी 
+              useCORS: true,
+              letterRendering: true,
+              scrollY: 0
+          }).then(canvas => {
+              const imgData = canvas.toDataURL('image/jpeg', 1.0);
+              const { jsPDF } = window.jspdf;
+              const pdf = new jsPDF('p', 'mm', 'a4');
+              
+              const imgWidth = 210;
+              const imgHeight = (canvas.height * imgWidth) / canvas.width;
+              
+              pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+              pdf.save(`Utpanna_Ghoshnapatra_${new Date().getTime()}.pdf`);
+              
+              // 🟢 डिझाईन पुन्हा अदृश्य करणे
+              printArea.style.display = ''; 
+              printArea.style.width = '';
+              printArea.style.padding = '';
+              printArea.style.position = '';
+              printArea.style.left = '';
+              printArea.style.top = '';
+          });
       });
   }
 </script>
