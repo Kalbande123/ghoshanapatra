@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>डॅशबोर्ड - QuickIDPrint</title>
+    <title>QuickIDPrint | Smart Service Dashboard</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,21 +18,9 @@
         /* Navbar Header */
         .navbar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .logo-area { display: flex; align-items: center; gap: 15px; }
-        
-        /* 🟢 लोगोची साईझ मोठी आणि स्पष्ट केली */
-        .site-logo { width: 70px; height: 70px; border-radius: 10px; object-fit: contain; }
-        
-        .logo-text h2 { 
-            font-size: 28px; 
-            font-weight: 800; 
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #ea580c 100%); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            line-height: 1.1; 
-            letter-spacing: 0.5px; 
-        }
-        .logo-text p { font-size: 13px; color: #64748b; font-weight: 600; }
-        
+        .site-logo { width: 55px; height: 55px; border-radius: 8px; object-fit: contain; }
+        .logo-text h2 { font-size: 22px; color: #ea580c; line-height: 1; }
+        .logo-text p { font-size: 13px; color: #64748b; font-weight: 500; }
         .nav-right { display: flex; align-items: center; gap: 20px; }
         
         .token-badge { background: #fef08a; color: #ca8a04; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -55,30 +43,27 @@
         .welcome-banner h1 { color: #1e3a8a; font-size: 28px; margin-bottom: 10px; }
         .welcome-banner p { color: #64748b; font-size: 15px; }
 
-        /* केंद्रस्थानी WhatsApp रिचार्ज सूचना */
-        .whatsapp-banner { background: #dcfce7; border-left: 5px solid #22c55e; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; color: #166534; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); text-align: center; }
+        /* सूचना बॅनर (Notice Banners) */
+        .notice-banner { background: #fffbeb; border-left: 5px solid #f59e0b; padding: 15px 20px; border-radius: 8px; margin-bottom: 15px; color: #b45309; display: flex; align-items: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .notice-banner i { font-size: 22px; color: #f59e0b; }
+        
+        /* नवीन WhatsApp सूचना डिझाईन */
+        .whatsapp-banner { background: #dcfce7; border-left: 5px solid #22c55e; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; color: #166534; display: flex; align-items: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
         .whatsapp-banner i { font-size: 24px; color: #22c55e; }
         .whatsapp-banner a { color: #15803d; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #15803d; }
-
-        /* 🟢 सर्च बॉक्स अगदी आयडी कार्ड्सच्या वर घेतला आहे */
-        .search-box-container { margin-bottom: 35px; display: flex; justify-content: center; }
-        .search-input-wrapper { position: relative; width: 100%; max-width: 650px; }
-        .search-input-wrapper input { width: 100%; padding: 15px 20px 15px 50px; font-size: 16px; border: 2px solid #2563eb; border-radius: 30px; outline: none; background: white; box-shadow: 0 4px 15px rgba(37,99,235,0.1); transition: 0.3s; }
-        .search-input-wrapper input:focus { border-color: #1e3a8a; box-shadow: 0 4px 20px rgba(37,99,235,0.2); }
-        .search-input-wrapper i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #2563eb; font-size: 20px; }
 
         .section-title { text-align: center; margin-bottom: 20px; position: relative; }
         .section-title span { background: #1e3a8a; color: white; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; }
         
-        /* सेवांचे दर (Token Pricing List - Width Reduced) */
-        .pricing-list { background: white; padding: 25px; border-radius: 12px; margin: 0 auto 40px auto; max-width: 700px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 12px; border: 1px solid #e2e8f0; }
+        /* 🟢 नवीन: टोकन दरांची यादी (Pricing List) */
+        .pricing-list { background: white; padding: 25px; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 12px; border: 1px solid #e2e8f0; }
         .price-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: #f8fafc; border-radius: 8px; border-left: 5px solid #1e3a8a; transition: 0.3s; }
         .price-item:hover { background: #f1f5f9; transform: translateX(5px); }
         .price-item:nth-child(2) { border-left-color: #22c55e; }
         .price-item:nth-child(3) { border-left-color: #ea580c; }
-        .service-name { font-weight: 600; color: #334155; display: flex; align-items: center; gap: 12px; font-size: 15px; }
-        .service-name i { color: #64748b; font-size: 18px; width: 25px; text-align: center; }
-        .service-price { background: #fef08a; color: #b45309; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .service-name { font-weight: 600; color: #334155; display: flex; align-items: center; gap: 12px; font-size: 16px; }
+        .service-name i { color: #64748b; font-size: 20px; width: 25px; text-align: center; }
+        .service-price { background: #fef08a; color: #b45309; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         /* Quick Access */
         .quick-access-box { background: white; padding: 25px; border-radius: 12px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
@@ -114,6 +99,243 @@
         .c-purple .card-number { background: #8b5cf6; } .c-purple .service-icon { color: #8b5cf6; }
         .c-teal .card-number { background: #14b8a6; } .c-teal .service-icon { color: #14b8a6; }
         .c-indigo .card-number { background: #6366f1; } .c-indigo .service-icon { color: #6366f1; }
+    
+/* =========================================================
+   QuickIDPrint — Attractive Navbar + Computer/Printer Hero
+   ========================================================= */
+:root{
+    --qid-navy:#123a8f;
+    --qid-blue:#2563eb;
+    --qid-orange:#f97316;
+    --qid-yellow:#fff1a8;
+    --qid-cream:#fff9dc;
+    --qid-bg:#f2f6fb;
+    --qid-text:#172554;
+}
+body{
+    background:
+        radial-gradient(circle at 5% 0%,rgba(255,211,69,.15),transparent 24%),
+        linear-gradient(180deg,#fffdf6 0%,#f3f7fc 52%,#edf3fa 100%);
+}
+.navbar{
+    min-height:76px;
+    padding:9px clamp(16px,3vw,34px);
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #e6edf7;
+    box-shadow:0 7px 24px rgba(18,58,143,.07);
+}
+.logo-area{gap:11px}
+.site-logo{
+    width:61px;height:54px;border-radius:14px;object-fit:contain;
+    background:#fff8d8;padding:3px;border:1px solid #f1df91;
+    box-shadow:0 5px 15px rgba(245,158,11,.12)
+}
+.logo-text h2{
+    font-size:26px!important;font-weight:800!important;line-height:1!important;
+    letter-spacing:-.7px;color:var(--qid-navy)!important
+}
+.logo-text h2 .brand-quick,.brand-quick{color:#17428f}
+.logo-text h2 .brand-id,.brand-id{color:var(--qid-orange)}
+.logo-text h2 .brand-print,.brand-print{color:#17428f}
+.logo-text p{
+    margin-top:4px;font-size:11px!important;color:#64748b!important;
+    letter-spacing:.45px
+}
+.nav-right{gap:13px}
+.token-badge{
+    background:linear-gradient(135deg,#fff9cf,#ffe879);
+    border:1px solid #f5df70;color:#a16207;border-radius:15px;
+    padding:8px 14px;box-shadow:0 5px 16px rgba(245,158,11,.11)
+}
+.user-profile{padding:5px 8px;border-radius:13px}
+.user-profile:hover{background:#f5f8ff}
+.container{max-width:1400px;margin:20px auto;padding:0 26px}
+
+/* HERO */
+.qid-hero{
+    position:relative;overflow:hidden;display:flex;align-items:center;
+    min-height:285px;padding:26px 34px;margin-bottom:17px;
+    border-radius:25px;border:1px solid #efdc96;
+    background:linear-gradient(110deg,#fff8d8 0%,#fffef7 48%,#eaf3ff 100%);
+    box-shadow:0 15px 38px rgba(18,58,143,.08)
+}
+.qid-hero:before{
+    content:"";position:absolute;width:330px;height:330px;right:-105px;top:-165px;
+    border-radius:50%;background:rgba(255,205,49,.16)
+}
+.qid-hero:after{
+    content:"";position:absolute;width:230px;height:230px;left:-145px;bottom:-150px;
+    border-radius:50%;background:rgba(37,99,235,.07)
+}
+.qid-hero-copy{position:relative;z-index:5;width:44%;padding-right:18px}
+.hero-greeting{font-size:17px;color:var(--qid-orange);font-weight:800;margin-bottom:2px}
+.hero-greeting span{font-size:19px}
+.qid-hero-copy h1{
+    color:var(--qid-navy);font-size:32px;line-height:1.08;margin:0 0 2px;
+    font-weight:800
+}
+.hero-brand{font-size:35px;font-weight:800;letter-spacing:-1.2px;line-height:1}
+.hero-brand span{color:#173f91}.hero-brand b{color:var(--qid-orange)}
+.qid-hero-copy p{color:#64748b;font-size:15px;margin-top:9px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.hero-pills span{
+    background:rgba(255,255,255,.76);border:1px solid #e6eaf1;
+    border-radius:999px;padding:5px 9px;color:#52627d;font-size:11px;font-weight:700
+}
+.hero-pills i{color:var(--qid-blue);margin-right:4px}
+
+.qid-hero-visual{
+    position:relative;z-index:4;width:56%;height:270px;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start
+}
+.hero-search{
+    width:min(500px,95%);height:46px;background:#fff;border:1px solid #d9e3f1;
+    border-radius:15px;display:flex;align-items:center;gap:9px;padding:5px 7px 5px 15px;
+    box-shadow:0 9px 24px rgba(20,40,91,.11);position:relative;z-index:20
+}
+.hero-search:focus-within{border-color:#82a9ff;box-shadow:0 0 0 4px rgba(37,99,235,.08),0 9px 24px rgba(20,40,91,.1)}
+.hero-search>i{color:#61728e;font-size:15px}
+.hero-search input{
+    border:0;outline:0;min-width:0;flex:1;background:transparent;
+    font-family:inherit;font-size:13px;color:#1e293b
+}
+.hero-search kbd{
+    font-family:inherit;font-size:10px;color:#64748b;background:#f4f7fb;
+    border:1px solid #e1e8f2;border-radius:6px;padding:3px 6px
+}
+
+/* computer + printer + ID + documents */
+.service-scene{position:relative;width:540px;max-width:100%;height:215px;margin-top:3px}
+.scene-glow{
+    position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);
+    width:390px;height:150px;border-radius:50%;
+    background:rgba(255,211,67,.15);filter:blur(3px)
+}
+.computer-device{position:absolute;left:25px;bottom:20px;width:245px;height:174px}
+.monitor-frame{
+    position:absolute;left:0;top:0;width:215px;height:133px;
+    border:7px solid #173c86;border-radius:13px;background:#f8fbff;
+    box-shadow:0 12px 20px rgba(18,58,143,.16);overflow:hidden
+}
+.monitor-bar{
+    height:18px;background:#e8effa;display:flex;align-items:center;padding-left:7px;gap:4px
+}
+.monitor-bar span{width:5px;height:5px;border-radius:50%;background:#f97316}
+.monitor-screen{padding:9px}
+.screen-heading{width:70px;height:7px;border-radius:5px;background:#d0dcf1;margin-bottom:7px}
+.screen-row{height:24px;background:#eef4ff;border-radius:5px;margin-bottom:5px;display:flex;align-items:center;padding:4px;gap:5px}
+.screen-row i{width:15px;height:15px;border-radius:4px;background:#3b82f6}
+.screen-row b{width:55px;height:5px;border-radius:4px;background:#c6d4eb}
+.monitor-stand{
+    position:absolute;left:76px;top:129px;width:53px;height:23px;
+    background:#173c86;clip-path:polygon(20% 0,80% 0,100% 100%,0 100%)
+}
+.monitor-base{
+    position:absolute;left:42px;top:148px;width:122px;height:10px;border-radius:8px;background:#173c86
+}
+.printer-device{position:absolute;right:13px;bottom:22px;width:155px;height:106px}
+.printer-top{
+    position:absolute;left:22px;top:0;width:111px;height:42px;background:#fff;
+    border:3px solid #173c86;border-radius:7px 7px 2px 2px;transform:skew(-3deg);
+    box-shadow:0 4px 8px rgba(18,58,143,.08)
+}
+.printer-paper{
+    position:absolute;left:39px;top:-31px;width:75px;height:49px;background:#fff;
+    border:2px solid #d5deef;border-radius:3px;z-index:3;padding:5px 7px
+}
+.printer-paper div{height:3px;background:#2563eb;margin-bottom:5px;border-radius:2px}
+.printer-paper span{font-size:8px;color:#123a8f;font-weight:800}
+.printer-body{
+    position:absolute;bottom:0;left:0;width:155px;height:76px;
+    background:linear-gradient(145deg,#1a428e,#0d2b67);border-radius:12px 12px 17px 17px;
+    box-shadow:0 13px 22px rgba(18,58,143,.2)
+}
+.printer-slot{position:absolute;left:29px;top:25px;width:91px;height:10px;border-radius:6px;background:#091f50}
+.printer-light{position:absolute;right:14px;top:24px;width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.6)}
+.printed-sheet{
+    position:absolute;left:45px;bottom:-18px;width:72px;height:30px;background:#fff;
+    border:2px solid #d5deef;transform:rotate(-2deg);box-shadow:0 4px 9px rgba(0,0,0,.08)
+}
+.floating-id{
+    position:absolute;width:76px;height:96px;background:#fff;border:3px solid #173c86;
+    border-radius:7px;box-shadow:0 9px 18px rgba(18,58,143,.15);z-index:10;padding:7px
+}
+.id-one{right:105px;top:40px;transform:rotate(7deg)}
+.id-two{right:38px;top:52px;transform:rotate(13deg)}
+.id-photo{width:23px;height:28px;border-radius:4px;background:#ffb62b;margin-bottom:6px}
+.id-lines i{display:block;height:4px;background:#9bb0d2;border-radius:4px;margin:4px 0}
+.floating-id small{font-size:7px;color:#173c86;font-weight:800;display:block;margin-top:4px}
+.doc-emblem{font-size:17px;color:#f97316;text-align:center;margin-bottom:3px}
+.floating-doc{
+    position:absolute;right:4px;top:13px;width:62px;height:73px;background:#fff;
+    border:2px solid #d6dfef;border-radius:6px;transform:rotate(-9deg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:4px;box-shadow:0 7px 14px rgba(18,58,143,.12);z-index:7
+}
+.floating-doc i{font-size:23px;color:#8b5cf6}.floating-doc span{font-size:8px;font-weight:800;color:#64748b}
+
+/* Pricing / cards */
+.section-title{margin:25px 0 14px}
+.section-title span{
+    display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#123a8f,#365fca);
+    color:#fff;border-radius:999px;padding:7px 18px;font-size:13px;
+    box-shadow:0 7px 17px rgba(18,58,143,.14)
+}
+.pricing-list{
+    display:grid!important;grid-template-columns:repeat(3,1fr);gap:13px;
+    background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important
+}
+.price-item{
+    background:rgba(255,255,255,.96)!important;border:1px solid #e4ebf5!important;
+    border-left:4px solid #2563eb!important;border-radius:17px!important;
+    padding:15px 17px!important;min-height:78px;
+    box-shadow:0 7px 20px rgba(20,40,91,.05)
+}
+.price-item:nth-child(2){border-left-color:#22c55e!important}
+.price-item:nth-child(3){border-left-color:#f97316!important}
+.service-price,.service-cost-badge{
+    background:#fff2a8!important;border-color:#f5df6a!important
+}
+.services-grid{grid-template-columns:repeat(4,1fr);gap:16px}
+.service-card{
+    border-radius:19px!important;border:1px solid #e2e9f4!important;
+    box-shadow:0 8px 23px rgba(20,40,91,.055)!important
+}
+.service-card:hover{
+    transform:translateY(-6px);box-shadow:0 16px 32px rgba(37,99,235,.13)!important;
+    border-color:#bfd3ff!important
+}
+.start-btn{border-radius:11px!important}
+.start-btn:hover{box-shadow:0 7px 16px rgba(18,58,143,.18)}
+.search-status{
+    text-align:center;min-height:0;color:#64748b;font-size:12px;margin-top:-8px;margin-bottom:8px
+}
+.service-card.search-hidden{display:none!important}
+.service-card.search-match{outline:3px solid rgba(37,99,235,.08)}
+
+@media(max-width:1050px){
+    .services-grid{grid-template-columns:repeat(3,1fr)}
+    .qid-hero-copy{width:43%}.qid-hero-visual{width:57%}
+    .service-scene{transform:scale(.9);transform-origin:center top}
+}
+@media(max-width:760px){
+    .navbar{padding:8px 13px}.site-logo{width:52px;height:48px}
+    .logo-text h2{font-size:21px!important}.logo-text p{font-size:9px!important}
+    .user-info{display:none}.nav-right{gap:8px}.token-badge{padding:7px 10px;font-size:12px}
+    .container{padding:0 12px;margin-top:14px}
+    .qid-hero{display:block;min-height:515px;padding:24px 19px}
+    .qid-hero-copy{width:100%;padding-right:0}.qid-hero-copy h1{font-size:27px}
+    .hero-brand{font-size:31px}.qid-hero-visual{width:100%;height:300px;margin-top:8px}
+    .hero-search{width:100%}.service-scene{transform:scale(.78);transform-origin:top center;margin-top:7px}
+    .services-grid{grid-template-columns:repeat(2,1fr);gap:11px}.pricing-list{grid-template-columns:1fr!important}
+}
+@media(max-width:470px){
+    .qid-hero{min-height:495px}.hero-pills{display:none}
+    .service-scene{transform:scale(.68);width:540px;left:50%;margin-left:-270px}
+    .services-grid{grid-template-columns:1fr}
+}
+
     </style>
 </head>
 <body>
@@ -122,14 +344,15 @@
         <div class="logo-area">
             <img src="logo.png" alt="QuickIDPrint Logo" class="site-logo" onerror="this.style.display='none'">
             <div class="logo-text">
-                <h2>QuickIDPrint</h2>
-                <p>जलद • सोपे • विश्वसनीय</p>
+                <h2><span class="brand-quick">Quick</span><span class="brand-id">ID</span><span class="brand-print">Print</span></h2>
+                <p>जलद • सोपे • विश्वासनीय</p>
             </div>
         </div>
         <div class="nav-right">
             <div class="token-badge" title="तुमचे शिल्लक टोकन्स">
                 <i class="fas fa-coins"></i> <span id="displayTokens">0</span>
             </div>
+            <!-- Notification Icon Removed -->
             <div class="user-profile" onclick="toggleDropdown()">
                 <i class="fas fa-user-circle avatar"></i>
                 <div class="user-info">
@@ -147,27 +370,94 @@
 
     <div class="container">
         
-        <div class="welcome-banner">
-            <h4>नमस्कार!</h4>
-            <h1>आपले स्वागत आहे QuickIDPrint मध्ये</h1>
-            <p>आपल्या सर्व सेवा एका क्लिकवर उपलब्ध</p>
-        </div>
+        <section class="qid-hero">
+            <div class="qid-hero-copy">
+                <div class="hero-greeting"><span>👋</span> नमस्कार!</div>
+                <h1>आपले स्वागत आहे</h1>
+                <div class="hero-brand"><span>Quick</span><b>ID</b><span>Print</span></div>
+                <p>आपल्या सर्व डिजिटल सेवा एका क्लिकवर उपलब्ध.</p>
+                <div class="hero-pills">
+                    <span><i class="fas fa-bolt"></i> जलद सेवा</span>
+                    <span><i class="fas fa-shield-halved"></i> सुरक्षित</span>
+                    <span><i class="fas fa-print"></i> थेट प्रिंट</span>
+                </div>
+            </div>
 
-        <!-- केंद्रस्थानी WhatsApp रिचार्ज सूचना -->
+            <div class="qid-hero-visual">
+                <div class="hero-search">
+                    <i class="fas fa-search"></i>
+                    <input id="heroServiceSearch" type="search"
+                           placeholder="इथे सेवा शोधा... उदा. आधार, पॅन, घोषणापत्र"
+                           autocomplete="off">
+                    <kbd>Ctrl /</kbd>
+                </div>
+
+                <div class="service-scene">
+                    <div class="scene-glow"></div>
+
+                    <div class="computer-device">
+                        <div class="monitor-frame">
+                            <div class="monitor-bar">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="monitor-screen">
+                                <div class="screen-heading"></div>
+                                <div class="screen-row"><i></i><b></b></div>
+                                <div class="screen-row"><i></i><b></b></div>
+                                <div class="screen-row"><i></i><b></b></div>
+                            </div>
+                        </div>
+                        <div class="monitor-stand"></div>
+                        <div class="monitor-base"></div>
+                    </div>
+
+                    <div class="printer-device">
+                        <div class="printer-paper">
+                            <div></div><div></div><div></div>
+                            <span>QuickID</span>
+                        </div>
+                        <div class="printer-top"></div>
+                        <div class="printer-body">
+                            <div class="printer-slot"></div>
+                            <span class="printer-light"></span>
+                        </div>
+                        <div class="printed-sheet"></div>
+                    </div>
+
+                    <div class="floating-id id-one">
+                        <div class="id-photo"></div>
+                        <div class="id-lines"><i></i><i></i><i></i></div>
+                        <small>ID CARD</small>
+                    </div>
+
+                    <div class="floating-id id-two">
+                        <div class="doc-emblem">✦</div>
+                        <div class="id-lines"><i></i><i></i><i></i></div>
+                        <small>DOCUMENT</small>
+                    </div>
+
+                    <div class="floating-doc">
+                        <i class="fas fa-file-lines"></i>
+                        <span>PRINT</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🎯 WhatsApp रिचार्ज सूचना (Updated Mobile Number) -->
         <div class="whatsapp-banner">
             <i class="fab fa-whatsapp"></i> 
-            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला QuickIDPrint पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा[cite: 7].</div>
+            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा.</div>
         </div>
 
-        <!-- 🔍 सर्व्हिस सर्च बॉक्स (आता आयडी कार्ड्सच्या वर घेतला आहे) -->
-        <div class="search-box-container">
-            <div class="search-input-wrapper">
-                <i class="fas fa-search"></i>
-                <input type="text" id="serviceSearch" placeholder="हवी असलेली सेवा शोधा (उदा. आधार, उत्पन्न, पॅन, रहिवासी)..." onkeyup="filterServices()">
-            </div>
+        <div class="notice-banner">
+            <i class="fas fa-info-circle"></i> 
+            <div><strong>घोषणापत्र सूचना:</strong> प्रत्येक घोषणापत्र सेवेसाठी <strong style="font-size: 18px; color: #ea580c;"><span class="dynamic-token-cost">२</span> टोकन</strong> वजा केले जातील.</div>
         </div>
 
-        <!-- सेवांच्या दरांची यादी (Token Pricing List) -->
+        <!-- ========================================== -->
+        <!-- 🟢 नवीन: सेवांच्या दरांची यादी (Token Pricing List) -->
+        <!-- ========================================== -->
         <div class="section-title"><span><i class="fas fa-list-alt"></i> सेवांचे दर (Token Pricing)</span></div>
         <div class="pricing-list">
             <div class="price-item">
@@ -184,7 +474,9 @@
             </div>
         </div>
 
-        <!-- त्वरित सुविधा -->
+        <div id="searchStatus" class="search-status" aria-live="polite"></div>
+
+        <!-- 🟢 त्वरित सुविधा -->
         <div class="section-title"><span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span></div>
         <div class="quick-access-box">
             <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
@@ -194,6 +486,7 @@
                 <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div><span>माझे अर्ज</span>
             </div>
             <div class="qa-item"><div class="qa-icon icon-green"><i class="fas fa-cloud-download-alt"></i></div><span>डाउनलोड</span></div>
+            <!-- Notification Quick Access Removed (Replaced with Transaction History for future use) -->
             <div class="qa-item" onclick="alert('ट्रान्झॅक्शन पेज लवकरच येत आहे!')"><div class="qa-icon icon-purple"><i class="fas fa-history"></i></div><span>ट्रान्झॅक्शन्स</span></div>
         </div>
 
@@ -202,43 +495,43 @@
         <!-- ========================================== -->
         <div class="section-title"><span><i class="fas fa-id-card"></i> स्मार्ट आयडी कार्ड प्रिंटिंग</span></div>
         
-        <div class="services-grid" id="idCardsGrid">
-            <div class="service-card c-orange" data-name="आधार कार्ड Print Aadhaar Card">
+        <div class="services-grid">
+            <div class="service-card c-orange">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-fingerprint"></i></div>
                 <h3>१. आधार कार्ड प्रिंट</h3>
                 <a href="aadhaar_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-blue" data-name="मतदान कार्ड Print Voter Card Election">
+            <div class="service-card c-blue">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-address-card"></i></div>
                 <h3>२. मतदान कार्ड प्रिंट</h3>
                 <a href="voter_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-green" data-name="शेतकरी ओळखपत्र Farmer ID Card">
+            <div class="service-card c-green">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 10 टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
                 <h3>३. शेतकरी ओळखपत्र</h3>
                 <a href="farmer_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-red" data-name="पॅन कार्ड Print Pan Card">
+            <div class="service-card c-red">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-id-badge"></i></div>
                 <h3>४. पॅन कार्ड प्रिंट</h3>
                 <a href="pan_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-purple" data-name="आयुष्मान कार्ड Ayushman Health Card">
+            <div class="service-card c-purple">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
                 <h3>५. आयुष्मान कार्ड</h3>
                 <a href="ayushman_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-teal" data-name="महा आयडी प्रिंट Maha ID Card">
+            <div class="service-card c-teal">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-address-book"></i></div>
                 <h3>६. महा आयडी प्रिंट</h3>
@@ -251,54 +544,54 @@
         <!-- ========================================== -->
         <div class="section-title"><span><i class="fas fa-file-signature"></i> घोषणापत्र सेवा (Ghoshnapatra)</span></div>
 
-        <div class="services-grid" id="ghoshnaGrid">
-            <div class="service-card c-blue" data-name="उत्पन्न घोषणा पत्र Income Declaration">
+        <div class="services-grid">
+            <div class="service-card c-blue">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                 <h3>उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-green" data-name="३ वर्षाचे उत्पन्न घोषणा पत्र 3 Years Income Declaration">
+            <div class="service-card c-green">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-contract"></i></div>
                 <h3>३ वर्षाचे उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna3.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-orange" data-name="रहिवासी घोषणा पत्र Residence Affidavit">
+            <div class="service-card c-orange">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-home"></i></div>
                 <h3>रहिवासी घोषणा पत्र</h3>
-                <a href="rahivasi_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
             
-            <div class="service-card c-red" data-name="जातीचे घोषणा पत्र Caste Affidavit">
+            <div class="service-card c-red">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-users"></i></div>
                 <h3>जातीचे घोषणा पत्र</h3>
-                <a href="jati_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-purple" data-name="राष्ट्रीयत्व घोषणा पत्र Nationality Affidavit">
+            <div class="service-card c-purple">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-flag"></i></div>
                 <h3>राष्ट्रीयत्व घोषणा पत्र</h3>
-                <a href="rashtriyatva_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-teal" data-name="नॉन-क्रीमीलेअर घोषणा पत्र Non Creamy Layer Affidavit">
+            <div class="service-card c-teal">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-signature"></i></div>
                 <h3>नॉन-क्रीमीलेअर घोषणा पत्र</h3>
-                <a href="non_creamy_layer_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-indigo" data-name="अल्पभूधारक घोषणा पत्र Small Farmer Affidavit">
+            <div class="service-card c-indigo">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
                 <h3>अल्पभूधारक घोषणा पत्र</h3>
-                <a href="alpabhudharak_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="start-btn" onclick="alert('ही सेवा लवकरच सुरू होईल.')">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </div>
@@ -324,6 +617,41 @@
             }
         };
 
+
+        // QuickIDPrint Smart Search
+        const heroSearch = document.getElementById('heroServiceSearch');
+        const searchStatus = document.getElementById('searchStatus');
+
+        function runServiceSearch(value) {
+            const q = (value || '').trim().toLowerCase();
+            const cards = document.querySelectorAll('.service-card');
+            let found = 0;
+
+            cards.forEach(card => {
+                const match = !q || card.innerText.toLowerCase().includes(q);
+                card.classList.toggle('search-hidden', !match);
+                card.classList.toggle('search-match', !!q && match);
+                if (match) found++;
+            });
+
+            if (searchStatus) {
+                searchStatus.textContent = q ? (found + ' सेवा उपलब्ध') : '';
+            }
+        }
+
+        if (heroSearch) {
+            heroSearch.addEventListener('input', function() {
+                runServiceSearch(this.value);
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                e.preventDefault();
+                heroSearch?.focus();
+            }
+        });
+
         function toggleDropdown() { document.getElementById('userMenu').classList.toggle('active'); }
 
         window.onclick = function(event) {
@@ -336,23 +664,6 @@
         function logoutUser() {
             localStorage.clear();
             window.location.href = "login.html";
-        }
-
-        // 🟢 सर्च बार फिल्टर फंक्शन
-        function filterServices() {
-            let input = document.getElementById('serviceSearch').value.toLowerCase();
-            let cards = document.querySelectorAll('.service-card');
-
-            cards.forEach(card => {
-                let name = card.getAttribute('data-name').toLowerCase();
-                let title = card.querySelector('h3').innerText.toLowerCase();
-                
-                if (name.includes(input) || title.includes(input)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            });
         }
     </script>
 </body>
