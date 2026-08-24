@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - QuickIDPrint</title>
+    <title>Admin Dashboard - SevaSpot</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -39,11 +39,11 @@
         .user-card { background: #f8fafc; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 15px; }
         .user-card span { font-weight: bold; color: #ea580c; }
 
-        /* PDF Statement Design */
+        /* PDF Statement Design - Fixed Container Width */
         #printAreaWrapper { display: none; margin-top: 30px; overflow-x: auto; }
         
         .pdf-container { 
-            width: 730px; min-width: 730px;
+            width: 730px; min-width: 730px; /* Perfect for A4 */
             margin: 0 auto; background: white; padding: 10px 20px; 
             font-family: 'Mukta', sans-serif; position: relative; box-sizing: border-box;
             letter-spacing: normal;
@@ -71,6 +71,7 @@
         .pill-title { position: absolute; top: -10px; right: 20%; background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
         .pill-title-center { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #001040; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
         
+        /* Table Layout Fixed */
         .pdf-table-wrapper { border: 2px solid #001040; border-radius: 6px; position: relative; padding-top: 15px; margin-bottom: 15px; }
         table.pdf-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; word-wrap: break-word; }
         .pdf-table th { background: #001040; color: white; border: 1px solid #cbd5e1; padding: 6px 4px; text-align: center; white-space: nowrap; }
@@ -84,33 +85,42 @@
         
         .pdf-footer { background: #001040; color: white; text-align: center; padding: 10px; border-radius: 4px; font-size: 13px; margin-top: 10px; }
 
+        /* --- NATIVE PRINT CSS (मराठी फॉन्टसाठी परफेक्ट सेटिंग) --- */
         @media print {
             body { background-color: white !important; margin: 0; padding: 0; }
             .navbar, .tabs, #stmtFilters, .btn-red { display: none !important; }
+            
             body * { visibility: hidden; }
             #printAreaWrapper, #printAreaWrapper * { visibility: visible; }
-            #printAreaWrapper { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; display: block !important; }
-            .pdf-container { width: 100% !important; min-width: 100% !important; border: none !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
-            @page { size: A4 portrait; margin: 10mm; }
+            
+            #printAreaWrapper { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                margin: 0; 
+                padding: 0; 
+                display: block !important; 
+            }
+            .pdf-container {
+                width: 100% !important;
+                min-width: 100% !important;
+                border: none !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 10mm; /* पेजच्या चारही बाजूंना थोडी रिकामी जागा */
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🔒 ॲडमिन सिक्युरिटी गार्ड: खात्री करा की ॲडमिन लॉगइन आहे -->
-    <script>
-        const loggedUser = localStorage.getItem('username');
-        // टीप: तुमचा ॲडमिन मोबाईल नंबर (किंवा जो तुम्ही ॲडमिनसाठी वापरता)
-        const ADMIN_PHONE = "9403901395"; 
-
-        if (!loggedUser || loggedUser !== ADMIN_PHONE) {
-            alert("अनधिकृत प्रवेश! कृपया आधी ॲडमिन म्हणून लॉगिन करा.");
-            window.location.href = "login.html";
-        }
-    </script>
-
     <nav class="navbar">
-        <h2><i class="fas fa-shield-alt"></i> QuickIDPrint Admin</h2>
+        <h2><i class="fas fa-shield-alt"></i> SevaSpot Admin</h2>
         <button class="logout-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </nav>
 
@@ -223,11 +233,11 @@
                         <div class="pdf-logo">
                             <img src="logo.png" alt="" onerror="this.style.display='none'; document.getElementById('iconLogo').style.display='block';">
                             <i id="iconLogo" class="fas fa-desktop" style="font-size: 40px; display: none;"></i>
-                            <br>QuickIDPrint<br>Center
+                            <br>सेवास्पॉट<br>Center
                         </div>
                         <div class="pdf-title-box">
-                            <h1>QUICKIDPRINT</h1>
-                            <h3>सेवा पोर्टल स्टेटमेंट</h3>
+                            <h1>SEVASPOT CENTER</h1>
+                            <h3>घोषणापत्र सेवा पोर्टल</h3>
                             <div class="pdf-badge">USER TOKEN STATEMENT</div>
                         </div>
                         <div class="pdf-features">
@@ -266,8 +276,9 @@
                                     <th width="6%">अ.क्र.</th>
                                     <th width="15%">दिनांक व वेळ</th>
                                     <th width="15%">तपशील</th>
-                                    <th width="20%">सेवेचा प्रकार</th>
-                                    <th width="20%">शेरा</th>
+                                    <th width="20%">घोषणापत्र प्रकार</th>
+                                    <th width="20%">अर्जदाराचे नाव / शेरा</th>
+                                    <!-- नवीन सुटसुटीत हेडिंग्स -->
                                     <th width="8%">जमा</th>
                                     <th width="8%">वापर</th>
                                     <th width="8%">शिल्लक</th>
@@ -298,8 +309,9 @@
                         </div>
                     </div>
 
+                    <!-- नवीन अपडेटेड फुटर (WhatsApp सूचनेसह) -->
                     <div class="pdf-footer">
-                        <i class="fab fa-whatsapp" style="color: #25D366; font-size: 16px;"></i> कोणत्याही मदतीसाठी किंवा अधिक माहितीसाठी <b>9403901395</b> या नंबरवर WhatsApp करा[cite: 7].
+                        <i class="fab fa-whatsapp" style="color: #25D366; font-size: 16px;"></i> कोणत्याही मदतीसाठी किंवा अधिक माहितीसाठी <b>9999999999</b> या नंबरवर WhatsApp करा.
                     </div>
                 </div>
                 <button class="btn-red" onclick="downloadPDF()"><i class="fas fa-print"></i> स्टेटमेंट प्रिंट/PDF सेव्ह करा</button>
@@ -328,6 +340,7 @@
             document.getElementById('rechRemark').value = act + " " + amt + " Tokens";
         }
 
+        // 1. ADD USER
         function addUser() {
             let btn = document.getElementById('btnAdd');
             btn.innerText = "प्रक्रिया चालू आहे...";
@@ -362,6 +375,7 @@
             });
         }
 
+        // 2. SEARCH USER
         function searchUser(type) {
             let searchId = "";
             let btnId = "";
@@ -426,6 +440,7 @@
             });
         }
 
+        // 3. UPDATE USER
         function updateUser() {
             let formData = new FormData();
             formData.append('action', 'updateUser');
@@ -447,6 +462,7 @@
             });
         }
 
+        // 4. RECHARGE SUBMIT
         function submitRecharge() {
             let formData = new FormData();
             formData.append('action', 'recharge');
@@ -466,6 +482,7 @@
             });
         }
 
+        // 5. FETCH & FILTER STATEMENT
         function fetchStatement() {
             let fromDate = document.getElementById('stmtFrom').value;
             let toDate = document.getElementById('stmtTo').value;
@@ -538,6 +555,7 @@
             });
         }
 
+        // --- NEW PRINT FUNCTION ---
         function downloadPDF() {
             window.print();
         }
