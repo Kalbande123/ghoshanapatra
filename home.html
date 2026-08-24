@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>डॅशबोर्ड - SevaSpot Center</title>
+    <title>डॅशबोर्ड - QuickIDPrint</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,8 +19,19 @@
         .navbar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .logo-area { display: flex; align-items: center; gap: 15px; }
         .site-logo { width: 55px; height: 55px; border-radius: 8px; object-fit: contain; }
-        .logo-text h2 { font-size: 22px; color: #ea580c; line-height: 1; }
-        .logo-text p { font-size: 13px; color: #64748b; font-weight: 500; }
+        
+        /* 🟢 नवीन आकर्षक आणि मोठे फॉन्ट डिझाईन (QuickIDPrint ब्रँडिंग) */
+        .logo-text h2 { 
+            font-size: 26px; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #ea580c 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            line-height: 1.1; 
+            letter-spacing: 0.5px; 
+        }
+        .logo-text p { font-size: 13px; color: #64748b; font-weight: 600; }
+        
         .nav-right { display: flex; align-items: center; gap: 20px; }
         
         .token-badge { background: #fef08a; color: #ca8a04; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -43,27 +54,30 @@
         .welcome-banner h1 { color: #1e3a8a; font-size: 28px; margin-bottom: 10px; }
         .welcome-banner p { color: #64748b; font-size: 15px; }
 
-        /* सूचना बॅनर (Notice Banners) */
-        .notice-banner { background: #fffbeb; border-left: 5px solid #f59e0b; padding: 15px 20px; border-radius: 8px; margin-bottom: 15px; color: #b45309; display: flex; align-items: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .notice-banner i { font-size: 22px; color: #f59e0b; }
-        
-        /* नवीन WhatsApp सूचना डिझाईन */
-        .whatsapp-banner { background: #dcfce7; border-left: 5px solid #22c55e; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; color: #166534; display: flex; align-items: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        /* 🟢 1. केंद्रस्थानी (Center) WhatsApp रिचार्ज सूचना */
+        .whatsapp-banner { background: #dcfce7; border-left: 5px solid #22c55e; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; color: #166534; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); text-align: center; }
         .whatsapp-banner i { font-size: 24px; color: #22c55e; }
         .whatsapp-banner a { color: #15803d; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #15803d; }
+
+        /* 🟢 नवीन: सर्च बॉक्स डिझाईन */
+        .search-box-container { margin-bottom: 30px; display: flex; justify-content: center; }
+        .search-input-wrapper { position: relative; width: 100%; max-width: 600px; }
+        .search-input-wrapper input { width: 100%; padding: 14px 20px 14px 45px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 30px; outline: none; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.3s; }
+        .search-input-wrapper input:focus { border-color: #2563eb; box-shadow: 0 4px 15px rgba(37,99,235,0.15); }
+        .search-input-wrapper i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 18px; }
 
         .section-title { text-align: center; margin-bottom: 20px; position: relative; }
         .section-title span { background: #1e3a8a; color: white; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; }
         
-        /* 🟢 नवीन: टोकन दरांची यादी (Pricing List) */
-        .pricing-list { background: white; padding: 25px; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 12px; border: 1px solid #e2e8f0; }
+        /* 🟢 3. सेवांचे दर (Token Pricing) ची विथ कमी केली (Max-width 700px आणि Center) */
+        .pricing-list { background: white; padding: 25px; border-radius: 12px; margin: 0 auto 40px auto; max-width: 700px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 12px; border: 1px solid #e2e8f0; }
         .price-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: #f8fafc; border-radius: 8px; border-left: 5px solid #1e3a8a; transition: 0.3s; }
         .price-item:hover { background: #f1f5f9; transform: translateX(5px); }
         .price-item:nth-child(2) { border-left-color: #22c55e; }
         .price-item:nth-child(3) { border-left-color: #ea580c; }
-        .service-name { font-weight: 600; color: #334155; display: flex; align-items: center; gap: 12px; font-size: 16px; }
-        .service-name i { color: #64748b; font-size: 20px; width: 25px; text-align: center; }
-        .service-price { background: #fef08a; color: #b45309; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .service-name { font-weight: 600; color: #334155; display: flex; align-items: center; gap: 12px; font-size: 15px; }
+        .service-name i { color: #64748b; font-size: 18px; width: 25px; text-align: center; }
+        .service-price { background: #fef08a; color: #b45309; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         /* Quick Access */
         .quick-access-box { background: white; padding: 25px; border-radius: 12px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
@@ -105,17 +119,16 @@
 
     <nav class="navbar">
         <div class="logo-area">
-            <img src="logo.png" alt="SevaSpot Logo" class="site-logo" onerror="this.style.display='none'">
+            <img src="logo.png" alt="QuickIDPrint Logo" class="site-logo" onerror="this.style.display='none'">
             <div class="logo-text">
-                <h2>SevaSpot Center</h2>
-                <p>आपली सेवा - आमची जबाबदारी</p>
+                <h2>QuickIDPrint</h2>
+                <p>जलद • सोपे • विश्वसनीय</p>
             </div>
         </div>
         <div class="nav-right">
             <div class="token-badge" title="तुमचे शिल्लक टोकन्स">
                 <i class="fas fa-coins"></i> <span id="displayTokens">0</span>
             </div>
-            <!-- Notification Icon Removed -->
             <div class="user-profile" onclick="toggleDropdown()">
                 <i class="fas fa-user-circle avatar"></i>
                 <div class="user-info">
@@ -135,24 +148,25 @@
         
         <div class="welcome-banner">
             <h4>नमस्कार!</h4>
-            <h1>आपले स्वागत आहे SevaSpot Center मध्ये</h1>
+            <h1>आपले स्वागत आहे QuickIDPrint मध्ये</h1>
             <p>आपल्या सर्व सेवा एका क्लिकवर उपलब्ध</p>
         </div>
 
-        <!-- 🎯 WhatsApp रिचार्ज सूचना (Updated Mobile Number) -->
+        <!-- 🎯 1. केंद्रस्थानी WhatsApp रिचार्ज सूचना -->
         <div class="whatsapp-banner">
             <i class="fab fa-whatsapp"></i> 
-            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा.</div>
+            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला QuickIDPrint पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा.</div>
         </div>
 
-        <div class="notice-banner">
-            <i class="fas fa-info-circle"></i> 
-            <div><strong>घोषणापत्र सूचना:</strong> प्रत्येक घोषणापत्र सेवेसाठी <strong style="font-size: 18px; color: #ea580c;"><span class="dynamic-token-cost">२</span> टोकन</strong> वजा केले जातील.</div>
+        <!-- 🔍 सर्व्हिस सर्च बॉक्स -->
+        <div class="search-box-container">
+            <div class="search-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="serviceSearch" placeholder="हवी असलेली सेवा शोधा (उदा. आधार, उत्पन्न, पॅन)..." onkeyup="filterServices()">
+            </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 🟢 नवीन: सेवांच्या दरांची यादी (Token Pricing List) -->
-        <!-- ========================================== -->
+        <!-- 🟢 सेवांच्या दरांची यादी (Token Pricing List - Width Reduced) -->
         <div class="section-title"><span><i class="fas fa-list-alt"></i> सेवांचे दर (Token Pricing)</span></div>
         <div class="pricing-list">
             <div class="price-item">
@@ -179,7 +193,6 @@
                 <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div><span>माझे अर्ज</span>
             </div>
             <div class="qa-item"><div class="qa-icon icon-green"><i class="fas fa-cloud-download-alt"></i></div><span>डाउनलोड</span></div>
-            <!-- Notification Quick Access Removed (Replaced with Transaction History for future use) -->
             <div class="qa-item" onclick="alert('ट्रान्झॅक्शन पेज लवकरच येत आहे!')"><div class="qa-icon icon-purple"><i class="fas fa-history"></i></div><span>ट्रान्झॅक्शन्स</span></div>
         </div>
 
@@ -188,43 +201,43 @@
         <!-- ========================================== -->
         <div class="section-title"><span><i class="fas fa-id-card"></i> स्मार्ट आयडी कार्ड प्रिंटिंग</span></div>
         
-        <div class="services-grid">
-            <div class="service-card c-orange">
+        <div class="services-grid" id="idCardsGrid">
+            <div class="service-card c-orange" data-name="आधार कार्ड Print Aadhaar Card">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-fingerprint"></i></div>
                 <h3>१. आधार कार्ड प्रिंट</h3>
                 <a href="aadhaar_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-blue">
+            <div class="service-card c-blue" data-name="मतदान कार्ड Print Voter Card Election">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-address-card"></i></div>
                 <h3>२. मतदान कार्ड प्रिंट</h3>
                 <a href="voter_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-green">
+            <div class="service-card c-green" data-name="शेतकरी ओळखपत्र Farmer ID Card">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 10 टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
                 <h3>३. शेतकरी ओळखपत्र</h3>
                 <a href="farmer_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-red">
+            <div class="service-card c-red" data-name="पॅन कार्ड Print Pan Card">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-id-badge"></i></div>
                 <h3>४. पॅन कार्ड प्रिंट</h3>
                 <a href="pan_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-purple">
+            <div class="service-card c-purple" data-name="आयुष्मान कार्ड Ayushman Health Card">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
                 <h3>५. आयुष्मान कार्ड</h3>
                 <a href="ayushman_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-teal">
+            <div class="service-card c-teal" data-name="महा आयडी प्रिंट Maha ID Card">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-address-book"></i></div>
                 <h3>६. महा आयडी प्रिंट</h3>
@@ -237,49 +250,50 @@
         <!-- ========================================== -->
         <div class="section-title"><span><i class="fas fa-file-signature"></i> घोषणापत्र सेवा (Ghoshnapatra)</span></div>
 
-        <div class="services-grid">
-            <div class="service-card c-blue">
+        <div class="services-grid" id="ghoshnaGrid">
+            <div class="service-card c-blue" data-name="उत्पन्न घोषणा पत्र Income Declaration">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                 <h3>उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-green">
+            <div class="service-card c-green" data-name="३ वर्षाचे उत्पन्न घोषणा पत्र 3 Years Income Declaration">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-contract"></i></div>
                 <h3>३ वर्षाचे उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna3.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-orange">
+            <div class="service-card c-orange" data-name="रहिवासी घोषणा पत्र Residence Affidavit">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-home"></i></div>
                 <h3>रहिवासी घोषणा पत्र</h3>
                 <a href="rahivasi_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             
-            <div class="service-card c-red">
+            <div class="service-card c-red" data-name="जातीचे घोषणा पत्र Caste Affidavit">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-users"></i></div>
                 <h3>जातीचे घोषणा पत्र</h3>
                 <a href="jati_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="service-card c-purple">
+            <div class="service-card c-purple" data-name="राष्ट्रीयत्व घोषणा पत्र Nationality Affidavit">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-flag"></i></div>
                 <h3>राष्ट्रीयत्व घोषणा पत्र</h3>
                 <a href="rashtriyatva_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="service-card c-teal">
+
+            <div class="service-card c-teal" data-name="नॉन-क्रीमीलेअर घोषणा पत्र Non Creamy Layer Affidavit">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-signature"></i></div>
                 <h3>नॉन-क्रीमीलेअर घोषणा पत्र</h3>
                 <a href="non_creamy_layer_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="service-card c-indigo">
+
+            <div class="service-card c-indigo" data-name="अल्पभूधारक घोषणा पत्र Small Farmer Affidavit">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
                 <h3>अल्पभूधारक घोषणा पत्र</h3>
@@ -321,6 +335,23 @@
         function logoutUser() {
             localStorage.clear();
             window.location.href = "login.html";
+        }
+
+        // 🟢 सर्च बार फिल्टर फंक्शन
+        function filterServices() {
+            let input = document.getElementById('serviceSearch').value.toLowerCase();
+            let cards = document.querySelectorAll('.service-card');
+
+            cards.forEach(card => {
+                let name = card.getAttribute('data-name').toLowerCase();
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                
+                if (name.includes(input) || title.includes(input)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
         }
     </script>
 </body>
