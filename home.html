@@ -8,21 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Config File for Token Cost -->
     <script src="config.js"></script>
+    <script src="auth-guard.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
         body { background-color: #f1f5f9; color: #1e293b; padding-bottom: 50px; }
         
-        /* Navbar Header */
         .navbar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .logo-area { display: flex; align-items: center; gap: 18px; }
         
-        /* 🟢 लोगोची बॉर्डर/बॅकग्राउंड काढून टाकला आणि साईझ 2x (मोठी) केली */
         .site-logo { width: 140px; height: 130px; object-fit: contain; background: transparent; border: none; box-shadow: none; }
         
-        /* QuickIDPrint नाव मोठे आणि आकर्षक */
         .logo-text h2 { font-size: 32px !important; font-weight: 800 !important; line-height: 1 !important; letter-spacing: -0.5px; }
         .brand-quick { color: #17428f; }
         .brand-id { color: #f97316; }
@@ -46,14 +43,7 @@
 
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
 
-        /* HERO */
-        .qid-hero{
-            position:relative;overflow:hidden;display:flex;align-items:center;
-            min-height:285px;padding:26px 34px;margin-bottom:20px;
-            border-radius:25px;border:1px solid #efdc96;
-            background:linear-gradient(110deg,#fff8d8 0%,#fffef7 48%,#eaf3ff 100%);
-            box-shadow:0 15px 38px rgba(18,58,143,.08)
-        }
+        .qid-hero{ position:relative;overflow:hidden;display:flex;align-items:center; min-height:285px;padding:26px 34px;margin-bottom:20px; border-radius:25px;border:1px solid #efdc96; background:linear-gradient(110deg,#fff8d8 0%,#fffef7 48%,#eaf3ff 100%); box-shadow:0 15px 38px rgba(18,58,143,.08) }
         .qid-hero-copy{position:relative;z-index:5;width:44%;padding-right:18px}
         .hero-greeting{font-size:17px;color:#f97316;font-weight:800;margin-bottom:2px}
         .qid-hero-copy h1{color:#123a8f;font-size:32px;line-height:1.08;margin:0 0 2px;font-weight:800}
@@ -65,7 +55,6 @@
         .hero-pills i{color:#2563eb;margin-right:4px}
 
         .qid-hero-visual{position:relative;z-index:4;width:56%;height:270px;display:flex;align-items:center;justify-content:center}
-        
         .service-scene{position:relative;width:540px;max-width:100%;height:215px}
         .scene-glow{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:390px;height:150px;border-radius:50%;background:rgba(255,211,67,.15);filter:blur(3px)}
         .computer-device{position:absolute;left:25px;bottom:20px;width:245px;height:174px}
@@ -98,7 +87,6 @@
         .floating-doc{position:absolute;right:4px;top:13px;width:62px;height:73px;background:#fff;border:2px solid #d6dfef;border-radius:6px;transform:rotate(-9deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 7px 14px rgba(18,58,143,.12);z-index:7}
         .floating-doc i{font-size:23px;color:#8b5cf6}.floating-doc span{font-size:8px;font-weight:800;color:#64748b}
 
-        /* WhatsApp रिचार्ज सूचना */
         .whatsapp-banner { background: #dcfce7; border-left: 5px solid #22c55e; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; color: #166534; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); text-align: center; }
         .whatsapp-banner i { font-size: 24px; color: #22c55e; }
         .whatsapp-banner a { color: #15803d; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #15803d; }
@@ -106,7 +94,6 @@
         .section-title { text-align: center; margin: 25px 0 14px; position: relative; }
         .section-title span { display:inline-flex; align-items:center; gap:7px; background: linear-gradient(135deg,#123a8f,#365fca); color: white; padding: 7px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; box-shadow:0 7px 17px rgba(18,58,143,.14); }
         
-        /* सेवांचे दर (Token Pricing) */
         .pricing-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; background: transparent; margin-bottom: 40px; }
         .price-item { background: rgba(255,255,255,.96); padding: 15px 17px; border-radius: 17px; border: 1px solid #e4ebf5; border-left: 4px solid #2563eb; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 7px 20px rgba(20,40,91,.05); }
         .price-item:nth-child(2) { border-left-color: #22c55e; }
@@ -115,7 +102,6 @@
         .service-name i { color: #64748b; font-size: 18px; }
         .service-price { background: #fff2a8; color: #b45309; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; border: 1px solid #f5df6a; }
 
-        /* Quick Access */
         .quick-access-box { background: white; padding: 25px; border-radius: 12px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .qa-item { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; }
         .qa-item:hover { transform: translateY(-3px); }
@@ -127,7 +113,6 @@
         .icon-green { background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce3; }
         .icon-purple { background: #faf5ff; color: #9333ea; border: 1px solid #f3e8ff; }
 
-        /* Services Grid */
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
         .service-card { background: white; padding: 30px 20px; border-radius: 19px; text-align: center; border: 1px solid #e2e9f4; position: relative; transition: 0.3s; box-shadow: 0 8px 23px rgba(20,40,91,.055); }
         .service-card:hover { border-color: #bfd3ff; box-shadow: 0 16px 32px rgba(37,99,235,0.13); transform: translateY(-6px); }
@@ -139,7 +124,6 @@
         .start-btn { display: inline-block; padding: 8px 25px; border: 1px solid #1e3a8a; border-radius: 11px; color: #1e3a8a; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
         .start-btn:hover { background: #1e3a8a; color: white; box-shadow: 0 7px 16px rgba(18,58,143,.18); }
 
-        /* Card specific colors */
         .c-blue .service-icon { color: #3b82f6; }
         .c-green .service-icon { color: #22c55e; }
         .c-orange .service-icon { color: #f97316; }
@@ -148,10 +132,7 @@
         .c-teal .service-icon { color: #14b8a6; }
         .c-indigo .service-icon { color: #6366f1; }
 
-        @media(max-width:1050px){
-            .services-grid{grid-template-columns:repeat(3,1fr)}
-            .qid-hero-copy{width:43%}.qid-hero-visual{width:57%}
-        }
+        @media(max-width:1050px){ .services-grid{grid-template-columns:repeat(3,1fr)} .qid-hero-copy{width:43%}.qid-hero-visual{width:57%} }
         @media(max-width:760px){
             .navbar{padding:8px 13px}.site-logo{width:90px;height:80px}
             .logo-text h2{font-size:26px!important}
@@ -161,9 +142,7 @@
             .qid-hero-copy{width:100%;padding-right:0}.qid-hero-copy h1{font-size:27px}
             .services-grid{grid-template-columns:repeat(2,1fr);gap:11px}.pricing-list{grid-template-columns:1fr!important}
         }
-        @media(max-width:470px){
-            .services-grid{grid-template-columns:1fr}
-        }
+        @media(max-width:470px){ .services-grid{grid-template-columns:1fr} }
     </style>
 </head>
 <body>
@@ -216,9 +195,7 @@
 
                     <div class="computer-device">
                         <div class="monitor-frame">
-                            <div class="monitor-bar">
-                                <span></span><span></span><span></span>
-                            </div>
+                            <div class="monitor-bar"><span></span><span></span><span></span></div>
                             <div class="monitor-screen">
                                 <div class="screen-heading"></div>
                                 <div class="screen-row"><i></i><b></b></div>
@@ -263,17 +240,15 @@
             </div>
         </section>
 
-        <!-- WhatsApp रिचार्ज सूचना -->
         <div class="whatsapp-banner">
             <i class="fab fa-whatsapp"></i> 
             <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला QuickIDPrint पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा.</div>
         </div>
 
-        <!-- सेवांच्या दरांची यादी (Token Pricing List) -->
         <div class="section-title"><span><i class="fas fa-list-alt"></i> सेवांचे दर (Token Pricing)</span></div>
         <div class="pricing-list">
             <div class="price-item">
-                <span class="service-name"><i class="fas fa-id-card"></i> सर्व स्मार्ट आयडी कार्ड्स (आधार, पॅन, मतदान, आयुष्मान, महा आयडी)</span>
+                <span class="service-name"><i class="fas fa-id-card"></i> सर्व स्मार्ट आयडी कार्ड्स</span>
                 <span class="service-price">5 टोकन / कार्ड</span>
             </div>
             <div class="price-item">
@@ -286,7 +261,6 @@
             </div>
         </div>
 
-        <!-- त्वरित सुविधा -->
         <div class="section-title"><span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span></div>
         <div class="quick-access-box">
             <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
@@ -299,9 +273,7 @@
             <div class="qa-item" onclick="alert('ट्रान्झॅक्शन पेज लवकरच येत आहे!')"><div class="qa-icon icon-purple"><i class="fas fa-history"></i></div><span>ट्रान्झॅक्शन्स</span></div>
         </div>
 
-        <!-- स्मार्ट आयडी कार्ड प्रिंटिंग (ID Cards) -->
         <div class="section-title"><span><i class="fas fa-id-card"></i> स्मार्ट आयडी कार्ड प्रिंटिंग</span></div>
-        
         <div class="services-grid">
             <div class="service-card c-orange">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
@@ -309,35 +281,30 @@
                 <h3>१. आधार कार्ड प्रिंट</h3>
                 <a href="aadhaar_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-blue">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-address-card"></i></div>
                 <h3>२. मतदान कार्ड प्रिंट</h3>
                 <a href="voter_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-green">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 10 टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
                 <h3>३. शेतकरी ओळखपत्र</h3>
                 <a href="farmer_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-red">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-id-badge"></i></div>
                 <h3>४. पॅन कार्ड प्रिंट</h3>
                 <a href="pan_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-purple">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
                 <h3>५. आयुष्मान कार्ड</h3>
                 <a href="ayushman_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-teal">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
                 <div class="service-icon"><i class="fas fa-address-book"></i></div>
@@ -346,9 +313,7 @@
             </div>
         </div>
 
-        <!-- घोषणापत्र सेवा पोर्टल (Ghoshnapatra) -->
         <div class="section-title"><span><i class="fas fa-file-signature"></i> घोषणापत्र सेवा (Ghoshnapatra)</span></div>
-
         <div class="services-grid">
             <div class="service-card c-blue">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
@@ -356,42 +321,36 @@
                 <h3>उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-green">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-contract"></i></div>
                 <h3>३ वर्षाचे उत्पन्न घोषणा पत्र</h3>
                 <a href="utpanna3.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-orange">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-home"></i></div>
                 <h3>रहिवासी घोषणा पत्र</h3>
                 <a href="rahivasi_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-            
             <div class="service-card c-red">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-users"></i></div>
                 <h3>जातीचे घोषणा पत्र</h3>
                 <a href="jati_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-purple">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-flag"></i></div>
                 <h3>राष्ट्रीयत्व घोषणा पत्र</h3>
                 <a href="rashtriyatva_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-teal">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-file-signature"></i></div>
                 <h3>नॉन-क्रीमीलेअर घोषणा पत्र</h3>
                 <a href="non_creamy_layer_ghoshana.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
-
             <div class="service-card c-indigo">
                 <div class="service-cost-badge"><i class="fas fa-coins"></i> <span class="dynamic-token-cost">2</span> टोकन</div>
                 <div class="service-icon"><i class="fas fa-tractor"></i></div>
@@ -403,8 +362,9 @@
 
     <script>
         window.onload = function() {
-            const userName = localStorage.getItem('userFullName');
-            const tokens = localStorage.getItem('remainingTokens');
+            // 🔒 येथे sessionStorage वापरले आहे
+            const userName = sessionStorage.getItem('userFullName');
+            const tokens = sessionStorage.getItem('remainingTokens');
 
             if (!userName) {
                 window.location.href = "login.html";
@@ -432,7 +392,8 @@
         }
 
         function logoutUser() {
-            localStorage.clear();
+            // 🔒 लॉगआऊट केल्यावर सेशन पूर्णपणे पुसले जाईल
+            sessionStorage.clear();
             window.location.href = "login.html";
         }
     </script>
