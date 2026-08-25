@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="config.js"></script> 
+    <!-- 🔒 इथे सिक्युरिटी गार्ड फाईल जोडली आहे -->
+    <script src="auth-guard.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
@@ -21,7 +23,6 @@
         .back-link { position: absolute; top: 20px; right: 20px; color: #4338ca; text-decoration: none; font-weight: 600; font-size: 15px; }
         .back-link:hover { text-decoration: underline; }
 
-        /* 🟢 नवीन: WhatsApp सूचना बॉक्स */
         .notice-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 30px; }
         .notice-box a { color: #15803d; text-decoration: none; border-bottom: 1px dashed #15803d; }
 
@@ -43,7 +44,6 @@
         .btn-reset { background-color: #64748b; color: white; border: none; padding: 10px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-reset:hover { background-color: #475569; }
 
-        /* एडिटिंग पॅनेल स्टाईल */
         #editPanel { background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-top: 20px; display: none; text-align: left; }
         #editPanel h3 { font-size: 18px; color: #334155; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         
@@ -69,7 +69,6 @@
     <div class="container">
         <a href="home.html" class="back-link"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
 
-        <!-- 🟢 नवीन: WhatsApp सूचना बॉक्स -->
         <div class="notice-box">
             <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
             <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
@@ -98,7 +97,6 @@
         <button id="btnProcess" class="btn-process" onclick="processCard()"><i class="fas fa-cogs"></i> फाईल प्रोसेस करा</button>
         <p id="errorMsg" class="error"></p>
         
-        <!-- 📷 फोटो एडिटिंग पॅनेल -->
         <div id="editPanel">
             <h3><i class="fas fa-image"></i> फक्त फोटो क्लिअर करा</h3>
             
@@ -130,7 +128,6 @@
             <button class="btn-reset" onclick="resetEdits()"><i class="fas fa-undo"></i> रिसेट करा (मूळ स्वरूपात आणा)</button>
         </div>
 
-        <!-- 🟢 ॲक्शन एरिया -->
         <div id="actionArea">
             <div id="successMsg" class="success-strip">
                 <i class="fas fa-check-circle"></i> एडिटिंग पूर्ण झाल्यावर खालील बटणावरून फाईल डाऊनलोड करा.
@@ -156,7 +153,6 @@
         let frontCropCanvas = null; 
         let cropParams = {};
 
-        // =========================================================================
         const CARD_TOP_Y = 0.770;    
         const CARD_WIDTH = 0.420;    
         const LEFT_SIDE_X = 0.100;   
@@ -166,7 +162,6 @@
         const PHOTO_Y_PERCENT = 0.256;  
         const PHOTO_W_PERCENT = 0.170;  
         const PHOTO_H_PERCENT = 0.269;  
-        // =========================================================================
 
         function drawRoundedCard(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh, radius) {
             ctx.save();
@@ -218,7 +213,6 @@
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
 
-                    // 🟢 क्वालिटी फिक्स: स्केल ४.० वरून ५.० केला (Ultra HD Rendering)
                     const scale = 5.0; 
                     const viewport = page.getViewport({ scale: scale });
 
@@ -367,22 +361,21 @@
             }
         }
 
+        // 🔒 सुरक्षित टोकन कटिंग
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
             btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
             btn.disabled = true;
 
-            let username = localStorage.getItem('username') || localStorage.getItem("loggedInUser") || "9876543210";
+            // 🔒 थेट sessionStorage मधून सुरक्षित युजरनेम घेणे
+            let username = sessionStorage.getItem('username');
 
-            if(!username || username === "9876543210") {
-                username = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर किंवा युजरनेम टाका:");
-                if(!username || username.trim() === "") {
-                    btn.innerHTML = originalHtml; 
-                    btn.disabled = false;
-                    return alert("टोकन कट करण्यासाठी आयडी आवश्यक आहे!");
-                }
-                localStorage.setItem("username", username);
+            // जर कोणी विनालॉगिन आले असेल, तर अडवा
+            if(!username) {
+                alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+                window.location.href = "index.html";
+                return;
             }
 
             let formData = new FormData();
@@ -395,8 +388,11 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
-                    if(currentTokens >= 10) { localStorage.setItem('remainingTokens', currentTokens - 10); }
+                    // 🔒 सेशन मधील टोकन अपडेट करणे
+                    let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
+                    if(currentTokens >= 10) { 
+                        sessionStorage.setItem('remainingTokens', currentTokens - 10); 
+                    }
 
                     generateFinalCanvas();
                     exportToPDF();
