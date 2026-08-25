@@ -11,8 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
-    <!-- 🟢 CONFIG फाईल लिंक (टोकन कट करण्यासाठी आवश्यक) -->
-    <script src="config.js"></script> 
+    <script src="config.js"></script>
+    <script src="auth-guard.js"></script> 
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
@@ -69,7 +69,6 @@
     <div class="container">
         <a href="home.html" class="back-link"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
 
-        <!-- 🟢 नवीन: WhatsApp सूचना बॉक्स -->
         <div class="notice-box">
             <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
             <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
@@ -136,12 +135,10 @@
                 <i class="fas fa-check-circle"></i> एडिटिंग पूर्ण झाल्यावर खालील बटणावरून फाईल डाऊनलोड करा.
             </div>
 
-            <!-- ५ टोकन कट करणारे डाऊनलोड बटण -->
             <button id="btnDownload" class="btn-download" onclick="deductTokenAndDownload()">
                 <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (5 टोकन)
             </button>
 
-            <!-- डाऊनलोड झाल्यावर डॅशबोर्डवर जाण्याचे बटण -->
             <a href="home.html" id="btnGoHome" class="btn-success">
                 <i class="fas fa-arrow-left"></i> डॅशबोर्डवर परत जा
             </a>
@@ -156,13 +153,11 @@
         let currentSize = '4x6';
         let cropParams = {}; 
 
-        // =========================================================================
         const CARD_TOP_Y = 0.310;    
         const CARD_HEIGHT = 0.520;   
         const CARD_WIDTH = 0.410;    
         const LEFT_SIDE_X = 0.100;   
         const RIGHT_SIDE_X = 0.480;  
-        // =========================================================================
 
         const PHOTO_X_PERCENT = 0.080;  
         const PHOTO_Y_PERCENT = 0.295;  
@@ -219,7 +214,6 @@
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
 
-                    // 🟢 क्वालिटी फिक्स: स्केल ५.० (Ultra HD Rendering)
                     const scale = 5.0; 
                     const viewport = page.getViewport({ scale: scale });
 
@@ -380,16 +374,13 @@
             btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
             btn.disabled = true;
 
-            let username = localStorage.getItem('username') || localStorage.getItem("loggedInUser") || "9876543210";
+            // 🔒 थेट sessionStorage मधून सुरक्षित युजरनेम घेणे
+            let username = sessionStorage.getItem('username');
 
-            if(!username || username === "9876543210") {
-                username = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर किंवा युजरनेम टाका:");
-                if(!username || username.trim() === "") {
-                    btn.innerHTML = originalHtml; 
-                    btn.disabled = false;
-                    return alert("टोकन कट करण्यासाठी आयडी आवश्यक आहे!");
-                }
-                localStorage.setItem("username", username);
+            if(!username) {
+                alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+                window.location.href = "login.html";
+                return;
             }
 
             let formData = new FormData();
@@ -402,9 +393,10 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+                    // 🔒 सेशन मधील टोकन अपडेट करणे
+                    let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
                     if(currentTokens >= 5) { 
-                        localStorage.setItem('remainingTokens', currentTokens - 5); 
+                        sessionStorage.setItem('remainingTokens', currentTokens - 5); 
                     }
 
                     generateFinalCanvas();
@@ -439,11 +431,9 @@
             let pdf;
             if (currentSize === '4x6') {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
-                // 🟢 क्वालिटी फिक्स: 'FAST' कॉम्प्रेशन पॅरामीटर काढून टाकले आहे
                 pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6);
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                // 🟢 क्वालिटी फिक्स: 'FAST' कॉम्प्रेशन पॅरामीटर काढून टाकले आहे
                 pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
             }
             
