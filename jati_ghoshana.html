@@ -10,6 +10,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="config.js"></script>
+  <!-- 🔒 इथे सिक्युरिटी गार्ड फाईल जोडली आहे -->
+  <script src="auth-guard.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; } 
@@ -213,7 +215,6 @@
     करिता स्वःघोषणा पत्र लिहून देत आहे.
   </p>
 
-  <!-- 🟢 प्रवर्ग आणि जातीनुसार डायनॅमिक विषय -->
   <div class="subject-line">
     विषय : <span id="out_category_sub"></span> प्रवर्गातील <span id="out_caste_sub"></span> जातीचे प्रमाणपत्र मिळणे बाबत...
   </div>
@@ -292,7 +293,7 @@
       if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
   }
 
-  // 🟢 ॲडमिन स्टेटमेंट आणि 2 बटणांसाठी अपडेटेड प्रोसेस फंक्शन
+  // 🔒 सुरक्षित प्रोसेस फंक्शन
   function processForm(actionType) {
     const form = document.getElementById('affidavitForm');
     
@@ -312,7 +313,16 @@
     btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
     btn.disabled = true;
 
-    const username = localStorage.getItem('username') || "9876543210";
+    // 🔒 सुरक्षित sessionStorage वापरले
+    const username = sessionStorage.getItem('username');
+
+    // जर कोणी विनालॉगिन आले असेल, तर अडवा
+    if(!username) {
+        alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+        window.location.href = "index.html";
+        return;
+    }
+
     const applicantName = document.getElementById('name').value; 
 
     const formData = new FormData();
@@ -329,9 +339,10 @@
         if(data.status === 'success') {
             
             let tokenCost = (typeof CONFIG !== 'undefined') ? CONFIG.GHOSHANA_TOKEN_COST : 2;
-            let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+            // 🔒 सुरक्षित sessionStorage वापरले
+            let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
             if(currentTokens >= tokenCost) { 
-                localStorage.setItem('remainingTokens', currentTokens - tokenCost); 
+                sessionStorage.setItem('remainingTokens', currentTokens - tokenCost); 
             }
 
             const address = document.getElementById('address').value;
@@ -358,7 +369,6 @@
             document.getElementById('out_caste').innerText = caste;
             document.getElementById('out_category').innerText = category;
             
-            // 🟢 विषय ओळीत प्रवर्ग आणि जात सेट करणे
             document.getElementById('out_category_sub').innerText = category;
             document.getElementById('out_caste_sub').innerText = caste;
 
