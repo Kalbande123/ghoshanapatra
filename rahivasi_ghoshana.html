@@ -10,6 +10,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="config.js"></script>
+  <!-- 🔒 इथे सिक्युरिटी गार्ड फाईल जोडली आहे -->
+  <script src="auth-guard.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; } 
@@ -179,7 +181,7 @@
     मी, श्री/श्रीमती/कु. <span id="out_name"></span>, श्री. <span id="out_father"></span> यांचा मुलगा/मुलगी/पत्नी, वय <span id="out_age"></span> वर्ष, आधार कार्ड क्रमांक. (असल्यास) <span id="out_adharnumber"></span> व्यवसाय <span id="out_occupation"></span>, रा. <span id="out_address"></span> ता. हदगाव जि. नांदेड. येथील रहिवासी असून याद्वारे घोषित करतो/करते की, मी रा. <span id="out_address2"></span> ता. हदगाव जि. नांदेड या ठिकाणी मागील <span id="out_since"></span> वर्षांपासून राहत/वास्तव्यास आहे.
   </p>
 
-  <!-- 🟢 तुम्ही सांगितलेला अपडेटेड कायदेशीर परिच्छेद -->
+  <!-- 🟢 कायदेशीर परिच्छेद -->
   <p class="paragraph">
     घोषणापत्राद्वारे घोषित करतो / करते की, वरील सर्व माहिती माझ्या व्यक्तिगत माहिती व समजूतीनुसार खरी आहे. सदर माहिती खोटी आढळून आल्यास, भारतीय दंड संहिता अन्वये आणि / किंवा संबंधित कायद्यानुसार माझ्यावर खटला भरला जाईल व त्यानुसार मी शिक्षेस पात्र राहीन. तसेच सदर स्वयंघोषणापत्राद्वारे मला मिळालेले सर्व लाभ काढून घेण्यात येतील, याची मला पूर्ण जाणीव आहे.<br><br>
     करिता स्वःघोषणा पत्र लिहून देत आहे.
@@ -259,7 +261,7 @@
       if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
   }
 
-  // 🟢 ॲडमिन स्टेटमेंट पॅटर्ननुसार अपडेटेड प्रोसेस फंक्शन
+  // 🔒 सुरक्षित प्रोसेस फंक्शन
   function processForm(actionType) {
     const form = document.getElementById('affidavitForm');
     
@@ -279,7 +281,16 @@
     btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
     btn.disabled = true;
 
-    const username = localStorage.getItem('username') || "9876543210";
+    // 🔒 सुरक्षित sessionStorage वापरले
+    const username = sessionStorage.getItem('username');
+
+    // जर कोणी विनालॉगिन आले असेल, तर अडवा
+    if(!username) {
+        alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+        window.location.href = "index.html";
+        return;
+    }
+
     const applicantName = document.getElementById('name').value; 
 
     const formData = new FormData();
@@ -296,9 +307,10 @@
         if(data.status === 'success') {
             
             let tokenCost = (typeof CONFIG !== 'undefined') ? CONFIG.GHOSHANA_TOKEN_COST : 2;
-            let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+            // 🔒 सुरक्षित sessionStorage वापरले
+            let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
             if(currentTokens >= tokenCost) { 
-                localStorage.setItem('remainingTokens', currentTokens - tokenCost); 
+                sessionStorage.setItem('remainingTokens', currentTokens - tokenCost); 
             }
 
             const address = document.getElementById('address').value;
