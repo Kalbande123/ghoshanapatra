@@ -11,8 +11,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
-    <!-- 🟢 CONFIG फाईल लिंक केली (टोकन कट करण्यासाठी आवश्यक) -->
     <script src="config.js"></script> 
+    <!-- 🔒 इथे सिक्युरिटी गार्ड फाईल जोडली आहे -->
+    <script src="auth-guard.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
@@ -69,7 +70,6 @@
     <div class="container">
         <a href="home.html" class="back-link"><i class="fas fa-arrow-left"></i> डॅशबोर्ड</a>
 
-        <!-- 🟢 नवीन: अपडेटेड मोबाईल नंबर आणि ऑटो-मेसेज WhatsApp लिंक -->
         <div class="notice-box">
             <i class="fab fa-whatsapp" style="font-size: 24px; color: #25D366;"></i> 
             <span>टोकन संपल्यास रिचार्जसाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला सेवास्पॉट पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> वर संपर्क साधा.</span>
@@ -93,7 +93,6 @@
         <button id="btnProcess" class="btn-process" onclick="processCard()"><i class="fas fa-cogs"></i> फाईल प्रोसेस करा</button>
         <p id="errorMsg" class="error"></p>
         
-        <!-- फोटो एडिटिंग पॅनेल -->
         <div id="editPanel">
             <h3><i class="fas fa-image"></i> फक्त फोटो क्लिअर करा</h3>
             
@@ -132,7 +131,6 @@
                 <i class="fas fa-check-circle"></i> एडिटिंग पूर्ण झाल्यावर खालील बटणावरून फाईल डाऊनलोड करा.
             </div>
             
-            <!-- 🟢 ५ टोकन कट करणारे बटन -->
             <button id="btnDownload" class="btn-download" onclick="deductTokenAndDownload()">
                 <i class="fas fa-file-pdf"></i> HD PDF डाऊनलोड करा (5 टोकन)
             </button>
@@ -151,7 +149,6 @@
         let currentSize = '4x6';
         let cropParams = {}; 
 
-        // =========================================================================
         const CARD_TOP_Y = 0.114;    
         const CARD_WIDTH = 0.409;    
         const LEFT_SIDE_X = 0.058;   
@@ -161,7 +158,6 @@
         const PHOTO_Y_PERCENT = 0.380;  
         const PHOTO_W_PERCENT = 0.250;  
         const PHOTO_H_PERCENT = 0.520;  
-        // =========================================================================
 
         function drawRoundedCard(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh, radius) {
             ctx.save();
@@ -213,7 +209,7 @@
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
 
-                    const scale = 4.0; // HD रेंडर
+                    const scale = 4.0; 
                     const viewport = page.getViewport({ scale: scale });
 
                     rawCanvas = document.createElement('canvas');
@@ -360,23 +356,21 @@
             }
         }
 
-        // 🟢 टोकन कट करण्याची मुख्य पद्धत 🟢
+        // 🔒 सुरक्षित टोकन कटिंग
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
             btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
             btn.disabled = true;
 
-            let username = localStorage.getItem('username') || localStorage.getItem("loggedInUser") || "9876543210";
+            // 🔒 थेट sessionStorage मधून सुरक्षित युजरनेम घेणे
+            let username = sessionStorage.getItem('username');
 
-            if(!username || username === "9876543210") {
-                username = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर किंवा युजरनेम टाका:");
-                if(!username || username.trim() === "") {
-                    btn.innerHTML = originalHtml;
-                    btn.disabled = false;
-                    return alert("टोकन कट करण्यासाठी आयडी आवश्यक आहे!");
-                }
-                localStorage.setItem("username", username);
+            // जर कोणी विनालॉगिन आले असेल, तर अडवा
+            if(!username) {
+                alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+                window.location.href = "index.html";
+                return;
             }
 
             let formData = new FormData();
@@ -389,9 +383,10 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+                    // 🔒 सेशन मधील टोकन अपडेट करणे
+                    let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
                     if(currentTokens > 0) {
-                        localStorage.setItem('remainingTokens', currentTokens - 5);
+                        sessionStorage.setItem('remainingTokens', currentTokens - 5);
                     }
 
                     generateFinalCanvas();
@@ -404,7 +399,7 @@
                         document.getElementById('btnGoHome').style.display = 'flex';
                     }, 500);
                 } else {
-                    alert("त्रुटी: " + data.message); // जर बॅलन्स नसेल तर मेसेज
+                    alert("त्रुटी: " + data.message); 
                     btn.innerHTML = originalHtml;
                     btn.disabled = false;
                 }
@@ -424,10 +419,12 @@
             let pdf;
             if (currentSize === '4x6') {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6, undefined, 'FAST');
+                // 🟢 'FAST' काढून टाकले आहे जेणेकरून HD क्वालिटी मिळेल
+                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6);
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+                // 🟢 'FAST' काढून टाकले आहे जेणेकरून HD क्वालिटी मिळेल
+                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
             }
             
             const ts = new Date().getTime();
