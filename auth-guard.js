@@ -1,11 +1,12 @@
-// auth-guard.js - Session Storage Guard (टॅब बंद केल्यावर किंवा बाहेर पडल्यावर लॉगआउट होणारी सिस्टीम)
+// auth-guard.js - Session Storage Guard (Unregistered users redirected to index.html)
 window.addEventListener('DOMContentLoaded', function() {
-    // sessionStorage वापरल्यामुळे ब्राझर किंवा टॅब बंद केल्यावर डेटा ऑटोमॅटिक डिलीट होतो
+    
+    // युजर खरोखर लॉगइन आहे का ते sessionStorage मधून तपासणे
     const loggedUser = sessionStorage.getItem('username') || sessionStorage.getItem('userFullName') || sessionStorage.getItem('mobile');
     
-    // जर युजर लॉगइन नसेल, तर सरळ लॉगिन पेजवर पाठवा
+    // जर युजर लॉगइन नसेल (किंवा त्याने लिंक कॉपी-पेस्ट केली असेल)
     if (!loggedUser) {
-        alert("कृपया आधी लॉगिन करा! अनधिकृत प्रवेश प्रतिबंधित आहे.");
-        window.location.href = "login.html";
+        // त्याला थेट तुमच्या मुख्य लँडिंग पेजवर (index.html) पाठवून द्या
+        window.location.href = "index.html";
     }
 });
