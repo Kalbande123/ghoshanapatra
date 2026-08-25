@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="config.js"></script>
+    <!-- 🔒 इथे सिक्युरिटी गार्ड फाईल जोडली आहे -->
+    <script src="auth-guard.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
@@ -29,7 +31,7 @@
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left; margin-bottom: 20px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #334155; }
         .form-group input, .form-group select { width: 100%; padding: 10px; font-size: 15px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; transition: 0.3s; }
-        .form-group input:invalid { border-color: #ef4444; } /* 🟢 रिकाम्या रकान्यांना लाल बॉर्डर */
+        .form-group input:invalid { border-color: #ef4444; } 
         .form-group input:valid { border-color: #22c55e; }
         .full-width { grid-column: span 2; }
 
@@ -69,7 +71,6 @@
 
         <h2><i class="fas fa-tractor"></i> स्मार्ट शेतकरी ओळखपत्र</h2>
         
-        <!-- 🟢 नवीन: फॉर्म टॅग जोडला जेणेकरून टूलटीप (Tooltip) अलर्ट दाखवता येईल -->
         <form id="farmerForm" onsubmit="return false;">
             <h3 style="text-align: left; color: #15803d; margin-bottom: 10px;">१. वैयक्तिक माहिती (Front Side)</h3>
             
@@ -157,7 +158,6 @@
                 <button type="button" class="btn-add-row" onclick="addLandRow()"><i class="fas fa-plus-circle"></i> नवीन जमीन ऍड करा</button>
             </div>
 
-            <!-- 🟢 बटनवर आता 'validateAndGenerate' फंक्शन लावले आहे -->
             <button id="btnProcess" type="button" class="btn-process" onclick="validateAndGenerate()"><i class="fas fa-magic"></i> ओळखपत्र तयार करा</button>
         </form>
 
@@ -244,17 +244,14 @@
             });
         }
 
-        // 🟢 नवीन स्मार्ट व्हॅलिडेशन (Smart Validation) फंक्शन
         function validateAndGenerate() {
             const form = document.getElementById('farmerForm');
             
-            // १. बेसिक HTML5 व्हॅलिडेशन (रिकाम्या रकान्यांवर थेट 'टूलटीप' दाखवेल)
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
             }
 
-            // २. कस्टम लांबी तपासणी (चुकीची माहिती असल्यास तिथेच टूलटीप दाखवेल)
             const farmerId = document.getElementById('farmerId');
             if (farmerId.value.trim().length !== 11) {
                 farmerId.setCustomValidity("शेतकरी आयडी बरोबर ११ अक्षरांचा/अंकांचा असावा.");
@@ -279,7 +276,6 @@
                 return;
             }
 
-            // ३. शेती विषयक माहिती सक्तीची करणे
             let hasValidLandData = false;
             const rows = document.querySelectorAll('#landTbody tr');
             rows.forEach(row => {
@@ -289,7 +285,6 @@
                 let g = row.querySelector('.l-gat').value.trim();
                 let a = row.querySelector('.l-area').value.trim();
                 
-                // जर एका ओळीतील सर्व ५ रकाने भरले असतील, तरच 'True'
                 if (d && t && v && g && a) {
                     hasValidLandData = true;
                 }
@@ -299,12 +294,11 @@
                 alert("⚠️ शेती विषयक माहिती भरणे आवश्यक आहे!\nकृपया किमान एका जमिनीचा संपूर्ण तपशील (जिल्हा, तालुका, गाव, गट नंबर आणि क्षेत्र) भरा.");
                 const firstDistInput = document.querySelector('.l-dist');
                 firstDistInput.focus();
-                firstDistInput.style.border = "2px solid #dc2626"; // लाल बॉर्डर दाखवणे
+                firstDistInput.style.border = "2px solid #dc2626"; 
                 setTimeout(() => firstDistInput.style.border = "1px solid #e2e8f0", 3000);
                 return;
             }
 
-            // सर्व माहिती बरोबर असल्यास प्रोसेस सुरु करा
             generateCard();
         }
 
@@ -630,21 +624,21 @@
             return finalCanvas.toDataURL('image/jpeg', 1.0);
         }
 
+        // 🔒 सुरक्षित टोकन कटिंग
         function deductTokenAndDownload() {
             const btn = document.getElementById('btnDownload');
             const originalHtml = btn.innerHTML;
             btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
             btn.disabled = true;
 
-            let username = localStorage.getItem('username') || localStorage.getItem("loggedInUser") || "9876543210";
+            // 🔒 थेट sessionStorage मधून सुरक्षित युजरनेम घेणे
+            let username = sessionStorage.getItem('username');
 
-            if(!username || username === "9876543210") {
-                username = prompt("सिस्टीमला तुमचा आयडी मिळाला नाही. टोकन कट करण्यासाठी कृपया तुमचा रजिस्टर मोबाईल नंबर किंवा युजरनेम टाका:");
-                if(!username || username.trim() === "") {
-                    btn.innerHTML = originalHtml; btn.disabled = false;
-                    return alert("टोकन कट करण्यासाठी आयडी आवश्यक आहे!");
-                }
-                localStorage.setItem("username", username);
+            // जर कोणी विनालॉगिन आले असेल, तर अडवा
+            if(!username) {
+                alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+                window.location.href = "index.html";
+                return;
             }
 
             if (typeof CONFIG === 'undefined' || !CONFIG.SCRIPT_URL) {
@@ -665,8 +659,9 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
-                    if(currentTokens >= 10) { localStorage.setItem('remainingTokens', currentTokens - 10); }
+                    // 🔒 सेशन मधील टोकन अपडेट करणे
+                    let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
+                    if(currentTokens >= 10) { sessionStorage.setItem('remainingTokens', currentTokens - 10); }
 
                     exportToPDF();
 
@@ -692,10 +687,12 @@
 
             if (printSize === '4x6') {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
-                pdf.addImage(finalImgData, 'JPEG', 0, 0, 4, 6, undefined, 'FAST');
+                // 🟢 'FAST' काढून टाकले आहे जेणेकरून HD क्वालिटी मिळेल
+                pdf.addImage(finalImgData, 'JPEG', 0, 0, 4, 6);
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                pdf.addImage(finalImgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+                // 🟢 'FAST' काढून टाकले आहे जेणेकरून HD क्वालिटी मिळेल
+                pdf.addImage(finalImgData, 'JPEG', 0, 0, 210, 297);
             }
             
             pdf.save(`Smart_Farmer_ID_${new Date().getTime()}.pdf`);
