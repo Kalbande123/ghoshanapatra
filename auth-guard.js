@@ -1,4 +1,4 @@
-// auth-guard.js - Session Storage Guard (Unregistered users redirected to index.html)
+// auth-guard.js - Session Storage Guard
 window.addEventListener('DOMContentLoaded', function() {
     
     // युजर खरोखर लॉगइन आहे का ते sessionStorage मधून तपासणे
@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
     // जर युजर लॉगइन नसेल (किंवा त्याने लिंक कॉपी-पेस्ट केली असेल)
     if (!loggedUser) {
-        // त्याला थेट तुमच्या मुख्य लँडिंग पेजवर (index.html) पाठवून द्या
-        window.location.href = "index.html";
+        // इथे index.html ऐवजी index.htm केले आहे
+        window.location.href = "index.htm"; 
     }
 });
