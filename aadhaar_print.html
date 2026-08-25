@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="config.js"></script>
+    <!-- 🔒 इथे सिक्युरिटी गार्ड फाईल जोडली आहे -->
+    <script src="auth-guard.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mukta', sans-serif; }
@@ -361,7 +363,15 @@
             btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
             btn.disabled = true;
 
-            let username = localStorage.getItem('username') || localStorage.getItem("loggedInUser") || "Guest";
+            // 🔒 थेट sessionStorage मधून सुरक्षित युजरनेम घेणे
+            let username = sessionStorage.getItem('username');
+
+            // जर कोणी विनालॉगिन आले असेल, तर अडवा
+            if(!username) {
+                alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+                window.location.href = "index.html";
+                return;
+            }
             
             const formData = new FormData();
             formData.append('action', 'printIdCard');
@@ -373,8 +383,9 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
-                    localStorage.setItem('remainingTokens', currentTokens - 5); 
+                    // 🔒 सेशन मधील टोकन अपडेट करणे
+                    let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
+                    sessionStorage.setItem('remainingTokens', currentTokens - 5); 
 
                     generateFinalCanvas();
                     exportToPDF();
@@ -405,10 +416,12 @@
             let pdf;
             if (currentSize === '4x6') {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'in', format: [4, 6] });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6, undefined, 'FAST');
+                // 🟢 'FAST' काढून टाकले आहे जेणेकरून HD क्वालिटी मिळेल
+                pdf.addImage(imgData, 'JPEG', 0, 0, 4, 6);
             } else {
                 pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+                // 🟢 'FAST' काढून टाकले आहे जेणेकरून HD क्वालिटी मिळेल
+                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
             }
             
             const ts = new Date().getTime();
