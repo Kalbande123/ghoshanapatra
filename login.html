@@ -176,19 +176,16 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    localStorage.setItem('username', user);
-                    localStorage.setItem('userFullName', data.name || "युजर");
-                    localStorage.setItem('remainingTokens', data.remaining || 0);
+                    // 🔒 येथे sessionStorage वापरले आहे 
+                    sessionStorage.setItem('username', user);
+                    sessionStorage.setItem('userFullName', data.name || "युजर");
+                    sessionStorage.setItem('remainingTokens', data.remaining || 0);
                     
-                    // --- स्मार्ट लॉगिन सिस्टीम (Role-Based Routing) ---
-                    // टीप: जेव्हा तुम्हाला तुमचा खरा नंबर टाकायचा असेल, तेव्हा '9999999999' च्या जागी तो नंबर टाका.
                     if(user === '9999999999') {
-                        window.location.href = "admin.html"; // ॲडमिन पेजवर जाईल
+                        window.location.href = "admin.html"; 
                     } else {
-                        window.location.href = "home.html"; // सामान्य युजर डॅशबोर्डवर जाईल
+                        window.location.href = "home.html"; 
                     }
-                    // ---------------------------------------------------
-                    
                 } else {
                     alert("लॉगिन अयशस्वी! \nतुमचा मोबाईल नंबर किंवा पासवर्ड चुकीचा आहे. कृपया पुन्हा तपासून पहा."); 
                     loginBtn.innerText = "लॉगिन करा";
