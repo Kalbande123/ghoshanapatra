@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="config.js"></script>
+    <!-- 🔒 इथे सिक्युरिटी गार्ड फाईल जोडली आहे -->
+    <script src="auth-guard.js"></script>
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -267,7 +269,7 @@
         if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
     }
 
-    // 🟢 ॲडमिन स्टेटमेंट फिक्स केलेले प्रोसेस फंक्शन 
+    // 🔒 ॲडमिन स्टेटमेंट फिक्स केलेले आणि sessionStorage वापरणारे प्रोसेस फंक्शन 
     function processForm(actionType) {
         const form = document.getElementById('income3Form');
         
@@ -287,7 +289,16 @@
         btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> प्रक्रिया चालू आहे...";
         btn.disabled = true;
 
-        const username = localStorage.getItem('username') || "9876543210";
+        // 🔒 सुरक्षित sessionStorage वापरले
+        const username = sessionStorage.getItem('username');
+
+        // जर कोणी विनालॉगिन आले असेल, तर अडवा
+        if(!username) {
+            alert("अनधिकृत प्रवेश! कृपया आधी लॉगिन करा.");
+            window.location.href = "index.html";
+            return;
+        }
+
         const applicantName = document.getElementById('name').value;
 
         const formData = new FormData();
@@ -304,9 +315,10 @@
             if(data.status === 'success') {
 
                 let tokenCost = (typeof CONFIG !== 'undefined') ? CONFIG.GHOSHANA_TOKEN_COST : 2;
-                let currentTokens = parseInt(localStorage.getItem('remainingTokens')) || 0;
+                // 🔒 सुरक्षित sessionStorage वापरले
+                let currentTokens = parseInt(sessionStorage.getItem('remainingTokens')) || 0;
                 if(currentTokens >= tokenCost) { 
-                    localStorage.setItem('remainingTokens', currentTokens - tokenCost); 
+                    sessionStorage.setItem('remainingTokens', currentTokens - tokenCost); 
                 }
 
                 const address = document.getElementById('address').value;
