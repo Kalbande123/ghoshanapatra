@@ -7,7 +7,7 @@ function checkSecurity() {
     // जर युजर लॉगइन नसेल
     if (!loggedUser) {
         // href ऐवजी 'replace' वापरले आहे, जेणेकरून युजर Back करून पुन्हा आत येऊ शकणार नाही
-        window.location.replace("index.html"); 
+        window.location.replace("index.htm"); 
     }
 }
 
