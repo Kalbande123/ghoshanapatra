@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="config.js"></script>
+    <!-- 🔒 सिक्युरिटी गार्ड फाईल जोडली आहे -->
     <script src="auth-guard.js"></script>
 
     <style>
@@ -242,7 +243,7 @@
 
         <div class="whatsapp-banner">
             <i class="fab fa-whatsapp"></i> 
-            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="https://wa.me/919403901395?text=नमस्कार! मला QuickIDPrint पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा.</div>
+            <div><strong>रिचार्ज सूचना:</strong> टोकन संपल्यास रिचार्ज करण्यासाठी <a href="recharge.html">येथे क्लिक करा</a> किंवा <a href="https://wa.me/919403901395?text=नमस्कार! मला QuickIDPrint पोर्टलवर नवीन टोकन रिचार्ज करायचे आहेत." target="_blank">9403901395</a> या नंबरवर WhatsApp करा.</div>
         </div>
 
         <div class="section-title"><span><i class="fas fa-list-alt"></i> सेवांचे दर (Token Pricing)</span></div>
@@ -261,16 +262,21 @@
             </div>
         </div>
 
+        <!-- 🟢 क्विक ॲक्सेस: येथे रिचार्ज आणि FAQ जोडले आहेत -->
         <div class="section-title"><span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span></div>
         <div class="quick-access-box">
-            <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
-                <div class="qa-icon icon-orange"><i class="far fa-user"></i></div><span>माझी प्रोफाईल</span>
+            <div class="qa-item" onclick="window.location.href='recharge.html'">
+                <div class="qa-icon icon-green"><i class="fas fa-bolt"></i></div><span>रिचार्ज करा</span>
             </div>
             <div class="qa-item" onclick="alert('अर्जांची यादी लवकरच येत आहे!')">
                 <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div><span>माझे अर्ज</span>
             </div>
-            <div class="qa-item"><div class="qa-icon icon-green"><i class="fas fa-cloud-download-alt"></i></div><span>डाउनलोड</span></div>
-            <div class="qa-item" onclick="alert('ट्रान्झॅक्शन पेज लवकरच येत आहे!')"><div class="qa-icon icon-purple"><i class="fas fa-history"></i></div><span>ट्रान्झॅक्शन्स</span></div>
+            <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
+                <div class="qa-icon icon-orange"><i class="far fa-user"></i></div><span>माझी प्रोफाईल</span>
+            </div>
+            <div class="qa-item" onclick="window.location.href='faq.html'">
+                <div class="qa-icon icon-purple"><i class="fas fa-question-circle"></i></div><span>मदत (FAQ)</span>
+            </div>
         </div>
 
         <div class="section-title"><span><i class="fas fa-id-card"></i> स्मार्ट आयडी कार्ड प्रिंटिंग</span></div>
@@ -294,7 +300,7 @@
                 <a href="farmer_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="service-card c-red">
-                <div class="service-cost-badge"><i class="fas fa-coins"></i> 5 टोकन</div>
+                <div class="service-cost-badge"><i class="fas fa-coins"></i> 10 टोकन</div>
                 <div class="service-icon"><i class="fas fa-id-badge"></i></div>
                 <h3>४. पॅन कार्ड प्रिंट</h3>
                 <a href="pan_print.html" class="start-btn">सेवा सुरु करा <i class="fas fa-arrow-right"></i></a>
@@ -362,7 +368,7 @@
 
     <script>
         window.onload = function() {
-            // 🔒 येथे sessionStorage वापरले आहे
+            // 🔒 sessionStorage वापरून सुरक्षित लोडिंग
             const userName = sessionStorage.getItem('userFullName');
             const tokens = sessionStorage.getItem('remainingTokens');
 
