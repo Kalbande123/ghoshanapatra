@@ -27,11 +27,18 @@
         .brand-print { color: #17428f; }
         
         .logo-text p { font-size: 13px; color: #64748b; font-weight: 600; margin-top: 4px; }
-        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
         
-        .token-badge { background: #fef08a; color: #ca8a04; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        /* 🟢 नवीन टॉप बटणे (Recharge & FAQ) */
+        .btn-top-faq { color: #64748b; font-size: 22px; text-decoration: none; transition: 0.2s; display: flex; align-items: center; }
+        .btn-top-faq:hover { color: #2563eb; transform: scale(1.1); }
 
-        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
+        .btn-top-recharge { background: linear-gradient(135deg, #16a34a, #22c55e); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; text-decoration: none; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(22,163,74,.2); transition: 0.2s; border: 1px solid #15803d; }
+        .btn-top-recharge:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(22,163,74,.3); background: linear-gradient(135deg, #15803d, #16a34a); }
+
+        .token-badge { background: #fef08a; color: #ca8a04; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #fde047; }
+
+        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; margin-left: 5px; }
         .user-profile .avatar { font-size: 35px; color: #2563eb; }
         .user-info { display: flex; flex-direction: column; line-height: 1.2; }
         .user-info small { font-size: 12px; color: #64748b; }
@@ -103,6 +110,7 @@
         .service-name i { color: #64748b; font-size: 18px; }
         .service-price { background: #fff2a8; color: #b45309; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; border: 1px solid #f5df6a; }
 
+        /* 🟢 मूळ स्वरूपातील क्विक ॲक्सेस बॉक्स */
         .quick-access-box { background: white; padding: 25px; border-radius: 12px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .qa-item { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; }
         .qa-item:hover { transform: translateY(-3px); }
@@ -111,8 +119,6 @@
         
         .icon-orange { background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; }
         .icon-blue { background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe; }
-        .icon-green { background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce3; }
-        .icon-purple { background: #faf5ff; color: #9333ea; border: 1px solid #f3e8ff; }
 
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
         .service-card { background: white; padding: 30px 20px; border-radius: 19px; text-align: center; border: 1px solid #e2e9f4; position: relative; transition: 0.3s; box-shadow: 0 8px 23px rgba(20,40,91,.055); }
@@ -138,6 +144,8 @@
             .navbar{padding:8px 13px}.site-logo{width:90px;height:80px}
             .logo-text h2{font-size:26px!important}
             .user-info{display:none}.nav-right{gap:8px}.token-badge{padding:7px 10px;font-size:12px}
+            .btn-top-recharge span { display: none; } /* 🟢 मोबाईलवर फक्त आयकॉन दिसेल */
+            .btn-top-recharge { padding: 8px 10px; }
             .container{padding:0 12px;margin-top:14px}
             .qid-hero{display:block;min-height:515px;padding:24px 19px}
             .qid-hero-copy{width:100%;padding-right:0}.qid-hero-copy h1{font-size:27px}
@@ -156,19 +164,32 @@
                 <p>जलद • सोपे • विश्वासनीय</p>
             </div>
         </div>
+        
         <div class="nav-right">
+            <!-- 🟢 नवीन FAQ बटण -->
+            <a href="faq.html" class="btn-top-faq" title="मदत आणि FAQ">
+                <i class="fas fa-question-circle"></i>
+            </a>
+
+            <!-- 🟢 नवीन Recharge बटण -->
+            <a href="recharge.html" class="btn-top-recharge" title="टोकन रिचार्ज करा">
+                <i class="fas fa-bolt"></i> <span>Recharge</span>
+            </a>
+
             <div class="token-badge" title="तुमचे शिल्लक टोकन्स">
                 <i class="fas fa-coins"></i> <span id="displayTokens">0</span>
             </div>
+
             <div class="user-profile" onclick="toggleDropdown()">
                 <i class="fas fa-user-circle avatar"></i>
                 <div class="user-info">
                     <small>Welcome,</small>
                     <span id="displayUserName">Loading...</span>
                 </div>
-                <i class="fas fa-chevron-down" style="font-size: 12px; color: #64748b;"></i>
+                <i class="fas fa-chevron-down" style="font-size: 12px; color: #64748b; margin-left: 5px;"></i>
                 <div class="dropdown-menu" id="userMenu">
                     <a href="#" onclick="alert('प्रोफाईल पेजवर लवकरच काम सुरू होईल!')"><i class="far fa-id-card"></i> My Profile</a>
+                    <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ / Help</a>
                     <a href="#" style="color: #ef4444;" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
@@ -262,20 +283,14 @@
             </div>
         </div>
 
-        <!-- 🟢 क्विक ॲक्सेस: येथे रिचार्ज आणि FAQ जोडले आहेत -->
+        <!-- 🟢 क्विक ॲक्सेस: तुमच्या अपेक्षेनुसार मूळ स्वरूपात -->
         <div class="section-title"><span><i class="fas fa-bolt"></i> त्वरित सुविधा (Quick Access)</span></div>
         <div class="quick-access-box">
-            <div class="qa-item" onclick="window.location.href='recharge.html'">
-                <div class="qa-icon icon-green"><i class="fas fa-bolt"></i></div><span>रिचार्ज करा</span>
-            </div>
             <div class="qa-item" onclick="alert('अर्जांची यादी लवकरच येत आहे!')">
                 <div class="qa-icon icon-blue"><i class="far fa-folder-open"></i></div><span>माझे अर्ज</span>
             </div>
             <div class="qa-item" onclick="alert('प्रोफाईल पेज लवकरच येत आहे!')">
                 <div class="qa-icon icon-orange"><i class="far fa-user"></i></div><span>माझी प्रोफाईल</span>
-            </div>
-            <div class="qa-item" onclick="window.location.href='faq.html'">
-                <div class="qa-icon icon-purple"><i class="fas fa-question-circle"></i></div><span>मदत (FAQ)</span>
             </div>
         </div>
 
